@@ -8,7 +8,7 @@ const createToken = require("../../config/auth/createToken");
 const Signup = asyncHandler(async (req, res) => {
   const { name, email, password, profilePicture } = req.body;
 
-  if (!name && !email && !password)
+  if (!name || !email || !password)
     res.status(400).json({ message: "Please fill in all fields" });
 
   const duplicateUser = await User.findOne({ email });
@@ -35,7 +35,7 @@ const Signup = asyncHandler(async (req, res) => {
 const Login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email && !password)
+  if (!email || !password)
     res.status(400).json({ message: "Please fill in all fields" });
 
   try {
