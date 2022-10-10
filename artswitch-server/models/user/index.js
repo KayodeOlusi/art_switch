@@ -4,8 +4,9 @@ const bcrypt = require("bcryptjs");
 const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, require: true },
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     profilePicture: {
       type: String,
       default:
@@ -16,10 +17,6 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password);
-};
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified) next();

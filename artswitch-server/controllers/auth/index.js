@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 const createToken = require("../../config/auth/createToken");
@@ -25,7 +26,7 @@ const Signup = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     res.status(400);
-    throw new Error("Failed to create user");
+    throw new Error({ message: "Failed to create user" });
   }
 });
 
@@ -38,8 +39,13 @@ const Login = asyncHandler(async (req, res) => {
   if (!email || !password)
     res.status(400).json({ message: "Please fill in all fields" });
 
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ message: "User does not exist" });
+
+  const matchPassword = await bcrypt.compare(password, user.password);
+  if (!matchPassword) res.status(400).json({ message: "Invalid credentials" });
+
   try {
-    const user = await User.findOne({ email });
     res.status(200).json({
       id: user._id,
       name: user.name,
@@ -49,7 +55,7 @@ const Login = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     res.status(400);
-    throw new Error("Failed to login");
+    throw new Error({ message: "Failed to login" });
   }
 });
 
