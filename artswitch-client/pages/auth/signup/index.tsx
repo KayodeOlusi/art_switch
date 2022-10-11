@@ -4,7 +4,7 @@ import SignupForm from "../../../components/auth/signup/signup-form";
 const SignUp: NextPage = () => {
   return (
     <div className="grid grid-cols-2 h-screen font-Inter">
-      <section className="form-section block p-4 col-span-2 lg:col-span-1">
+      <section className="form-section block p-4 col-span-2 lg:col-span-1 lg:border-r-2 lg:border-black">
         <div className="logo font-semibold mb-4 px-4 lg:px-0 lg:p-4">
           ArtSwitch
         </div>
