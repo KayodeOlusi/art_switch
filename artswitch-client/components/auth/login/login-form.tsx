@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import Button from "../button";
+import React, { useState } from "react";
+import { login_user } from "../../../services/auth";
 
 type TFormState = {
   email: string;
@@ -26,9 +27,16 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formState);
+
+    //TODO: Add axios instance
+    try {
+      const response = await login_user(formState);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

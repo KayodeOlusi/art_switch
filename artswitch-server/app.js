@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Routes
-app.use("/auth", auth_routes);
+app.use("/api/auth", auth_routes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

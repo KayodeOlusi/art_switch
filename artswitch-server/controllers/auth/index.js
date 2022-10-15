@@ -45,18 +45,13 @@ const Login = asyncHandler(async (req, res) => {
   const matchPassword = await bcrypt.compare(password, user.password);
   if (!matchPassword) res.status(400).json({ message: "Invalid credentials" });
 
-  try {
-    res.status(200).json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      profilePicture: user.profilePicture,
-      token: createToken(user._id),
-    });
-  } catch (error) {
-    res.status(400);
-    throw new Error({ message: "Failed to login" });
-  }
+  res.status(200).json({
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    profilePicture: user.profilePicture,
+    token: createToken(user._id),
+  });
 });
 
 module.exports = {
