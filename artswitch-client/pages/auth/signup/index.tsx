@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Link from "next/link";
 import SignupForm from "../../../components/auth/signup/signup-form";
 
 const SignUp: NextPage = () => {
@@ -19,8 +20,10 @@ const SignUp: NextPage = () => {
           <p className="font-semibold text-4xl mb-4">Join the party</p>
           <SignupForm />
           <p className="text-sm font-semibold">
-            Don't have an account?{" "}
-            <span className="underline cursor-pointer">Sign Up</span>
+            Already have an account?{" "}
+            <Link href="/auth/login">
+              <span className="underline cursor-pointer">Sign In</span>
+            </Link>
           </p>
         </div>
       </section>
