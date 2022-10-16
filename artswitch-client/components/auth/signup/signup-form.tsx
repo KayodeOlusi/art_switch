@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { signup_user } from "../../../services/auth";
 import Button from "../button";
 
 type TFormState = {
@@ -28,9 +29,15 @@ const SignupForm = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formState);
+
+    try {
+      const data = await signup_user(formState);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
