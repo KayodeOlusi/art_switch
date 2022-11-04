@@ -1,7 +1,6 @@
 import Button from "../button";
 import { useState, FormEvent } from "react";
 import { login_user } from "../../../services/auth";
-import { axios_auth } from "../../../services/axios";
 
 type TFormState = {
   email: string;
