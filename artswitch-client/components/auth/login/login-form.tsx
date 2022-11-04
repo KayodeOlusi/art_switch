@@ -1,5 +1,5 @@
 import Button from "../button";
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
 import { login_user } from "../../../services/auth";
 import { axios_auth } from "../../../services/axios";
 
@@ -28,7 +28,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
