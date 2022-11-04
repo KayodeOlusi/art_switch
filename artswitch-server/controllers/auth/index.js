@@ -25,8 +25,7 @@ const Signup = asyncHandler(async (req, res) => {
       token: createToken(user._id),
     });
   } catch (error) {
-    res.status(400);
-    throw new Error({ message: "Failed to create user" });
+    res.status(400).json({ message: "Failed to create user" });
   }
 });
 

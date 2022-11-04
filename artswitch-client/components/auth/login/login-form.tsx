@@ -1,4 +1,5 @@
 import Button from "../button";
+import toast from "react-hot-toast";
 import { useState, FormEvent } from "react";
 import { login_user } from "../../../services/auth";
 
@@ -31,10 +32,10 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const data = await login_user(formState);
-      console.log(data);
+      await login_user(formState);
+      return toast.success("Login successful");
     } catch (error) {
-      console.log(error);
+      return toast.error((error as Error)?.message);
     }
   };
 

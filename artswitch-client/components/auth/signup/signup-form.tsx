@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { signup_user } from "../../../services/auth";
 import Button from "../button";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { signup_user } from "../../../services/auth";
 
 type TFormState = {
   name: string;
@@ -34,9 +35,9 @@ const SignupForm = () => {
 
     try {
       const data = await signup_user(formState);
-      console.log(data);
+      return toast.success("Signup successful");
     } catch (error) {
-      console.log(error);
+      return toast.error("Signup failed");
     }
   };
 
