@@ -1,7 +1,7 @@
 import Button from "../button";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { signup_user } from "../../../services/auth";
+import { signupUser } from "../../../services/auth";
 
 type TFormState = {
   name: string;
@@ -33,12 +33,7 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const data = await signup_user(formState);
-      return toast.success("Signup successful");
-    } catch (error) {
-      return toast.error("Signup failed");
-    }
+    const data = await signupUser(formState);
   };
 
   return (

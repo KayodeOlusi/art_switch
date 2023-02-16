@@ -1,7 +1,8 @@
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 import { axios_auth } from "../axios";
 
-export const login_user = async (user_details: Login_User_Details) => {
+export const loginUser = async (user_details: Login_User_Details) => {
   try {
     const response: Login_User_Response = await axios_auth.post(
       "http://localhost:5000/api/auth/login",
@@ -11,11 +12,12 @@ export const login_user = async (user_details: Login_User_Details) => {
     Cookies.set("token", response?.data.token);
     return response?.data;
   } catch (error) {
-    console.log(error);
+    error instanceof Error && toast.error(error?.message);
+    return;
   }
 };
 
-export const signup_user = async (user_details: Login_User_Details) => {
+export const signupUser = async (user_details: Login_User_Details) => {
   try {
     const response: Login_User_Response = await axios_auth.post(
       "http://localhost:5000/api/auth/signup",
@@ -23,8 +25,9 @@ export const signup_user = async (user_details: Login_User_Details) => {
     );
 
     Cookies.set("token", response?.data.token);
-    return response?.data;
+    return response && response?.data;
   } catch (error) {
-    console.log(error);
+    error instanceof Error && toast.error(error?.message);
+    return;
   }
 };

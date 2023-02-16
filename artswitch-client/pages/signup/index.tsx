@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import SignupForm from "../../../components/auth/signup/signup-form";
+import SignupForm from "../../components/auth/signup/signup-form";
 
 const SignUp: NextPage = () => {
   return (
@@ -21,7 +21,7 @@ const SignUp: NextPage = () => {
           <SignupForm />
           <p className="text-sm font-semibold">
             Already have an account?{" "}
-            <Link href="/auth/login">
+            <Link href="/login">
               <span className="underline cursor-pointer">Sign In</span>
             </Link>
           </p>
