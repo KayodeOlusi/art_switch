@@ -21,8 +21,8 @@ const Signup = asyncHandler(async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      profilePicture: user.profilePicture,
       token: createToken(user._id),
+      profilePicture: user.profilePicture,
     });
   } catch (error) {
     res.status(400).json({ message: "Failed to create user" });
@@ -48,8 +48,8 @@ const Login = asyncHandler(async (req, res) => {
     id: user._id,
     name: user.name,
     email: user.email,
-    profilePicture: user.profilePicture,
     token: createToken(user._id),
+    profilePicture: user.profilePicture,
   });
 });
 
