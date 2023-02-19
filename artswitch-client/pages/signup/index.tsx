@@ -1,5 +1,5 @@
-import { NextPage } from "next";
 import Link from "next/link";
+import { NextPage } from "next";
 import SignupForm from "../../components/auth/signup/signup-form";
 
 const SignUp: NextPage = () => {
