@@ -4,10 +4,13 @@ import LoginForm from "../../components/auth/login/login-form";
 
 const Login: NextPage = () => {
   return (
-    <div className="grid grid-cols-2 h-screen font-Inter">
+    <div
+      data-testid="login-page"
+      className="grid grid-cols-2 h-screen font-Inter"
+    >
       <section className="form-section block p-4 col-span-2 lg:col-span-1 lg:border-r-2 lg:border-black">
-        <div className="logo font-semibold mb-4 px-4 lg:px-0 lg:p-4">
-          ArtSwitch
+        <div className="logo mb-4 px-4 lg:px-0 lg:p-4">
+          <h1 className="font-semibold">ArtSwitch</h1>
         </div>
         <section className="block relative px-4 lg:hidden">
           <img
