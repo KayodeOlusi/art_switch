@@ -32,6 +32,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     const data = await loginUser(formState);
+    data && toast.success("Sign In Successful");
   };
 
   return (

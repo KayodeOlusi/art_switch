@@ -14,8 +14,8 @@ const SignUp: NextPage = () => {
         </div>
         <section className="block relative px-4 lg:hidden">
           <img
-            src={"/assets/svgs/bg-mobile.svg"}
             alt=""
+            src={"/assets/svgs/bg-mobile.svg"}
             className="object-contain w-24 h-24"
           />
         </section>
@@ -32,8 +32,8 @@ const SignUp: NextPage = () => {
       </section>
       <section className="hidden lg:block relative">
         <img
-          src={"/assets/svgs/bg-desktop.svg"}
           alt=""
+          src={"/assets/svgs/bg-desktop.svg"}
           className="w-full h-screen object-cover"
         />
       </section>
