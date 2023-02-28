@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="">
+    <div>
       <Head>
         <title>ArtSwitch</title>
         <link rel="icon" href="/favicon.ico" />

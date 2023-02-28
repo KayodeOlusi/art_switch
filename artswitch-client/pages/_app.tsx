@@ -1,13 +1,12 @@
 import "../styles/global.css";
-import { Toaster } from "react-hot-toast";
 import type { AppProps } from "next/app";
+import AppLayout from "@/components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <AppLayout>
       <Component {...pageProps} />
-      <Toaster />
-    </>
+    </AppLayout>
   );
 }
 
