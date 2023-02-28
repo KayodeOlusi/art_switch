@@ -1,8 +1,8 @@
 import {
-  ChatAlt2Icon,
   HomeIcon,
-  PlusCircleIcon,
   UserIcon,
+  ChatAlt2Icon,
+  PlusCircleIcon,
 } from "@heroicons/react/outline";
 import { FC } from "react";
 
