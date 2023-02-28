@@ -1,6 +1,6 @@
 import React from "react";
+import Navbar from "../navbar";
 import { Toaster } from "react-hot-toast";
-import DesktopNav from "../navbar/desktop";
 
 type Props = {
   children: React.ReactNode;
@@ -9,10 +9,10 @@ type Props = {
 const AppLayout = ({ children }: Props) => {
   const authenticated = true;
 
-  const checkAuth = (authenticated: boolean) => {
+  const verifyUser = (authenticated: boolean) => {
     switch (authenticated) {
       case true:
-        return <DesktopNav />;
+        return <Navbar />;
       case false:
         return null;
       default:
@@ -22,7 +22,7 @@ const AppLayout = ({ children }: Props) => {
 
   return (
     <div className="bg-[#f2f5f7] h-screen">
-      {checkAuth(authenticated)}
+      {verifyUser(authenticated)}
       {children}
       <Toaster />
     </div>

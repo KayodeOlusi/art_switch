@@ -12,8 +12,11 @@ const DesktopNav: FC = (props: Props) => {
   const router = useRouter();
 
   return (
-    <div className="bg-white w-full rounded-bl-3xl rounded-br-3xl">
-      <div className="max-w-6xl mx-auto flex justify-between items-center py-4">
+    <div className="hidden md:block bg-white w-full rounded-bl-3xl rounded-br-3xl">
+      <div
+        className="md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 
+        mx-auto flex justify-between items-center py-4"
+      >
         <h3
           onClick={() => router.push("/")}
           className="font-bold text-lg cursor-pointer"
