@@ -21,11 +21,11 @@ const AppLayout = ({ children }: Props) => {
   };
 
   return (
-    <div className="bg-[#f2f5f7] h-screen">
+    <main className="bg-[#f2f5f7] h-screen">
       {verifyUser(authenticated)}
-      {children}
+      <div className="layout">{children}</div>
       <Toaster />
-    </div>
+    </main>
   );
 };
 

@@ -12,6 +12,7 @@ module.exports = {
       },
       colors: {
         appPrimary: "#f2f5f7",
+        secondaryText: "#a6adbc",
       },
     },
   },
