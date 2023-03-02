@@ -10,6 +10,9 @@ module.exports = {
         Inter: ["Inter", "sans-serif"],
         Raleway: ["Raleway", "sans-serif"],
       },
+      colors: {
+        appPrimary: "#f2f5f7",
+      },
     },
   },
   plugins: [],

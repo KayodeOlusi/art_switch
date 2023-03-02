@@ -10,11 +10,11 @@ type Props = {};
 
 const DesktopNav: FC = (props: Props) => {
   const router = useRouter();
-  const [search, setSearch] = React.useState<string>("");
+  const [searchValue, setSearchValue] = React.useState<string>("");
 
-  const searchUser = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!search.length) return;
-    e.key === "Enter" && console.log(search);
+  const searchForArtist = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!searchValue.length) return;
+    e.key === "Enter" && console.log(searchValue);
   };
 
   return (
@@ -33,18 +33,18 @@ const DesktopNav: FC = (props: Props) => {
           <SearchIcon className="w-5 h-5 absolute left-4 top-[0.5rem]" />
           <input
             type="text"
-            value={search}
-            onKeyDown={searchUser}
-            placeholder="Search for a user..."
-            onChange={e => setSearch(e.target.value)}
-            className="bg-[#f2f5f7] rounded-3xl w-96 px-12 py-2 text-sm focus:outline-black"
+            value={searchValue}
+            onKeyDown={searchForArtist}
+            placeholder="Search for an artist"
+            onChange={e => setSearchValue(e.target.value)}
+            className="bg-appPrimary rounded-3xl w-96 px-12 py-2 text-sm focus:outline-black"
           />
         </div>
         <div className="flex space-x-4">
-          <div className="w-9 h-9 rounded-full bg-[#f2f5f7] p-2">
+          <div className="nav-icons">
             <PlusCircleIcon className="w-auto h-auto cursor-pointer" />
           </div>
-          <div className="w-9 h-9 rounded-full bg-[#f2f5f7] p-2">
+          <div className="nav-icons">
             <ChatAlt2Icon className="w-auto h-auto cursor-pointer" />
           </div>
         </div>
