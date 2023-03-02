@@ -23,7 +23,7 @@ const AppLayout = ({ children }: Props) => {
   return (
     <main className="bg-[#f2f5f7] h-screen">
       {verifyUser(authenticated)}
-      <div className="layout">{children}</div>
+      <div className={authenticated ? "layout" : ""}>{children}</div>
       <Toaster />
     </main>
   );
