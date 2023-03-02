@@ -1,5 +1,5 @@
-import Tag from "@/components/home/explore/tag";
 import React from "react";
+import Tag from "@/components/home/explore/tag";
 
 type Props = {};
 
@@ -14,7 +14,10 @@ const ExploreContainer = (props: Props) => {
         <p className="text-secondaryText text-sm">See all</p>
       </section>
 
-      <section className="overflow-x-scroll flex space-x-3 items-center">
+      <section
+        className="overflow-x-scroll flex space-x-3 mt-4 scrollbar-none
+       scrollbar-thumb-transparent items-center"
+      >
         {tags.map(tag => (
           <Tag
             key={tag}
