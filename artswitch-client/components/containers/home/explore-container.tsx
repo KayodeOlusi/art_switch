@@ -15,8 +15,9 @@ const ExploreContainer = (props: Props) => {
       </section>
 
       <section
+        data-testid="tag-container"
         className="overflow-x-scroll flex space-x-3 mt-4 scrollbar-none
-       scrollbar-thumb-transparent items-center"
+        scrollbar-thumb-transparent items-center"
       >
         {tags.map(tag => (
           <Tag
