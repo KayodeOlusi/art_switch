@@ -43,8 +43,8 @@ describe("Active tag test", () => {
         render(
           <Tag
             tag={tag}
-            activeTag="Life"
             key={tag}
+            activeTag="Life"
             setActiveTag={mockedSetState}
           />
         );
@@ -55,13 +55,11 @@ describe("Active tag test", () => {
       renderTag(tags);
     });
 
-    it("should call the setState function when a tag is clicked", () => {
+    it("should call the setState function when a tag is clicked once", () => {
       const activeTag = screen.getByText("Design");
       fireEvent.click(activeTag);
       expect(mockedSetState).toHaveBeenCalledTimes(1);
       expect(mockedSetState).toHaveBeenCalledWith("Design");
     });
   });
-
-  it("should have the active class when the tag is active", () => {});
 });
