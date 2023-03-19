@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { NextPage } from "next";
+import { NextPageWithLayout } from "typings/app";
 import LoginForm from "../../components/auth/login/login-form";
 
-const Login: NextPage = () => {
+const Login: NextPageWithLayout = () => {
   return (
     <div
       data-testid="login-page"
@@ -39,6 +39,10 @@ const Login: NextPage = () => {
       </section>
     </div>
   );
+};
+
+Login.getLayout = function getLayout(page) {
+  return page;
 };
 
 export default Login;

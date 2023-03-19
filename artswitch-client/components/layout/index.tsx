@@ -7,23 +7,10 @@ type Props = {
 };
 
 const AppLayout = ({ children }: Props) => {
-  const authenticated = true;
-
-  const verifyUser = (authenticated: boolean) => {
-    switch (authenticated) {
-      case true:
-        return <Navbar />;
-      case false:
-        return null;
-      default:
-        return null;
-    }
-  };
-
   return (
     <main className="bg-[#f2f5f7] h-screen">
-      {verifyUser(authenticated)}
-      <div className={authenticated ? "layout" : ""}>{children}</div>
+      <Navbar />
+      <div className="layout">{children}</div>
       <Toaster />
     </main>
   );
