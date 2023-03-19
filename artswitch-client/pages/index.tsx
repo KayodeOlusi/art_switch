@@ -1,10 +1,11 @@
 import Head from "next/head";
-import type { NextPage } from "next";
+import AppLayout from "@/components/layout";
+import { NextPageWithLayout } from "typings/app";
 import PostsContainer from "@/components/containers/home/posts-container";
 import ExploreContainer from "@/components/containers/home/explore-container";
 import OptionsContainer from "@/components/containers/home/options-container";
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   return (
     <div>
       <Head>
@@ -25,6 +26,10 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+Home.getLayout = function getLayout(page) {
+  return <AppLayout>{page}</AppLayout>;
 };
 
 export default Home;

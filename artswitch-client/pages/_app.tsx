@@ -1,13 +1,9 @@
 import "../styles/global.css";
-import type { AppProps } from "next/app";
-import AppLayout from "@/components/layout";
+import { AppPropsWithLayout } from "typings/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <AppLayout>
-      <Component {...pageProps} />
-    </AppLayout>
-  );
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? (page => page);
+  return getLayout(<Component {...pageProps} />);
 }
 
 export default MyApp;
