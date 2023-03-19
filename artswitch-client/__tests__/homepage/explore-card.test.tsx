@@ -50,11 +50,11 @@ describe("Active tag test", () => {
       renderTag(tags);
     });
 
-    it("should call the setState function when a tag is clicked once", async () => {
+    it("should call the setState function when a tag is clicked once", () => {
       expect.hasAssertions();
 
       const activeTag = screen.getByText("Design");
-      await fireEvent.click(activeTag);
+      fireEvent.click(activeTag);
 
       expect(mockedSetState).toHaveBeenCalledTimes(1);
       expect(mockedSetState).toHaveBeenCalledWith("Design");
