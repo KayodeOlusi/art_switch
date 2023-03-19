@@ -1,4 +1,3 @@
-import ExploreContainer from "@/components/containers/home/explore-container";
 import Tag from "@/components/home/explore/tag";
 import { fireEvent, render, screen } from "@testing-library/react";
 
