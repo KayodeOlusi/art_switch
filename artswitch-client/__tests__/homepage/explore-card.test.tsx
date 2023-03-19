@@ -1,3 +1,4 @@
+import ExploreContainer from "@/components/containers/home/explore-container";
 import Tag from "@/components/home/explore/tag";
 import { fireEvent, render, screen } from "@testing-library/react";
 
@@ -5,36 +6,31 @@ describe("Active tag test", () => {
   let tags: string[];
   const mockedSetState = jest.fn();
 
-  it("should render the active tag", () => {
-    render(
-      <Tag tag="Product" activeTag="Product" setActiveTag={mockedSetState} />
-    );
-    const activeTag = screen.getByText("Product");
-    expect(activeTag).toBeInTheDocument();
-  });
+  const itShouldRenderTheActiveTagWithItsClass = (tag: string) =>
+    it("should render the active tag with an active class", () => {
+      render(<Tag tag={tag} activeTag={tag} setActiveTag={mockedSetState} />);
+      const activeTag = screen.getByText(tag);
 
-  it("should have the active tag class for active tag", () => {
-    render(
-      <Tag tag="Product" activeTag="Product" setActiveTag={mockedSetState} />
-    );
-    const activeTag = screen.getByText("Product");
-    expect(activeTag).toHaveClass("bg-appPrimary");
-  });
+      expect(activeTag).toBeInTheDocument();
+      expect(activeTag).toHaveClass("bg-appPrimary");
+    });
 
-  it("should render the inactive tag", () => {
-    render(
-      <Tag tag="Product" activeTag="Life" setActiveTag={mockedSetState} />
-    );
-    const inactiveTag = screen.getByText("Product");
-    expect(inactiveTag).toBeInTheDocument();
-  });
+  const itShouldRenderTheAInActiveTagWithItsClass = (
+    tag: string,
+    inactive: string
+  ) =>
+    it("should render the inactive tag without the active class", () => {
+      render(
+        <Tag tag={inactive} activeTag={tag} setActiveTag={mockedSetState} />
+      );
+      const inactiveTag = screen.getByText(inactive);
+      expect(inactiveTag).toBeInTheDocument();
+      expect(inactiveTag).not.toHaveClass("bg-appPrimary");
+    });
 
-  it("should not have the active tag class for inactive tag", () => {
-    render(
-      <Tag tag="Product" activeTag="Life" setActiveTag={mockedSetState} />
-    );
-    const activeTag = screen.getByText("Product");
-    expect(activeTag).not.toHaveClass("bg-appPrimary");
+  describe("Tags", () => {
+    itShouldRenderTheActiveTagWithItsClass("Product");
+    itShouldRenderTheAInActiveTagWithItsClass("Product", "Art");
   });
 
   describe("Active tag click functionality Test", () => {
@@ -55,9 +51,12 @@ describe("Active tag test", () => {
       renderTag(tags);
     });
 
-    it("should call the setState function when a tag is clicked once", () => {
+    it("should call the setState function when a tag is clicked once", async () => {
+      expect.hasAssertions();
+
       const activeTag = screen.getByText("Design");
-      fireEvent.click(activeTag);
+      await fireEvent.click(activeTag);
+
       expect(mockedSetState).toHaveBeenCalledTimes(1);
       expect(mockedSetState).toHaveBeenCalledWith("Design");
     });
