@@ -44,7 +44,7 @@ const SignupForm = () => {
         onChange={handleChange}
         value={formState.name}
         placeholder="Enter your Full name"
-        className="border-2 border-gray-800 w-80 px-4 py-3 text-black rounded-md mb-6"
+        className="border-2 border-gray-800 w-80 text-sm px-4 py-3 text-black rounded-md mb-6"
       />
       <input
         type="email"
@@ -52,7 +52,7 @@ const SignupForm = () => {
         onChange={handleChange}
         value={formState.email}
         placeholder="Enter your email"
-        className="border-2 border-gray-800 w-80 px-4 py-3 text-black rounded-md mb-6"
+        className="border-2 border-gray-800 w-80 text-sm px-4 py-3 text-black rounded-md mb-6"
       />
       <input
         type="password"
@@ -60,7 +60,7 @@ const SignupForm = () => {
         placeholder="Password"
         onChange={handleChange}
         value={formState.password}
-        className="border-2 border-gray-800 w-80 px-4 py-3 text-black rounded-md mb-6"
+        className="border-2 border-gray-800 w-80 text-sm px-4 py-3 text-black rounded-md mb-6"
       />
       <section className="flex items-center mb-4">
         <input
