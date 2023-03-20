@@ -8,54 +8,58 @@ type IOnChangeLogin = {
 };
 
 describe("Login Views", () => {
+  const inputField = (text: string) => screen.getByPlaceholderText(text);
+
   it("should render the login page", () => {
     render(<Login />);
     const loginPage = screen.getByTestId("login-page");
+    expect(loginPage).not.toBeNull();
     expect(loginPage).toBeInTheDocument();
   });
 
   it("should render the login header", () => {
     render(<Login />);
     const loginHeader = screen.getByText("Welcome Back");
+    expect(loginHeader).not.toBeNull();
     expect(loginHeader).toBeInTheDocument();
-  });
-
-  it("should render the login email input", () => {
-    render(<LoginForm />);
-    const loginEmailInputField =
-      screen.getByPlaceholderText("Enter your email");
-    expect(loginEmailInputField).toBeInTheDocument();
-  });
-
-  it("should render the login password input", () => {
-    render(<LoginForm />);
-    const loginPasswordInputField = screen.getByPlaceholderText("Password");
-    expect(loginPasswordInputField).toBeInTheDocument();
   });
 
   it("should render the login button", () => {
     render(<LoginForm />);
     const loginButton = screen.getByRole("button");
+    expect(loginButton).not.toBeNull();
     expect(loginButton).toBeInTheDocument();
   });
 
-  const itShouldFireOnChangeEventForInputElements = (data: IOnChangeLogin) =>
-    describe("LoginForm Events", () => {
-      it("should change the user input onChange event", () => {
-        render(<LoginForm />);
-        const inputField = screen.getByPlaceholderText(data.placeholder);
-        fireEvent.change(inputField, { target: { value: data.text } });
-
-        expect(inputField).toHaveValue(data.text);
-      });
+  const itShouldRenderInputField = (text: string) =>
+    it(`should render the appropriate input field`, () => {
+      render(<LoginForm />);
+      const input = inputField(text);
+      expect(input).toBeInTheDocument();
     });
 
-  itShouldFireOnChangeEventForInputElements({
-    text: "johndoe@gmail.com",
-    placeholder: "Enter your email",
+  const itShouldFireOnChangeEventForInputElements = (data: IOnChangeLogin) =>
+    it("should trigger onChange event on user input", () => {
+      render(<LoginForm />);
+      const inputField = screen.getByPlaceholderText(data.placeholder);
+      fireEvent.change(inputField, { target: { value: data.text } });
+
+      expect(inputField).toHaveValue(data.text);
+    });
+
+  describe("Email Input Field", () => {
+    itShouldRenderInputField("Enter your email");
+    itShouldFireOnChangeEventForInputElements({
+      text: "johndoe@gmail.com",
+      placeholder: "Enter your email",
+    });
   });
-  itShouldFireOnChangeEventForInputElements({
-    text: "johndoe",
-    placeholder: "Password",
+
+  describe("Password Input Field", () => {
+    itShouldRenderInputField("Password");
+    itShouldFireOnChangeEventForInputElements({
+      text: "johndoe",
+      placeholder: "Password",
+    });
   });
 });
