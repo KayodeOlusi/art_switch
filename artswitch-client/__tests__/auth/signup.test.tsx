@@ -8,31 +8,30 @@ type IOnChangeSignUp = {
 };
 
 describe("Login Views", () => {
-  const inputField = (text: string) => screen.getByPlaceholderText(text);
+  const roleElement = (role: string) => screen.getByRole(role);
+  const textElement = (text: string) => screen.getByText(text);
+  const testIdElement = (testId: string) => screen.getByTestId(testId);
+  const inputField = (field: string) => screen.getByPlaceholderText(field);
 
   it("should render the signup page", () => {
     render(<SignUp />);
-    const signUpPage = screen.getByTestId("signup-page");
-    expect(signUpPage).toBeInTheDocument();
+    expect(testIdElement("signup-page")).toBeInTheDocument();
   });
 
   it("should render the signup header", () => {
     render(<SignUp />);
-    const signupHeader = screen.getByText("Join the party");
-    expect(signupHeader).toBeInTheDocument();
+    expect(textElement("Join the party")).toBeInTheDocument();
   });
 
   it("should render the signup button", () => {
     render(<SignupForm />);
-    const signUpButton = screen.getByRole("button");
-    expect(signUpButton).toBeInTheDocument();
+    expect(roleElement("button")).toBeInTheDocument();
   });
 
   const itShouldRenderInputField = (text: string) =>
     it(`should render the appropriate input field`, () => {
       render(<SignupForm />);
-      const input = inputField(text);
-      expect(input).toBeInTheDocument();
+      expect(inputField(text)).toBeInTheDocument();
     });
 
   const itShouldFireOnChangeEventForInputElements = (data: IOnChangeSignUp) =>
