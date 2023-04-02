@@ -26,7 +26,7 @@ const Signup = asyncHandler(async (req, res) => {
       profilePicture: user.profilePicture,
     });
   } catch (error) {
-    res.status(400).json({ message: "Failed to create user" });
+    return res.status(400).json({ message: "Failed to create user" });
   }
 });
 
@@ -46,7 +46,7 @@ const Login = asyncHandler(async (req, res) => {
   if (!matchPassword)
     return res.status(400).json({ message: "Invalid credentials" });
 
-  res.status(200).json({
+  return res.status(200).json({
     id: user._id,
     name: user.name,
     email: user.email,
