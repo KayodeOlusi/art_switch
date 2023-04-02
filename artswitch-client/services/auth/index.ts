@@ -1,33 +1,31 @@
 import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-import { axios_auth } from "../axios";
+import HttpClient, { handleError, successMessage } from "../client";
 
 export const loginUser = async (user_details: Login_User_Details) => {
   try {
-    const response: Login_User_Response = await axios_auth.post(
-      "http://localhost:3000/api/auth/login",
+    const response = await HttpClient.post<Login_User_Response>(
+      "auth/login",
       user_details
     );
 
-    Cookies.set("token", response?.data.token);
-    return response?.data;
+    Cookies.set("token", response?.token);
+    successMessage("Login successful");
+    return response;
   } catch (error) {
-    error instanceof Error && toast.error(error?.message);
-    return;
+    handleError(error);
   }
 };
 
 export const signupUser = async (user_details: Login_User_Details) => {
   try {
-    const response: Login_User_Response = await axios_auth.post(
-      "http://localhost:3000/api/auth/signup",
+    const response = await HttpClient.post<Login_User_Response>(
+      "auth/signup",
       user_details
     );
 
-    Cookies.set("token", response?.data.token);
-    return response && response?.data;
+    Cookies.set("token", response?.token);
+    return response && response;
   } catch (error) {
-    error instanceof Error && toast.error(error?.message);
-    return;
+    handleError(error);
   }
 };

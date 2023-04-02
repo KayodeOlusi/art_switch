@@ -7,7 +7,7 @@ type IOnChangeSignUp = {
   placeholder: string;
 };
 
-describe("Login Views", () => {
+describe("SignUp Views", () => {
   const roleElement = (role: string) => screen.getByRole(role);
   const textElement = (text: string) => screen.getByText(text);
   const testIdElement = (testId: string) => screen.getByTestId(testId);

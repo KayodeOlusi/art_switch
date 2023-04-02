@@ -4,11 +4,9 @@ interface Login_User_Details {
 }
 
 interface Login_User_Response {
-  data: {
-    id: string | number;
-    name: string;
-    email: string;
-    profilePicture: string;
-    token: string;
-  };
+  id: string | number;
+  name: string;
+  email: string;
+  profilePicture: string;
+  token: string;
 }

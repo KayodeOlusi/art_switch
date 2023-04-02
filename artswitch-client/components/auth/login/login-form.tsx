@@ -1,5 +1,4 @@
 import Button from "../button";
-import toast from "react-hot-toast";
 import { useState, FormEvent } from "react";
 import { loginUser } from "../../../services/auth";
 
@@ -32,11 +31,15 @@ const LoginForm = () => {
     e.preventDefault();
 
     const data = await loginUser(formState);
-    data && toast.success("Sign In Successful");
+    data && console.log(data);
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col"
+      data-testid="login-form"
+      onSubmit={handleSubmit}
+    >
       <input
         type="email"
         name="email"

@@ -37,7 +37,11 @@ const SignupForm = () => {
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col"
+      data-testid="signup-form"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         name="name"

@@ -1,6 +1,6 @@
 import Login from "../../pages/login";
 import LoginForm from "../../components/auth/login/login-form";
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 
 type IOnChangeLogin = {
   text: string;
@@ -8,13 +8,15 @@ type IOnChangeLogin = {
 };
 
 describe("Login Views", () => {
+  const roleElement = (role: string) => screen.getByRole(role);
+  const textElement = (text: string) => screen.getByText(text);
+  const testIdElement = (testId: string) => screen.getByTestId(testId);
   const inputField = (text: string) => screen.getByPlaceholderText(text);
 
   it("should render the login page", () => {
     render(<Login />);
-    const loginPage = screen.getByTestId("login-page");
-    expect(loginPage).not.toBeNull();
-    expect(loginPage).toBeInTheDocument();
+    expect(testIdElement("login-page")).not.toBeNull();
+    expect(testIdElement("login-page")).toBeInTheDocument();
   });
 
   it("should render the login header", () => {
