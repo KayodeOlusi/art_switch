@@ -2,7 +2,14 @@ import Login from "../../pages/login";
 import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import { screen, render, cleanup, fireEvent } from "@testing-library/react";
+import {
+  screen,
+  render,
+  cleanup,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import { Toaster, toast } from "react-hot-toast";
 
 type IOnChangeLogin = {
   text: string;
@@ -11,6 +18,14 @@ type IOnChangeLogin = {
 
 const mockHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
 mockHttpClient.post = jest.fn();
+
+// mock react-hot-toast toast object with success and error functions
+jest.mock("react-hot-toast", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
 
 describe("Login Tests", () => {
   afterEach(() => {
@@ -101,5 +116,21 @@ describe("Login Tests", () => {
         })
       );
     });
+
+    //TODO: Fix this test
+    // it("should show error toast when user enters does not fill in all fields", async () => {
+    //   render(<LoginForm />);
+
+    //   const form = testIdElement("login-form");
+    //   fireEvent.submit(form);
+
+    //   await waitFor(async () => {
+    //     expect(toast.error).toHaveBeenCalled();
+    //     expect(toast.error).toHaveBeenCalledWith("Please fill in all fields");
+    //   });
+
+    //   // const errorToast = await screen.findByText("Please fill in all fields");
+    //   // expect(errorToast).toBeInTheDocument();
+    // });
   });
 });

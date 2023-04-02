@@ -34,6 +34,7 @@ const SignupForm = () => {
     e.preventDefault();
 
     const data = await signupUser(formState);
+    alert(data);
   };
 
   return (

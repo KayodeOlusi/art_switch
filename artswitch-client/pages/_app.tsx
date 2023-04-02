@@ -6,8 +6,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page);
   return getLayout(
     <>
-      <Component {...pageProps} />
       <Toaster />
+      <Component {...pageProps} />
     </>
   );
 }
