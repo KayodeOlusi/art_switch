@@ -1,5 +1,5 @@
 import Button from "../button";
-import { useState, FormEvent } from "react";
+import React, { FormEvent } from "react";
 import { loginUser } from "../../../services/auth";
 
 type TFormState = {
@@ -15,7 +15,8 @@ type TEvent = {
 };
 
 const LoginForm = () => {
-  const [formState, setFormState] = useState<TFormState>({
+  const [loading, setLoading] = React.useState(false);
+  const [formState, setFormState] = React.useState<TFormState>({
     email: "",
     password: "",
   });
@@ -29,9 +30,14 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    const data = await loginUser(formState);
-    data && console.log(data);
+    await loginUser(formState, () => {
+      console.log("Login Successful");
+      setLoading(false);
+    });
+
+    return setLoading(false);
   };
 
   return (
@@ -46,7 +52,8 @@ const LoginForm = () => {
         onChange={handleChange}
         value={formState.email}
         placeholder="Enter your email"
-        className="border-2 border-gray-800 w-80 text-sm px-4 py-3 text-black rounded-md mb-6"
+        className="border-2 border-gray-800 w-80 text-sm 
+        px-4 py-3 text-black rounded-md mb-6"
       />
       <input
         type="password"
@@ -54,7 +61,8 @@ const LoginForm = () => {
         placeholder="Password"
         onChange={handleChange}
         value={formState.password}
-        className="border-2 border-gray-800 w-80 text-sm px-4 py-3 text-black rounded-md mb-6"
+        className="border-2 border-gray-800 w-80 text-sm 
+        px-4 py-3 text-black rounded-md mb-6"
       />
       <section className="flex items-center mb-4">
         <input
@@ -66,7 +74,7 @@ const LoginForm = () => {
           Remember Me
         </label>
       </section>
-      <Button />
+      <Button type="login" loading={loading} />
     </form>
   );
 };

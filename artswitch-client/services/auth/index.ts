@@ -1,7 +1,10 @@
 import Cookies from "js-cookie";
 import HttpClient, { handleError, successMessage } from "../client";
 
-export const loginUser = async (user_details: Login_User_Details) => {
+export const loginUser = async (
+  user_details: Login_User_Details,
+  onSuccess: () => void
+) => {
   try {
     const response = await HttpClient.post<Login_User_Response>(
       "auth/login",
@@ -10,13 +13,16 @@ export const loginUser = async (user_details: Login_User_Details) => {
 
     Cookies.set("token", response?.token);
     successMessage("Login successful");
-    return response;
+    onSuccess();
   } catch (error) {
     handleError(error);
   }
 };
 
-export const signupUser = async (user_details: Login_User_Details) => {
+export const signupUser = async (
+  user_details: Login_User_Details & { name: string },
+  onSuccess: () => void
+) => {
   try {
     const response = await HttpClient.post<Login_User_Response>(
       "auth/signup",
@@ -24,7 +30,7 @@ export const signupUser = async (user_details: Login_User_Details) => {
     );
 
     Cookies.set("token", response?.token);
-    return response && response;
+    onSuccess();
   } catch (error) {
     handleError(error);
   }
