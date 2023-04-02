@@ -77,8 +77,8 @@ describe("Login Tests", () => {
   describe("API Calls", () => {
     it("should prevent the default action of onSubmit in form", async () => {
       const preventDefault = jest.fn();
-      render(<LoginForm />);
 
+      render(<LoginForm />);
       ReactTestUtils.Simulate.submit(testIdElement("login-form"), {
         preventDefault,
       });
@@ -86,7 +86,7 @@ describe("Login Tests", () => {
       expect(preventDefault).toHaveBeenCalled();
     });
 
-    it("should call the axios api for login with the appropriate arguments", async () => {
+    it("should call the HttpClient for login with the appropriate arguments", async () => {
       render(<LoginForm />);
 
       const form = testIdElement("login-form");
