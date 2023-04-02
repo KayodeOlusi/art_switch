@@ -10,14 +10,15 @@ const Signup = asyncHandler(async (req, res) => {
   const { name, email, password, profilePicture } = req.body;
 
   if (!name || !email || !password)
-    res.status(400).json({ message: "Please fill in all fields" });
+    return res.status(400).json({ message: "Please fill in all fields" });
 
   const duplicateUser = await User.findOne({ email });
-  if (duplicateUser) res.status(400).json({ message: "User already exists" });
+  if (duplicateUser)
+    return res.status(400).json({ message: "User already exists" });
 
   try {
     const user = await User.create({ name, email, password, profilePicture });
-    res.status(201).json({
+    return res.status(201).json({
       id: user._id,
       name: user.name,
       email: user.email,
@@ -36,13 +37,14 @@ const Login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password)
-    res.status(400).json({ message: "Please fill in all fields" });
+    return res.status(400).json({ message: "Please fill in all fields" });
 
   const user = await User.findOne({ email });
   if (!user) return res.status(400).json({ message: "User does not exist" });
 
   const matchPassword = await bcrypt.compare(password, user.password);
-  if (!matchPassword) res.status(400).json({ message: "Invalid credentials" });
+  if (!matchPassword)
+    return res.status(400).json({ message: "Invalid credentials" });
 
   res.status(200).json({
     id: user._id,

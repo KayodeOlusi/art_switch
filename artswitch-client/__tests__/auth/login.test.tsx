@@ -101,21 +101,5 @@ describe("Login Tests", () => {
         })
       );
     });
-
-    //TODO: Fix this test
-    // it("should show error toast when user enters does not fill in all fields", async () => {
-    //   render(<LoginForm />);
-
-    //   const form = testIdElement("login-form");
-    //   fireEvent.submit(form);
-
-    //   await waitFor(async () => {
-    //     expect(toast.error).toHaveBeenCalled();
-    //     expect(toast.error).toHaveBeenCalledWith("Please fill in all fields");
-    //   });
-
-    //   // const errorToast = await screen.findByText("Please fill in all fields");
-    //   // expect(errorToast).toBeInTheDocument();
-    // });
   });
 });
