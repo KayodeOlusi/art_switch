@@ -2,14 +2,7 @@ import Login from "../../pages/login";
 import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import {
-  screen,
-  render,
-  cleanup,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
-import { Toaster, toast } from "react-hot-toast";
+import { screen, render, cleanup, fireEvent } from "@testing-library/react";
 
 type IOnChangeLogin = {
   text: string;
@@ -18,14 +11,6 @@ type IOnChangeLogin = {
 
 const mockHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
 mockHttpClient.post = jest.fn();
-
-// mock react-hot-toast toast object with success and error functions
-jest.mock("react-hot-toast", () => ({
-  toast: {
-    success: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 describe("Login Tests", () => {
   afterEach(() => {
