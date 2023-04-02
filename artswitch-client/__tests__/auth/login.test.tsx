@@ -1,6 +1,7 @@
 import Login from "../../pages/login";
 import LoginForm from "../../components/auth/login/login-form";
 import { screen, render, fireEvent, waitFor } from "@testing-library/react";
+import ReactTestUtils, { act } from "react-dom/test-utils";
 
 type IOnChangeLogin = {
   text: string;
@@ -62,6 +63,18 @@ describe("Login Views", () => {
     itShouldFireOnChangeEventForInputElements({
       text: "johndoe",
       placeholder: "Password",
+    });
+  });
+
+  describe("API Calls", () => {
+    it("should make prevent the default action of onSubmit in form", async () => {
+      const preventDefault = jest.fn();
+      render(<LoginForm />);
+
+      const form = screen.getByTestId("login-form");
+      ReactTestUtils.Simulate.submit(form, { preventDefault });
+
+      expect(preventDefault).toHaveBeenCalled();
     });
   });
 });
