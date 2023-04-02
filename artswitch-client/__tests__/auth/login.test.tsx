@@ -1,14 +1,23 @@
 import Login from "../../pages/login";
+import HttpClient from "../../services/client";
+import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import ReactTestUtils, { act } from "react-dom/test-utils";
+import { screen, render, cleanup, fireEvent } from "@testing-library/react";
 
 type IOnChangeLogin = {
   text: string;
   placeholder: string;
 };
 
-describe("Login Views", () => {
+const mockHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
+mockHttpClient.post = jest.fn();
+
+describe("Login Tests", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
+
   const roleElement = (role: string) => screen.getByRole(role);
   const textElement = (text: string) => screen.getByText(text);
   const testIdElement = (testId: string) => screen.getByTestId(testId);
@@ -29,9 +38,8 @@ describe("Login Views", () => {
 
   it("should render the login button", () => {
     render(<LoginForm />);
-    const loginButton = screen.getByRole("button");
-    expect(loginButton).not.toBeNull();
-    expect(loginButton).toBeInTheDocument();
+    expect(roleElement("button")).not.toBeNull();
+    expect(roleElement("button")).toBeInTheDocument();
   });
 
   const itShouldRenderInputField = (text: string) =>
@@ -67,14 +75,31 @@ describe("Login Views", () => {
   });
 
   describe("API Calls", () => {
-    it("should make prevent the default action of onSubmit in form", async () => {
+    it("should prevent the default action of onSubmit in form", async () => {
       const preventDefault = jest.fn();
       render(<LoginForm />);
 
-      const form = screen.getByTestId("login-form");
-      ReactTestUtils.Simulate.submit(form, { preventDefault });
+      ReactTestUtils.Simulate.submit(testIdElement("login-form"), {
+        preventDefault,
+      });
 
       expect(preventDefault).toHaveBeenCalled();
+    });
+
+    it("should call the axios api for login with the appropriate arguments", async () => {
+      render(<LoginForm />);
+
+      const form = testIdElement("login-form");
+      fireEvent.submit(form);
+
+      expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
+      expect(mockHttpClient.post).toHaveBeenCalledWith(
+        "auth/login",
+        expect.objectContaining({
+          email: "",
+          password: "",
+        })
+      );
     });
   });
 });

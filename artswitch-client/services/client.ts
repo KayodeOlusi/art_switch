@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import type { AxiosResponse } from "axios";
 
 export const Axios = axios.create({
-  baseURL: "http://localhost:5001/api",
+  baseURL: "http://localhost:5001/api/",
   timeout: 8000,
   headers: {
     "Content-Type": "application/json",
