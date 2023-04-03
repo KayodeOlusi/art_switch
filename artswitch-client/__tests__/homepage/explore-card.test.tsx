@@ -4,7 +4,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import ReactTestUtils, { act } from "react-dom/test-utils";
 
 describe("Tag test", () => {
-  let tags: string[];
   const mockedSetState = jest.fn();
 
   const itShouldRenderTheActiveTagWithItsClass = (tag: string) =>
