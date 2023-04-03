@@ -60,6 +60,7 @@ describe("Tag test", () => {
     it("should call the setState function when a tag is clicked once", () => {
       renderTag(tags);
       const activeTag = screen.getByText("Design");
+
       fireEvent.click(activeTag);
 
       expect(mockedSetState).toHaveBeenCalledTimes(1);
