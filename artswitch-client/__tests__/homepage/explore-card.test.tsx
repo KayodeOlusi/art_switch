@@ -1,5 +1,7 @@
+import ExploreContainer from "@/components/containers/home/explore-container";
 import Tag from "@/components/home/explore/tag";
 import { fireEvent, render, screen } from "@testing-library/react";
+import ReactTestUtils, { act } from "react-dom/test-utils";
 
 describe("Tag test", () => {
   let tags: string[];
@@ -33,6 +35,8 @@ describe("Tag test", () => {
   });
 
   describe("Active tag click functionality Test", () => {
+    const tags = ["Product", "Art", "Life", "Design", "Tech", "Music", "Food"];
+
     const renderTag = (tags: string[]) =>
       tags.map(tag => {
         render(
@@ -45,14 +49,16 @@ describe("Tag test", () => {
         );
       });
 
-    beforeEach(() => {
-      tags = ["Product", "Art", "Life", "Design", "Tech", "Music", "Food"];
-      renderTag(tags);
+    it("should use the right class for a clicked tag", () => {
+      render(<ExploreContainer />);
+      const activeTag = screen.getByText("Design");
+
+      act(() => ReactTestUtils.Simulate.click(activeTag));
+      expect(activeTag).toHaveClass("bg-appPrimary");
     });
 
     it("should call the setState function when a tag is clicked once", () => {
-      expect.hasAssertions();
-
+      renderTag(tags);
       const activeTag = screen.getByText("Design");
       fireEvent.click(activeTag);
 
