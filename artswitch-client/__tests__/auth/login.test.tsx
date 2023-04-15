@@ -1,8 +1,10 @@
 import Login from "../../pages/login";
 import HttpClient from "../../services/client";
-import ReactTestUtils from "react-dom/test-utils";
+import ReactTestUtils, { act } from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
 import { screen, render, cleanup, fireEvent } from "@testing-library/react";
+
+jest.mock("react-hot-toast");
 
 type IOnChangeLogin = {
   text: string;
@@ -19,7 +21,6 @@ describe("Login Tests", () => {
   });
 
   const roleElement = (role: string) => screen.getByRole(role);
-  const textElement = (text: string) => screen.getByText(text);
   const testIdElement = (testId: string) => screen.getByTestId(testId);
   const inputField = (text: string) => screen.getByPlaceholderText(text);
 
@@ -79,8 +80,11 @@ describe("Login Tests", () => {
       const preventDefault = jest.fn();
 
       render(<LoginForm />);
-      ReactTestUtils.Simulate.submit(testIdElement("login-form"), {
-        preventDefault,
+
+      act(() => {
+        ReactTestUtils.Simulate.submit(testIdElement("login-form"), {
+          preventDefault,
+        });
       });
 
       expect(preventDefault).toHaveBeenCalled();
@@ -90,7 +94,10 @@ describe("Login Tests", () => {
       render(<LoginForm />);
 
       const form = testIdElement("login-form");
-      fireEvent.submit(form);
+
+      act(() => {
+        fireEvent.submit(form);
+      });
 
       expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
       expect(mockHttpClient.post).toHaveBeenCalledWith(

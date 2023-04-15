@@ -13,53 +13,69 @@ export const Axios = axios.create({
 export const responseBody = (response: AxiosResponse) => response.data;
 
 class HttpClient {
-  get<T>(
+  async get<T>(
     endpoint: string,
     query?: Record<string, string | number>
   ): Promise<T> {
-    return Axios.get(endpoint, { params: query }).then(responseBody);
+    const response = await Axios.get(endpoint, { params: query });
+    return responseBody(response);
   }
-  post<T>(endpoint: string, body: any): Promise<T> {
-    return Axios.post(endpoint, body).then(responseBody);
+  async post<T>(endpoint: string, body: any): Promise<T> {
+    const response = await Axios.post(endpoint, body);
+    return responseBody(response);
   }
-  put<T>(endpoint: string, body: any): Promise<T> {
-    return Axios.put(endpoint, body).then(responseBody);
+  async put<T>(endpoint: string, body: any): Promise<T> {
+    const response = await Axios.put(endpoint, body);
+    return responseBody(response);
   }
-  delete<T>(endpoint: string): Promise<T> {
-    return Axios.delete(endpoint).then(responseBody);
+  async delete<T>(endpoint: string): Promise<T> {
+    const response = await Axios.delete(endpoint);
+    return responseBody(response);
   }
-  getWithToken(
+  async getWithToken<T>(
     endpoint: string,
     token: string,
     params?: Record<string, string | number>
-  ) {
-    return Axios.get(endpoint, {
+  ): Promise<T> {
+    const response = await Axios.get(endpoint, {
       params,
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(responseBody);
+    });
+    return responseBody(response);
   }
-  postWithToken<T>(endpoint: string, body: any, token: string): Promise<T> {
-    return Axios.post(endpoint, body, {
+  async postWithToken<T>(
+    endpoint: string,
+    body: any,
+    token: string
+  ): Promise<T> {
+    const response = await Axios.post(endpoint, body, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(responseBody);
+    });
+    return responseBody(response);
   }
-  putWithToken<T>(endpoint: string, body: any, token: string): Promise<T> {
-    return Axios.put(endpoint, body, {
+  async putWithToken<T>(
+    endpoint: string,
+    body: any,
+    token: string
+  ): Promise<T> {
+    const response = await Axios.put(endpoint, body, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(responseBody);
+    });
+    return responseBody(response);
   }
-  deleteWithToken<T>(endpoint: string, token: string): Promise<T> {
-    return Axios.delete(endpoint, {
+  async deleteWithToken<T>(endpoint: string, token: string): Promise<T> {
+    const response = await Axios.delete(endpoint, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(responseBody);
+    });
+    return responseBody(response);
   }
 }
 
