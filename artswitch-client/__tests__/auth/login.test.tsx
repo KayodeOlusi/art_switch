@@ -4,17 +4,18 @@ jest.mock("react-hot-toast", () => ({
   },
 }));
 
-import Login from "../../pages/login";
-import HttpClient from "../../services/client";
-import ReactTestUtils, { act } from "react-dom/test-utils";
-import LoginForm from "../../components/auth/login/login-form";
 import {
   screen,
   render,
   cleanup,
   fireEvent,
   waitFor,
+  act,
 } from "@testing-library/react";
+import Login from "../../pages/login";
+import HttpClient from "../../services/client";
+import ReactTestUtils from "react-dom/test-utils";
+import LoginForm from "../../components/auth/login/login-form";
 import { toast } from "react-hot-toast";
 
 type IOnChangeLogin = {
@@ -89,7 +90,6 @@ describe("Login Tests", () => {
   describe("API Calls", () => {
     it("should prevent the default action of onSubmit in form", async () => {
       const preventDefault = jest.fn();
-
       render(<LoginForm />);
 
       act(() => {
@@ -103,7 +103,6 @@ describe("Login Tests", () => {
 
     it("should call the HttpClient for login with the appropriate arguments", async () => {
       render(<LoginForm />);
-
       const form = testIdElement("login-form");
 
       act(() => {
