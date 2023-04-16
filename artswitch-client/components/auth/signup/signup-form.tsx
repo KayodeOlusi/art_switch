@@ -35,11 +35,8 @@ const SignupForm = () => {
     setLoading(true);
 
     await signupUser(formState, () => {
-      console.log("Signup Successful");
       setLoading(false);
     });
-
-    return setLoading(false);
   };
 
   return (

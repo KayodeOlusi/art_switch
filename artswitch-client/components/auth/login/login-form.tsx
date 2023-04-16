@@ -33,7 +33,6 @@ const LoginForm = () => {
     setLoading(true);
 
     await loginUser(formState, () => {
-      console.log("Login Successful");
       setLoading(false);
     });
   };
