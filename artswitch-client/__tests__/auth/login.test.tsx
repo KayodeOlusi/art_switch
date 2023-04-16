@@ -1,10 +1,21 @@
+jest.mock("react-hot-toast", () => ({
+  toast: {
+    error: jest.fn(),
+  },
+}));
+
 import Login from "../../pages/login";
 import HttpClient from "../../services/client";
 import ReactTestUtils, { act } from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import { screen, render, cleanup, fireEvent } from "@testing-library/react";
-
-jest.mock("react-hot-toast");
+import {
+  screen,
+  render,
+  cleanup,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import { toast } from "react-hot-toast";
 
 type IOnChangeLogin = {
   text: string;
@@ -107,6 +118,28 @@ describe("Login Tests", () => {
           password: "",
         })
       );
+    });
+
+    it("should call error toast when the login fails", async () => {
+      mockHttpClient.post.mockRejectedValueOnce({
+        response: {
+          data: {
+            message: "Something went wrong",
+          },
+        },
+      });
+
+      render(<LoginForm />);
+      const form = testIdElement("login-form");
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledTimes(1);
+        expect(toast.error).toHaveBeenCalledWith("Something went wrong");
+      });
     });
   });
 });
