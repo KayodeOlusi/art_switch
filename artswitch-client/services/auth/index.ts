@@ -3,7 +3,8 @@ import HttpClient, { handleError, successMessage } from "../client";
 
 export const loginUser = async (
   user_details: Login_User_Details,
-  onSuccess: () => void
+  onSuccess: () => void,
+  onError?: () => void
 ) => {
   try {
     const response = await HttpClient.post<Login_User_Response>(
@@ -15,6 +16,7 @@ export const loginUser = async (
     successMessage("Login successful");
     onSuccess();
   } catch (error) {
+    onError?.();
     handleError(error);
   }
 };

@@ -98,7 +98,9 @@ describe("Login Tests", () => {
         });
       });
 
-      expect(preventDefault).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(preventDefault).toHaveBeenCalled();
+      });
     });
 
     it("should call the HttpClient for login with the appropriate arguments", async () => {
@@ -109,14 +111,16 @@ describe("Login Tests", () => {
         fireEvent.submit(form);
       });
 
-      expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
-      expect(mockHttpClient.post).toHaveBeenCalledWith(
-        "auth/login",
-        expect.objectContaining({
-          email: "",
-          password: "",
-        })
-      );
+      await waitFor(() => {
+        expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
+        expect(mockHttpClient.post).toHaveBeenCalledWith(
+          "auth/login",
+          expect.objectContaining({
+            email: "",
+            password: "",
+          })
+        );
+      });
     });
 
     it("should call error toast when the login fails", async () => {

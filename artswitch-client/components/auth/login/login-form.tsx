@@ -36,8 +36,6 @@ const LoginForm = () => {
       console.log("Login Successful");
       setLoading(false);
     });
-
-    return setLoading(false);
   };
 
   return (
