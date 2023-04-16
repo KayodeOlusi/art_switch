@@ -4,10 +4,6 @@ jest.mock("react-hot-toast", () => ({
   },
 }));
 
-import SignUp from "../../pages/signup";
-import HttpClient from "../../services/client";
-import ReactTestUtils from "react-dom/test-utils";
-import SignupForm from "../../components/auth/signup/signup-form";
 import {
   screen,
   render,
@@ -16,6 +12,11 @@ import {
   act,
   waitFor,
 } from "@testing-library/react";
+import SignUp from "../../pages/signup";
+import HttpClient from "../../services/client";
+import ReactTestUtils from "react-dom/test-utils";
+import SignupForm from "../../components/auth/signup/signup-form";
+import { toast } from "react-hot-toast";
 
 type IOnChangeSignUp = {
   text: string;
@@ -126,6 +127,28 @@ describe("SignUp Test", () => {
             password: "",
           })
         );
+      });
+    });
+
+    it("should call error toast when the signup fails", async () => {
+      mockedHttpClient.post.mockRejectedValueOnce({
+        response: {
+          data: {
+            message: "Something went wrong",
+          },
+        },
+      });
+
+      render(<SignupForm />);
+      const form = testIdElement("signup-form");
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledTimes(1);
+        expect(toast.error).toHaveBeenCalledWith("Something went wrong");
       });
     });
   });
