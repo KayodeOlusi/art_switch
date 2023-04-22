@@ -23,7 +23,8 @@ export const loginUser = async (
 
 export const signupUser = async (
   user_details: Login_User_Details & { name: string },
-  onSuccess: () => void
+  onSuccess: () => void,
+  onError?: () => void
 ) => {
   try {
     const response = await HttpClient.post<Login_User_Response>(
@@ -32,8 +33,10 @@ export const signupUser = async (
     );
 
     Cookies.set("token", response?.token);
+    successMessage("Signup successful");
     onSuccess();
   } catch (error) {
+    onError?.();
     handleError(error);
   }
 };

@@ -1,9 +1,3 @@
-jest.mock("react-hot-toast", () => ({
-  toast: {
-    error: jest.fn(),
-  },
-}));
-
 import {
   screen,
   render,
@@ -17,6 +11,7 @@ import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import SignupForm from "../../components/auth/signup/signup-form";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 type IOnChangeSignUp = {
   text: string;
@@ -149,6 +144,65 @@ describe("SignUp Test", () => {
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledTimes(1);
         expect(toast.error).toHaveBeenCalledWith("Something went wrong");
+      });
+    });
+
+    it("should call success toast when the signup is successful", async () => {
+      mockedHttpClient.post.mockResolvedValueOnce({
+        data: {
+          message: "Signup successful",
+        },
+      });
+
+      render(<SignupForm />);
+      const form = testIdElement("signup-form");
+      fireEvent.change(inputField("Enter your Full name"), {
+        target: { value: "John Doe" },
+      });
+      fireEvent.change(inputField("Enter your email"), {
+        target: { value: "johndoe@gmail.com" },
+      });
+      fireEvent.change(inputField("Password"), {
+        target: { value: "johndoe" },
+      });
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(toast.success).toHaveBeenCalledTimes(1);
+        expect(toast.success).toHaveBeenCalledWith("Signup successful");
+      });
+    });
+
+    it("should route to the login page when the signup is successful", async () => {
+      const router = useRouter();
+      mockedHttpClient.post.mockResolvedValueOnce({
+        data: {
+          message: "Signup successful",
+        },
+      });
+
+      render(<SignupForm />);
+      const form = testIdElement("signup-form");
+      fireEvent.change(inputField("Enter your Full name"), {
+        target: { value: "John Doe" },
+      });
+      fireEvent.change(inputField("Enter your email"), {
+        target: { value: "" },
+      });
+      fireEvent.change(inputField("Password"), {
+        target: { value: "johndoe" },
+      });
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(router.push).toHaveBeenCalledTimes(1);
+        expect(router.push).toHaveBeenCalledWith("/login");
       });
     });
   });
