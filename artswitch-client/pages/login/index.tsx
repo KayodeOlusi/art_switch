@@ -14,8 +14,8 @@ const Login: NextPageWithLayout = () => {
         </div>
         <section className="block relative px-4 lg:hidden">
           <img
+            alt="mobile"
             src={"/assets/svgs/bg-mobile.svg"}
-            alt=""
             className="object-contain w-24 h-24"
           />
         </section>

@@ -1,6 +1,7 @@
 import Button from "../button";
 import React, { FormEvent } from "react";
 import { loginUser } from "../../../services/auth";
+import { useRouter } from "next/router";
 
 type TFormState = {
   email: string;
@@ -15,6 +16,7 @@ type TEvent = {
 };
 
 const LoginForm = () => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [formState, setFormState] = React.useState<TFormState>({
     email: "",
@@ -34,6 +36,7 @@ const LoginForm = () => {
 
     await loginUser(formState, () => {
       setLoading(false);
+      router.push("/");
     });
   };
 

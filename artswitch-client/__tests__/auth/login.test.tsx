@@ -1,9 +1,3 @@
-jest.mock("react-hot-toast", () => ({
-  toast: {
-    error: jest.fn(),
-  },
-}));
-
 import {
   screen,
   render,
@@ -17,6 +11,7 @@ import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 type IOnChangeLogin = {
   text: string;
@@ -142,6 +137,65 @@ describe("Login Tests", () => {
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledTimes(1);
         expect(toast.error).toHaveBeenCalledWith("Something went wrong");
+      });
+    });
+
+    it("should call success toast when the login is successful", async () => {
+      mockHttpClient.post.mockResolvedValueOnce({
+        response: {
+          data: {
+            message: "Login successful",
+          },
+        },
+      });
+
+      render(<LoginForm />);
+      const form = testIdElement("login-form");
+
+      fireEvent.change(inputField("Enter your email"), {
+        target: { value: "johndoe@gmail.com" },
+      });
+      fireEvent.change(inputField("Password"), {
+        target: { value: "johndoe" },
+      });
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(toast.success).toHaveBeenCalledTimes(1);
+        expect(toast.success).toHaveBeenCalledWith("Login successful");
+      });
+    });
+
+    it("should route to the homepage when the login is successful", async () => {
+      const router = useRouter();
+      mockHttpClient.post.mockResolvedValueOnce({
+        response: {
+          data: {
+            message: "Login successful",
+          },
+        },
+      });
+
+      render(<LoginForm />);
+      const form = testIdElement("login-form");
+
+      fireEvent.change(inputField("Enter your email"), {
+        target: { value: "johndoe@gmail.com" },
+      });
+      fireEvent.change(inputField("Password"), {
+        target: { value: "johndoe" },
+      });
+
+      act(() => {
+        fireEvent.submit(form);
+      });
+
+      await waitFor(() => {
+        expect(router.push).toHaveBeenCalledTimes(1);
+        expect(router.push).toHaveBeenCalledWith("/");
       });
     });
   });
