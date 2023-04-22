@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LRUCache } from "lru-cache";
 import { faker } from "@faker-js/faker";
+import { RootState } from "app/store";
 
 type StoriesState = {
   stories: Array<{
@@ -12,7 +13,7 @@ type StoriesState = {
 };
 
 const cache = new LRUCache({
-  max: 20,
+  max: 25,
   allowStale: true,
   ttl: 1000 * 60 * 10,
 });
@@ -26,22 +27,25 @@ const storiesSlice = createSlice({
   initialState,
   reducers: {
     loadStories: state => {
-      const fakeStories = [...Array(20)].map(() => ({
-        id: faker.datatype.uuid(),
-        name: faker.name.fullName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-      }));
+      const cachedStories = cache.get("stories") as StoriesState["stories"];
 
-      cache.set("stories", fakeStories);
-      state.stories = [...fakeStories];
+      if (cachedStories) {
+        state.stories = [...cachedStories];
+      } else {
+        const newStories = [...Array(20)].map(() => ({
+          id: faker.datatype.uuid(),
+          name: faker.name.fullName(),
+          avatar: faker.image.avatar(),
+          email: faker.internet.email(),
+        }));
+
+        cache.set("stories", newStories);
+        state.stories = [...newStories];
+      }
     },
   },
 });
 
 export const storiesReducer = storiesSlice.reducer;
 export const { loadStories } = storiesSlice.actions;
-export const storiesSelector = (state: StoriesState) => {
-  if (cache.has("stories")) return cache.get("stories");
-  return state.stories;
-};
+export const selectStories = (state: RootState) => state.stories.stories;
