@@ -43,6 +43,5 @@ export const storiesReducer = storiesSlice.reducer;
 export const { loadStories } = storiesSlice.actions;
 export const storiesSelector = (state: StoriesState) => {
   if (cache.has("stories")) return cache.get("stories");
-
   return state.stories;
 };

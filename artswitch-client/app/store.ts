@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { storiesReducer } from "features/slices/stories";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    stories: storiesReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
