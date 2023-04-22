@@ -14,7 +14,9 @@ const Stories = (props: Props) => {
      rounded-lg bg-white px-3 py-5"
     >
       {stories.map(story => (
-        <Story key={story.id} {...story} />
+        <div key={story.id}>
+          <Story {...story} />
+        </div>
       ))}
     </div>
   );
