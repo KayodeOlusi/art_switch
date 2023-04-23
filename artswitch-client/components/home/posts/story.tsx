@@ -7,7 +7,7 @@ type Props = {
   email: string;
 };
 
-const Story: React.FC<Props> = ({ avatar, email, id, name }) => {
+const Story: React.FC<Props> = ({ avatar, name }) => {
   return (
     <div className="h-14 w-14 flex flex-col items-center">
       <img
