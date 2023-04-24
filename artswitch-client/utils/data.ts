@@ -1,6 +1,6 @@
 import { StoriesState } from "features/slices/stories";
 
-export const testStories: StoriesState["stories"] = [
+export const testStories: Omit<StoriesState["stories"], "email"> = [
   {
     id: "1",
     email: "",
@@ -10,7 +10,7 @@ export const testStories: StoriesState["stories"] = [
   {
     id: "2",
     email: "",
-    name: "John Doe",
+    name: "Luigi Mario",
     avatar: "https://i.pravatar.cc/150?img=1",
   },
   {
