@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { storiesReducer } from "features/slices/stories";
+import { storiesReducer } from "../features/slices/stories";
 
 export const store = configureStore({
   reducer: {

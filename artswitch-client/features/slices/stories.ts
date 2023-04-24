@@ -3,7 +3,7 @@ import { LRUCache } from "lru-cache";
 import { faker } from "@faker-js/faker";
 import { RootState } from "app/store";
 
-type StoriesState = {
+export type StoriesState = {
   stories: Array<{
     id: string;
     name: string;

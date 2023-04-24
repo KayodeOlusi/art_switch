@@ -1,13 +1,15 @@
 import React from "react";
 import Post from "@/components/home/posts/post";
 import Stories from "@/components/home/posts/stories";
+import { useAppSelector } from "../../../app/hooks";
+import { selectStories } from "../../../features/slices/stories";
 
-type Props = {};
+const PostsContainer = () => {
+  const stories = useAppSelector(selectStories);
 
-const PostsContainer = (props: Props) => {
   return (
     <div>
-      <Stories />
+      <Stories stories={stories} />
       <Post />
     </div>
   );

@@ -152,13 +152,6 @@ describe("Login Tests", () => {
       render(<LoginForm />);
       const form = testIdElement("login-form");
 
-      fireEvent.change(inputField("Enter your email"), {
-        target: { value: "johndoe@gmail.com" },
-      });
-      fireEvent.change(inputField("Password"), {
-        target: { value: "johndoe" },
-      });
-
       act(() => {
         fireEvent.submit(form);
       });
@@ -181,13 +174,6 @@ describe("Login Tests", () => {
 
       render(<LoginForm />);
       const form = testIdElement("login-form");
-
-      fireEvent.change(inputField("Enter your email"), {
-        target: { value: "johndoe@gmail.com" },
-      });
-      fireEvent.change(inputField("Password"), {
-        target: { value: "johndoe" },
-      });
 
       act(() => {
         fireEvent.submit(form);

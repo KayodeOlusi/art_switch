@@ -156,15 +156,6 @@ describe("SignUp Test", () => {
 
       render(<SignupForm />);
       const form = testIdElement("signup-form");
-      fireEvent.change(inputField("Enter your Full name"), {
-        target: { value: "John Doe" },
-      });
-      fireEvent.change(inputField("Enter your email"), {
-        target: { value: "johndoe@gmail.com" },
-      });
-      fireEvent.change(inputField("Password"), {
-        target: { value: "johndoe" },
-      });
 
       act(() => {
         fireEvent.submit(form);
@@ -186,15 +177,6 @@ describe("SignUp Test", () => {
 
       render(<SignupForm />);
       const form = testIdElement("signup-form");
-      fireEvent.change(inputField("Enter your Full name"), {
-        target: { value: "John Doe" },
-      });
-      fireEvent.change(inputField("Enter your email"), {
-        target: { value: "" },
-      });
-      fireEvent.change(inputField("Password"), {
-        target: { value: "johndoe" },
-      });
 
       act(() => {
         fireEvent.submit(form);
