@@ -6,7 +6,7 @@ type Props = {};
 
 const OptionsContainer = (props: Props) => {
   return (
-    <div className="flex flex-col space-y-12">
+    <div className="flex mt-3 flex-col space-y-4 pb-4">
       <MessagesContainer />
       <SuggestionsContainer />
     </div>

@@ -26,7 +26,7 @@ const Home: NextPageWithLayout = () => {
         <section className="hidden lg:block lg:col-span-1">
           <ExploreContainer />
         </section>
-        <section className="col-auto md:col-span-2 lg:col-span-2">
+        <section className="col-auto max-h-screen overflow-y-scroll md:col-span-2 lg:col-span-2">
           <PostsContainer />
         </section>
         <section className="hidden md:block md:col-span-1">

@@ -8,7 +8,7 @@ const ExploreContainer = (props: Props) => {
   const tags = ["Product", "Art", "Life", "Design", "Tech", "Music", "Food"];
 
   return (
-    <div className="bg-white rounded-lg px-4 py-4 md:h-72 lg:h-96">
+    <div className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Explore</h3>
         <p className="text-secondaryText cursor-pointer text-sm">See all</p>
