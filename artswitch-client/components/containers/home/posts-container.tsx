@@ -7,10 +7,17 @@ import { selectStories } from "../../../features/slices/stories";
 const PostsContainer = () => {
   const stories = useAppSelector(selectStories);
 
+  const post = {
+    profileURL: "",
+    name: "Ashanti",
+    location: "Nigeria",
+    postDetails: "lorem",
+  };
+
   return (
-    <div>
+    <div className="space-y-4">
       <Stories stories={stories} />
-      <Post />
+      <Post {...post} />
     </div>
   );
 };
