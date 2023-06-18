@@ -1,8 +1,5 @@
-import {
-  DotsCircleHorizontalIcon,
-  DotsHorizontalIcon,
-} from "@heroicons/react/outline";
 import React from "react";
+import { DotsHorizontalIcon } from "@heroicons/react/outline";
 
 type Props = {
   profileURL: string;
