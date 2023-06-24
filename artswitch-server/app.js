@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/auth", auth_routes);
-app.use("/api/posts");
+app.use("/api/posts", posts_routes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
