@@ -4,8 +4,8 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const auth_routes = require("./routes/auth");
-const posts_routes = require("./routes/posts");
+const authRoutes = require("./routes/auth");
+const postsRoutes = require("./routes/posts");
 const connectDB = require("./config/db/dbConn");
 
 connectDB();
@@ -18,8 +18,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api/auth", auth_routes);
-app.use("/api/posts", posts_routes);
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postsRoutes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
