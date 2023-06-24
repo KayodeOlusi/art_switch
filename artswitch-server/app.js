@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const postsRoutes = require("./routes/posts");
 const connectDB = require("./config/db/dbConn");
+const { verifyJWT } = require("./middlewares/auth");
 
 connectDB();
 
