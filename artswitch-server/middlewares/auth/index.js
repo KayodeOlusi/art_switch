@@ -11,8 +11,8 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
   try {
     token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.TOKEN_ID);
-    req.user = await User.findById(decoded.id).select("-password");
+    const decodedToken = jwt.verify(token, process.env.TOKEN_ID);
+    req.user = await User.findById(decodedToken.id).select("-password");
 
     next();
   } catch (error) {
