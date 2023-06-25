@@ -1,11 +1,11 @@
 const Posts = require("../../models/posts");
 const asyncHandler = require("express-async-handler");
-const { isValidPostsRequestBody } = require("../../utils/functions");
+const { isNotValidPostsRequestBody } = require("../../utils/functions");
 
 const createPost = asyncHandler(async (req, res) => {
   const requestBody = req.body;
 
-  if (!isValidPostsRequestBody(requestBody))
+  if (!isNotValidPostsRequestBody(requestBody))
     return res.status(400).json({ message: "Invalid request body" });
 
   try {

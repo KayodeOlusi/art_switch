@@ -1,4 +1,4 @@
-const isValidPostsRequestBody = body => {
+const isNotValidPostsRequestBody = body => {
   const { caption, userId } = body;
 
   if (!caption || !userId) return true;
@@ -7,5 +7,5 @@ const isValidPostsRequestBody = body => {
 };
 
 module.exports = {
-  isValidPostsRequestBody,
+  isNotValidPostsRequestBody,
 };
