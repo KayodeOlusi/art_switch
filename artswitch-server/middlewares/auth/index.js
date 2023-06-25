@@ -4,13 +4,13 @@ const asyncHandler = require("express-async-handler");
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
   let token;
-  const auth_header = req.headers.authorization || req.headers.Authorization;
+  const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  if (!auth_header?.startsWith("Bearer ") || !auth_header)
+  if (!authHeader?.startsWith("Bearer ") || !authHeader)
     return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    token = auth_header.split(" ")[1];
+    token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.TOKEN_ID);
     req.user = await User.findById(decoded.id).select("-password");
 
