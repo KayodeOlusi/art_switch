@@ -5,8 +5,9 @@ const { isNotValidPostsRequestBody } = require("../../utils/functions");
 const createPost = asyncHandler(async (req, res) => {
   const requestBody = req.body;
 
-  if (!isNotValidPostsRequestBody(requestBody))
+  if (isNotValidPostsRequestBody(requestBody)) {
     return res.status(400).json({ message: "Invalid request body" });
+  }
 
   try {
     const newPost = await Posts.create({
