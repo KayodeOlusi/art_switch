@@ -5,8 +5,14 @@ const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, require: true },
-    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    password: { type: String, required: true },
+    followers: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
+    ],
+    following: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
+    ],
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post", default: [] }],
     profilePicture: {
       type: String,
       default:
