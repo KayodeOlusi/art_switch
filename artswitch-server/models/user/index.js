@@ -6,13 +6,9 @@ const userSchema = mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    followers: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
-    ],
-    following: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
-    ],
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post", default: [] }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     profilePicture: {
       type: String,
       default:
