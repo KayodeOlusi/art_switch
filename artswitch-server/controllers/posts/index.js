@@ -48,7 +48,7 @@ const createPost = asyncHandler(async (req, res) => {
       ...requestBody,
       userId: req.user._id,
     });
-    const updateUserPostList = await addPostToUserListOfPost(
+    const updateUserPostList = addPostToUserListOfPost(
       req.user._id,
       newPost._id
     );
@@ -89,7 +89,7 @@ const deletePost = asyncHandler(async (req, res) => {
 
   try {
     const postToDelete = await Posts.findOneAndDelete({ _id: id });
-    const deletePostFromUserPostList = await removePostFromUserPostList(
+    const deletePostFromUserPostList = removePostFromUserPostList(
       req.user._id,
       id
     );
