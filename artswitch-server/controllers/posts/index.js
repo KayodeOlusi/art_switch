@@ -23,10 +23,10 @@ const addPostToUserListOfPost = asyncHandler(async (userId, postId) => {
 // @access Private
 const removePostFromUserPostList = asyncHandler(async (userId, postId) => {
   try {
-    const user = await User.findById(userId);
-    const postToDelete = user.posts.filter(post => post !== postId);
-    user.posts = postToDelete;
-    await user.save();
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { posts: postId.toString() } }
+    );
 
     return true;
   } catch (error) {
