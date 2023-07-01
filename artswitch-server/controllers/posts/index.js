@@ -1,4 +1,5 @@
 const Posts = require("../../models/posts");
+const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 const { isNotValidPostsRequestBody } = require("../../utils/functions");
 
@@ -15,18 +16,29 @@ const createPost = asyncHandler(async (req, res) => {
       userId: req.user._id,
     });
 
-    res.status(201).json({ message: "Post created", post: newPost });
+    try {
+      const postUser = await User.findById(req.user._id);
+      postUser.posts.push(newPost._id);
+      await postUser.save();
+
+      return res
+        .status(201)
+        .json({ message: "Post created successfully", data: newPost });
+    } catch (error) {
+      return res.status(500).json({ message: "Error creating post" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Error creating post" });
   }
 });
 
-const getPostsByTag = asyncHandler(async (req, res) => {
-  const { tag } = req.query;
-
-  if (!tag) return res.status(400).json({ message: "Tag is required" });
-
-  res.status(200).json({ message: `Posts with tag ${tag}` });
+const getPosts = asyncHandler(async (_, res) => {
+  try {
+    const posts = await Posts.find();
+    return res.status(200).json({ message: "All Posts", data: posts });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching posts" });
+  }
 });
 
-module.exports = { getPostsByTag, createPost };
+module.exports = { getPosts, createPost };
