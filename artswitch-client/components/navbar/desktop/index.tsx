@@ -1,4 +1,6 @@
 import {
+  CogIcon,
+  UserIcon,
   SearchIcon,
   ChatAlt2Icon,
   PlusCircleIcon,
@@ -40,13 +42,15 @@ const DesktopNav: FC = (props: Props) => {
             className="bg-appPrimary rounded-3xl w-96 px-12 py-2 text-sm focus:outline-black"
           />
         </div>
-        <div className="flex space-x-4">
+        <div className="flex items-center space-x-4">
           <div className="nav-icons">
             <PlusCircleIcon className="w-auto h-auto cursor-pointer" />
           </div>
           <div className="nav-icons">
             <ChatAlt2Icon className="w-auto h-auto cursor-pointer" />
           </div>
+          <CogIcon className="w-7 h-7 cursor-pointer" />
+          <UserIcon className="w-6 h-6 cursor-pointer" />
         </div>
       </div>
     </div>
