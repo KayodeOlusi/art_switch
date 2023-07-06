@@ -15,7 +15,6 @@ const addPostToUserListOfPost = asyncHandler(async (userId, postId) => {
 
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 });
