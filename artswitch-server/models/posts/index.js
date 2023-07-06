@@ -11,7 +11,6 @@ const postsSchema = mongoose.Schema(
       required: true,
     },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comments" }],
   },
   {
     timestamps: true,

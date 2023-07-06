@@ -3,27 +3,6 @@ const Comments = require("../../models/comments");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("../../utils/functions");
 
-// @desc Update Post with new comment
-// @access PRIVATE
-const addCommentToPost = async (postId, commentId) => {
-  try {
-    await Posts.updateOne(
-      { _id: postId.toString() },
-      {
-        $push: {
-          comments: {
-            $each: [commentId],
-          },
-        },
-      }
-    );
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Could not update post with comment" });
-  }
-};
-
 // @desc Create a comment
 // @access PUBLIC
 const createNewComment = asyncHandler(async (req, res) => {
@@ -40,14 +19,12 @@ const createNewComment = asyncHandler(async (req, res) => {
       authorId,
     });
 
-    await addCommentToPost(postId, newComment._id);
-
-    res.status(201).json({
+    return res.status(201).json({
       message: "Comment saved successfully",
       data: newComment,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error adding comment to post" });
+    return res.status(500).json({ message: "Error adding comment to post" });
   }
 });
 
