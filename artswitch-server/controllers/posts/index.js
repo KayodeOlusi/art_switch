@@ -2,36 +2,12 @@ const {
   isValidObjectId,
   isNotValidPostsRequestBody,
 } = require("../../utils/functions");
-const User = require("../../models/user");
 const Posts = require("../../models/posts");
 const asyncHandler = require("express-async-handler");
-
-// @access Private
-const addPostToUserListOfPost = asyncHandler(async (userId, postId) => {
-  try {
-    const createdPostUser = await User.findById(userId);
-    createdPostUser.posts.push(postId);
-    await createdPostUser.save();
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-});
-
-// @access Private
-const removePostFromUserPostList = asyncHandler(async (userId, postId) => {
-  try {
-    await User.updateOne(
-      { _id: userId },
-      { $pull: { posts: postId.toString() } }
-    );
-
-    return true;
-  } catch (error) {
-    return false;
-  }
-});
+const {
+  addPostToUserListOfPost,
+  removePostFromUserPostList,
+} = require("../helpers/posts");
 
 // @desc Create a post
 // @access Public
@@ -47,21 +23,14 @@ const createPost = asyncHandler(async (req, res) => {
       ...requestBody,
       userId: req.user._id,
     });
-    const updateUserPostList = addPostToUserListOfPost(
-      req.user._id,
-      newPost._id
-    );
 
-    if (!updateUserPostList) {
-      return res.status(400).json({ message: "Error creating post" });
-    }
+    addPostToUserListOfPost();
 
     return res.status(201).json({
       message: "Post created successfully",
       data: newPost,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Error creating post" });
   }
 });
@@ -77,6 +46,25 @@ const getPosts = asyncHandler(async (_, res) => {
   }
 });
 
+const getUserPosts = asyncHandler(async (req, res) => {
+  const { id: userId } = req.params;
+
+  if (!userId || !isValidObjectId(userId)) {
+    return res.status(400).message({ message: "Invalid Post Id" });
+  }
+
+  try {
+    const userPosts = await Posts.find({ userId: { $eq: userId.toString() } });
+
+    return res.status(200).json({
+      message: "User's Post fetched successfully",
+      data: userPosts,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+});
+
 // @desc Delete a post
 // @access Public
 const deletePost = asyncHandler(async (req, res) => {
@@ -88,13 +76,8 @@ const deletePost = asyncHandler(async (req, res) => {
 
   try {
     const postToDelete = await Posts.findOneAndDelete({ _id: id });
-    const deletePostFromUserPostList = removePostFromUserPostList(
-      req.user._id,
-      id
-    );
 
-    if (!deletePostFromUserPostList)
-      return res.status(500).json({ message: "Error deleting post" });
+    removePostFromUserPostList();
 
     return res.status(200).json({
       message: "Post deleted successfully",
@@ -105,4 +88,4 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getPosts, createPost, deletePost };
+module.exports = { getPosts, createPost, deletePost, getUserPosts };

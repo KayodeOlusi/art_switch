@@ -1,15 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const {
+  createPost,
+  getPosts,
+  deletePost,
+  getUserPosts,
+} = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
-const { createPost, getPosts, deletePost } = require("../../controllers/posts");
+const modifyPostDetails = require("../../middlewares/posts");
 
 // Manage Posts
-router.route("/").get(getPosts).post(createPost).delete(deletePost);
+router.get("/", getPosts);
+router.post("/", modifyPostDetails, createPost);
+router.delete("/", modifyPostDetails, deletePost);
 
 // Get Single Post
-router.get("/:id", () => {});
+router.get("/:id", getUserPosts);
 
-// Manage Comments on post
-router.route("/comments").post(createNewComment);
+// TODO: Add likes and unlike functionality
+
+// Manage Comments
+router.route("/comments/:id").post(createNewComment);
 
 module.exports = router;

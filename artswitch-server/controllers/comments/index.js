@@ -1,4 +1,3 @@
-const Posts = require("../../models/posts");
 const Comments = require("../../models/comments");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("../../utils/functions");
@@ -6,7 +5,8 @@ const { isValidObjectId } = require("../../utils/functions");
 // @desc Create a comment
 // @access PUBLIC
 const createNewComment = asyncHandler(async (req, res) => {
-  const { comment, postId, authorId } = req.body;
+  const { id: postId } = req.params;
+  const { comment, authorId } = req.body;
 
   if (!comment || !isValidObjectId(postId) || !isValidObjectId(authorId)) {
     return res.status(400).json({ message: "Validation Error" });
