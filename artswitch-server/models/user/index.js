@@ -8,7 +8,6 @@ const userSchema = mongoose.Schema(
     password: { type: String, required: true },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     profilePicture: {
       type: String,
       default:

@@ -4,18 +4,17 @@ const {
   createPost,
   getPosts,
   deletePost,
-  getUserPosts,
+  getSinglePost,
 } = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
-const modifyPostDetails = require("../../middlewares/posts");
 
 // Manage Posts
 router.get("/", getPosts);
-router.post("/", modifyPostDetails, createPost);
-router.delete("/", modifyPostDetails, deletePost);
+router.post("/", createPost);
+router.delete("/", deletePost);
 
 // Get Single Post
-router.get("/:id", getUserPosts);
+router.get("/:id", getSinglePost);
 
 // TODO: Add likes and unlike functionality
 
