@@ -29,17 +29,6 @@ const createPost = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Get all posts
-// @access Public
-const getPosts = asyncHandler(async (_, res) => {
-  try {
-    const posts = await Posts.find({});
-    return res.status(200).json({ message: "All Posts", data: posts });
-  } catch (error) {
-    return res.status(500).json({ message: "Error fetching posts" });
-  }
-});
-
 // @desc Get a single post
 // @access Public
 const getSinglePost = asyncHandler(async (req, res) => {
@@ -61,6 +50,8 @@ const getSinglePost = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get all posts by a user
+// @access Public
 const getUserPosts = asyncHandler(async (req, res) => {
   const { id: userId } = req.params;
 
@@ -102,7 +93,6 @@ const deletePost = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getPosts,
   createPost,
   deletePost,
   getUserPosts,

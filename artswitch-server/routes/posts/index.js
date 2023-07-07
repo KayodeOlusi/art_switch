@@ -2,14 +2,12 @@ const express = require("express");
 const router = express.Router();
 const {
   createPost,
-  getPosts,
   deletePost,
   getSinglePost,
 } = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
 
 // Manage Posts
-router.get("/", getPosts);
 router.post("/", createPost);
 router.delete("/", deletePost);
 
