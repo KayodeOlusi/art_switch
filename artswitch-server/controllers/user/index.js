@@ -1,4 +1,4 @@
-const User = require("../../models/User");
+const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 
 // @desc follow a user
@@ -37,7 +37,7 @@ const searchForUser = asyncHandler(async (req, res) => {
         },
         { _id: { $ne: req.user._id } },
       ],
-    });
+    }).select("-password");
 
     return res.status(200).json({
       message: "Users found successfully",
