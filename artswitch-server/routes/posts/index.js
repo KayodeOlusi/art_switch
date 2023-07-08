@@ -10,11 +10,10 @@ const { createNewComment } = require("../../controllers/comments");
 // Manage Posts
 router.post("/", createPost);
 router.delete("/", deletePost);
+// router.get("/", getPostsForUser);
 
 // Get Single Post
 router.get("/:id", getSinglePost);
-
-// TODO: Add likes and unlike functionality
 
 // Manage Comments
 router.route("/comments/:id").post(createNewComment);
