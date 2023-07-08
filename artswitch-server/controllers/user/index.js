@@ -22,3 +22,30 @@ const followUser = asyncHandler(async (req, res) => {
     //   data: user,
   } catch (error) {}
 });
+
+const searchForUser = asyncHandler(async (req, res) => {
+  const { artist } = req.query;
+
+  try {
+    const searchedUsers = await User.find({
+      $and: [
+        {
+          $or: [
+            { name: { $regex: artist, $options: "i" } },
+            { email: { $regex: artist, $options: "i" } },
+          ],
+        },
+        { _id: { $ne: req.user._id } },
+      ],
+    });
+
+    return res.status(200).json({
+      message: "Users found successfully",
+      data: searchedUsers,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Cannot fetch users" });
+  }
+});
+
+module.exports = { followUser, searchForUser };
