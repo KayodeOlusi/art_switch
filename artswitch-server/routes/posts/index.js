@@ -4,6 +4,7 @@ const {
   createPost,
   deletePost,
   getSinglePost,
+  getPostsForExplore,
 } = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
 
@@ -11,6 +12,7 @@ const { createNewComment } = require("../../controllers/comments");
 router.post("/", createPost);
 router.delete("/", deletePost);
 // router.get("/", getPostsForUser);
+router.get("/explore", getPostsForExplore);
 
 // Get Single Post
 router.get("/:id", getSinglePost);

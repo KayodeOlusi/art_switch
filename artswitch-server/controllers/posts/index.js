@@ -71,6 +71,25 @@ const getUserPosts = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get posts for explore page
+// @access Public
+const getPostsForExplore = asyncHandler(async (req, res) => {
+  const { tag } = req.query;
+
+  try {
+    const postsWithTags = await Posts.find({
+      tags: { $in: [new RegExp(tag, "i")] },
+    });
+
+    return res.status(200).json({
+      message: "Posts fetched successfully",
+      data: postsWithTags,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching posts" });
+  }
+});
+
 // @desc Delete a post
 // @access Public
 const deletePost = asyncHandler(async (req, res) => {
@@ -97,4 +116,5 @@ module.exports = {
   deletePost,
   getUserPosts,
   getSinglePost,
+  getPostsForExplore,
 };
