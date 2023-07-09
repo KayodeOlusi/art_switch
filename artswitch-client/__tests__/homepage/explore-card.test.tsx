@@ -1,10 +1,15 @@
 import ExploreContainer from "@/components/containers/home/explore-container";
 import Tag from "@/components/home/explore/tag";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import ReactTestUtils, { act } from "react-dom/test-utils";
 
 describe("Tag test", () => {
   const mockedSetState = jest.fn();
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
 
   const itShouldRenderTheActiveTagWithItsClass = (tag: string) =>
     it("should render the active tag with an active class", () => {
@@ -16,12 +21,16 @@ describe("Tag test", () => {
     });
 
   const itShouldRenderTheAInActiveTagWithItsClass = (
-    tag: string,
+    activeTag: string,
     inactive: string
   ) =>
     it("should render the inactive tag without the active class", () => {
       render(
-        <Tag tag={inactive} activeTag={tag} setActiveTag={mockedSetState} />
+        <Tag
+          tag={inactive}
+          activeTag={activeTag}
+          setActiveTag={mockedSetState}
+        />
       );
       const inactiveTag = screen.getByText(inactive);
       expect(inactiveTag).toBeInTheDocument();

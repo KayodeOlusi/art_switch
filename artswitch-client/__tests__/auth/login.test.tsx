@@ -13,7 +13,7 @@ import LoginForm from "../../components/auth/login/login-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 
-type IOnChangeLogin = {
+type TOnChangeLogin = {
   text: string;
   placeholder: string;
 };
@@ -57,7 +57,7 @@ describe("Login Tests", () => {
       expect(input).toBeInTheDocument();
     });
 
-  const itShouldFireOnChangeEventForInputElements = (data: IOnChangeLogin) =>
+  const itShouldFireOnChangeEventForInputElements = (data: TOnChangeLogin) =>
     it("should trigger onChange event on user input", () => {
       render(<LoginForm />);
       const inputField = screen.getByPlaceholderText(data.placeholder);
