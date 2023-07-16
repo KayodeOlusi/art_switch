@@ -20,3 +20,20 @@ export const testStories: Omit<StoriesState["stories"], "email"> = [
     avatar: "https://i.pravatar.cc/150?img=1",
   },
 ];
+
+export const postTags = [
+  "art",
+  "technology",
+  "design",
+  "fashion",
+  "music",
+  "photography",
+  "travel",
+  "food",
+  "fitness",
+  "health",
+  "beauty",
+  "nature",
+  "architecture",
+  "other",
+];

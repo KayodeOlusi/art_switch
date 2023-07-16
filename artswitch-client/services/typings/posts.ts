@@ -7,3 +7,8 @@ export type TPostByTag = {
   likes: string[];
   createdAt: string;
 };
+
+export type TAllPostsByTag<T> = {
+  message: string;
+  data: T[];
+};

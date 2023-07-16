@@ -10,7 +10,7 @@ const Tag = ({ tag, activeTag, setActiveTag }: Props) => {
   return (
     <p
       onClick={() => setActiveTag(tag)}
-      className={`rounded-xl cursor-pointer px-2 py-2 text-[#545966] text-xs ${
+      className={`rounded-xl cursor-pointer px-2 py-2 text-[#545966] text-xs capitalize ${
         activeTag == tag && "bg-appPrimary"
       }`}
     >

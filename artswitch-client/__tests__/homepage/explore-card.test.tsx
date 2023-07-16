@@ -81,7 +81,7 @@ describe("Tag test", () => {
 
     it("should use the right class for a clicked tag", async () => {
       render(<MockedExploreContainer />);
-      const activeTag = screen.getByText("Design");
+      const activeTag = screen.getByText("design");
 
       act(() => ReactTestUtils.Simulate.click(activeTag));
       expect(activeTag).toHaveClass("bg-appPrimary");
@@ -95,6 +95,32 @@ describe("Tag test", () => {
 
       expect(mockedSetState).toHaveBeenCalledTimes(1);
       expect(mockedSetState).toHaveBeenCalledWith("Design");
+    });
+  });
+
+  describe("API Calls", () => {
+    it("should show loader when fetching posts by tag", () => {
+      mockedUseGetPostsByTag.mockReturnValue({
+        isLoading: true,
+      });
+
+      render(<MockedExploreContainer />);
+      const appSpinner = screen.getByTestId("app-loader");
+
+      expect(appSpinner).not.toBeNull();
+      expect(appSpinner).toBeInTheDocument();
+    });
+
+    it("should show error message and when there is an error fetching posts by tag", async () => {
+      mockedUseGetPostsByTag.mockReturnValue({
+        error: true,
+      });
+
+      render(<MockedExploreContainer />);
+      const errorMessage = screen.getByRole("alert");
+
+      expect(errorMessage).not.toBeNull();
+      expect(errorMessage).toBeInTheDocument();
     });
   });
 });
