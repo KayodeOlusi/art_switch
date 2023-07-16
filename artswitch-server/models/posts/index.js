@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const postsSchema = mongoose.Schema(
   {
     caption: { type: String, required: true },
-    image: { type: String },
+    image: { type: String, default: "" },
     tags: [{ type: String }],
     userId: {
       type: mongoose.Schema.Types.ObjectId,

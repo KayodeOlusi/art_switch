@@ -12,7 +12,7 @@ export const loginUser = async (
       user_details
     );
 
-    Cookies.set("token", response?.token);
+    Cookies.set("_token", response?.token);
     successMessage("Login successful");
     onSuccess();
   } catch (error) {
@@ -32,7 +32,7 @@ export const signupUser = async (
       user_details
     );
 
-    Cookies.set("token", response?.token);
+    Cookies.set("_token", response?.token);
     successMessage("Signup successful");
     onSuccess();
   } catch (error) {

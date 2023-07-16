@@ -1,10 +1,32 @@
-import ExploreContainer from "@/components/containers/home/explore-container";
+jest.mock("../../hooks/posts/usePosts");
+
 import Tag from "@/components/home/explore/tag";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import ReactTestUtils, { act } from "react-dom/test-utils";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useGetPostsByTag } from "../../hooks/posts/usePosts";
+import ExploreContainer from "@/components/containers/home/explore-container";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+
+const MockedExploreContainer = () => {
+  const queryClient = new QueryClient({});
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ExploreContainer />
+    </QueryClientProvider>
+  );
+};
+
+const mockedUseGetPostsByTag = useGetPostsByTag as jest.Mock<any>;
 
 describe("Tag test", () => {
   const mockedSetState = jest.fn();
+
+  beforeEach(() => {
+    mockedUseGetPostsByTag.mockReturnValue({
+      data: [],
+    });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -57,8 +79,8 @@ describe("Tag test", () => {
         );
       });
 
-    it("should use the right class for a clicked tag", () => {
-      render(<ExploreContainer />);
+    it("should use the right class for a clicked tag", async () => {
+      render(<MockedExploreContainer />);
       const activeTag = screen.getByText("Design");
 
       act(() => ReactTestUtils.Simulate.click(activeTag));

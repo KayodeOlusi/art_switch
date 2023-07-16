@@ -1,11 +1,16 @@
 import React from "react";
 import Tag from "@/components/home/explore/tag";
+import { UseQueryResult, useQuery } from "react-query";
+import { TPostByTag } from "services/typings/posts";
+import { getPostsByTagSelected } from "services/posts";
+import { useGetPostsByTag } from "hooks/posts/usePosts";
 
 type Props = {};
 
 const ExploreContainer = (props: Props) => {
-  const [activeTag, setActiveTag] = React.useState("Product" as string);
+  const [activeTag, setActiveTag] = React.useState("Product");
   const tags = ["Product", "Art", "Life", "Design", "Tech", "Music", "Food"];
+  const { data, error, isError, isLoading } = useGetPostsByTag(activeTag);
 
   return (
     <div className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
