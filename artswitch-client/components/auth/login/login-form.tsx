@@ -34,10 +34,14 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    await loginUser(formState, () => {
-      setLoading(false);
-      router.push("/");
-    });
+    await loginUser(
+      formState,
+      () => {
+        setLoading(false);
+        router.push("/");
+      },
+      () => setLoading(false)
+    );
   };
 
   return (
