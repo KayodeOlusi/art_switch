@@ -111,7 +111,7 @@ describe("Tag test", () => {
       expect(appSpinner).toBeInTheDocument();
     });
 
-    it("should show error message and when there is an error fetching posts by tag", async () => {
+    it("should show error message when there is an error fetching posts by tag", async () => {
       mockedUseGetPostsByTag.mockReturnValue({
         error: true,
       });
