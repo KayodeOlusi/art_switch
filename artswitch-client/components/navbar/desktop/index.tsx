@@ -7,11 +7,14 @@ import {
 } from "@heroicons/react/outline";
 import React, { FC } from "react";
 import { useRouter } from "next/router";
+import useModal from "hooks/useModal";
+import { MODAL_VIEWS } from "typings/app";
 
 type Props = {};
 
 const DesktopNav: FC = (props: Props) => {
   const router = useRouter();
+  const { openModal } = useModal();
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const searchForArtist = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -43,8 +46,11 @@ const DesktopNav: FC = (props: Props) => {
           />
         </div>
         <div className="flex items-center space-x-4">
-          <div className="nav-icons">
-            <PlusCircleIcon className="w-auto h-auto cursor-pointer" />
+          <div
+            className="nav-icons"
+            onClick={() => openModal(MODAL_VIEWS.UPLOAD_POST)}
+          >
+            <PlusCircleIcon className="w-auto h-auto" />
           </div>
           <div className="nav-icons">
             <ChatAlt2Icon className="w-auto h-auto cursor-pointer" />

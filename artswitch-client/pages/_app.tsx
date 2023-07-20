@@ -1,8 +1,10 @@
-import { Toaster } from "react-hot-toast";
 import "../styles/global.css";
-import { AppPropsWithLayout } from "typings/app";
+import React from "react";
 import { Provider } from "react-redux";
+import { Toaster } from "react-hot-toast";
 import { store } from "app/store";
+import { AppPropsWithLayout } from "typings/app";
+import ModalContainer from "@/components/global/modal";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -25,6 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <Provider store={store}>
         <Component {...pageProps} />
         <Toaster />
+        <ModalContainer />
       </Provider>
     </QueryClientProvider>
   );

@@ -4,7 +4,7 @@
 
 @layer base {
   .nav-icons {
-    @apply w-9 h-9 rounded-full bg-appPrimary p-2;
+    @apply w-9 h-9 rounded-full bg-appPrimary p-2 cursor-pointer;
   }
 
   .mobile-icons {
