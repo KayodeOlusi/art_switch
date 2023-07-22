@@ -20,10 +20,8 @@ describe("Modal Test", () => {
   const renderElementWithIntersectionObserver = (
     element: React.ReactElement
   ) => {
-    act(() => {
-      render(element);
-      mockAllIsIntersecting(true);
-    });
+    render(element);
+    mockAllIsIntersecting(true);
   };
 
   describe("Modal visibility test", () => {
