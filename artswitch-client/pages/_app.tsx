@@ -12,8 +12,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     defaultOptions: {
       queries: {
         retry: 1,
-        staleTime: 1000 * 60 * 5,
-        cacheTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 2,
+        cacheTime: 1000 * 60 * 2,
         refetchOnReconnect: true,
         refetchOnWindowFocus: false,
         keepPreviousData: true,
