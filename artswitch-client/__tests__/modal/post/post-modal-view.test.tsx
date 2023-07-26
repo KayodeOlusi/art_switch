@@ -6,15 +6,16 @@ import {
   render,
   screen,
   act,
+  waitFor,
 } from "@testing-library/react";
 import { store } from "app/store";
 import useModal from "hooks/useModal";
 import { postTags } from "utils/data";
 import { Provider } from "react-redux";
 import { MODAL_VIEWS } from "typings/app";
+import ReactTestUtils from "react-dom/test-utils";
 import { closeAppModal } from "features/slices/modal";
 import ModalContainer from "@/components/global/modal";
-import ReactTestUtils from "react-dom/test-utils";
 import { PostTag } from "@/components/home/posts/upload-post";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 
@@ -29,6 +30,8 @@ const formValues = {
   selectedTags: [],
   image: "",
 };
+
+jest.useFakeTimers();
 
 describe("Upload Post Modal View Test", () => {
   const mockedUseModal = useModal as jest.Mock<any>;
@@ -86,10 +89,11 @@ describe("Upload Post Modal View Test", () => {
     });
   });
 
-  it.skip("should close the modal when the CLOSE icon is clicked", async () => {
+  // TODO: Fix test
+  it.skip("should close the modal when the CLOSE icon is clicked", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
-    await act(async () => {
+    act(() => {
       const modalContainer = screen.getByTestId("modal-container");
       const uploadPostView = screen.getByTestId(MODAL_VIEWS.UPLOAD_POST);
       const closeModalIcon = screen.getByTestId("close-icon");
@@ -110,21 +114,24 @@ describe("Upload Post Modal View Test", () => {
     });
   });
 
+  // TODO: Fix test
   it.skip("should show a grey border on a selected tag", async () => {
-    renderPostTags();
+    renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
       const singleTag = screen.getByText("art");
       fireEvent.click(singleTag);
 
-      expect(singleTag).toHaveClass("border-[2px]");
+      act(() => {
+        expect(singleTag).toHaveClass("border-[2px]");
+      });
     });
   });
 
-  it("should call the setState function to add a tag to the list of selected tags", async () => {
+  it("should call the setState function to add a tag to the list of selected tags", () => {
     renderPostTags();
 
-    await act(async () => {
+    act(() => {
       const singleTag = screen.getByText("art");
       fireEvent.click(singleTag);
 
