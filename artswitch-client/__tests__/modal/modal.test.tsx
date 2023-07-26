@@ -14,7 +14,7 @@ const MockedModalWithStore = () => (
   </Provider>
 );
 
-describe("Modal Test", () => {
+describe("Modal Container Test", () => {
   const mockedUseModal = useModal as jest.Mock<any>;
 
   const renderElementWithIntersectionObserver = (

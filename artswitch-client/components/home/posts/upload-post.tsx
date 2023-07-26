@@ -6,7 +6,11 @@ import { XIcon } from "@heroicons/react/solid";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
 import { errorMessage } from "services/client";
 
-type Props = {};
+type TPostTagProps = {
+  tag: string;
+  formValues: TFormValues;
+  setFormValues: React.Dispatch<React.SetStateAction<TFormValues>>;
+};
 
 type TFormValues = {
   caption: string;
@@ -14,7 +18,33 @@ type TFormValues = {
   image: string;
 };
 
-const UploadPost = (props: Props) => {
+export const PostTag = ({ tag, formValues, setFormValues }: TPostTagProps) => (
+  <button
+    key={tag}
+    type="button"
+    className={`${
+      formValues.selectedTags.includes(tag) && "border-[2px] border-gray-500"
+    } rounded-full px-4 py-2 text-sm mr-2 mt-2 capitalize
+  bg-gray-100 text-secondaryText`}
+    onClick={() => {
+      if (formValues.selectedTags.includes(tag)) {
+        setFormValues(prev => ({
+          ...prev,
+          selectedTags: prev.selectedTags.filter(t => t !== tag),
+        }));
+      } else {
+        setFormValues(prev => ({
+          ...prev,
+          selectedTags: [...prev.selectedTags, tag],
+        }));
+      }
+    }}
+  >
+    {tag}
+  </button>
+);
+
+const UploadPost = () => {
   const { closeModal } = useModal();
   const imageInputRef = React.useRef<HTMLInputElement>(null);
   const [formValues, setFormValues] = React.useState<TFormValues>({
@@ -56,12 +86,18 @@ const UploadPost = (props: Props) => {
     >
       <section className="flex items-center justify-between">
         <h3 className="text-lg font-medium">Upload Post</h3>
-        <XIcon className="nav-icons" onClick={closeModal} />
+        <XIcon
+          role="button"
+          className="nav-icons"
+          onClick={closeModal}
+          data-testid="close-icon"
+        />
       </section>
 
       <form className="space-y-8 mt-9" onSubmit={handleFormSubmit}>
         <div className="flex flex-col">
           <textarea
+            role="textbox"
             value={formValues.caption}
             className="p-3 rounded-lg h-40 text-sm"
             placeholder="What new art have you created?"
@@ -74,30 +110,12 @@ const UploadPost = (props: Props) => {
           <p className="font-medium text-sm">Select Category</p>
           <div className="mt-3">
             {postTags.map((tag: string) => (
-              <button
+              <PostTag
                 key={tag}
-                type="button"
-                className={`${
-                  formValues.selectedTags.includes(tag) &&
-                  "border-[2px] border-gray-500"
-                } rounded-full px-4 py-2 text-sm mr-2 mt-2 capitalize
-                 bg-gray-100 text-secondaryText`}
-                onClick={() => {
-                  if (formValues.selectedTags.includes(tag)) {
-                    setFormValues(prev => ({
-                      ...prev,
-                      selectedTags: prev.selectedTags.filter(t => t !== tag),
-                    }));
-                  } else {
-                    setFormValues(prev => ({
-                      ...prev,
-                      selectedTags: [...prev.selectedTags, tag],
-                    }));
-                  }
-                }}
-              >
-                {tag}
-              </button>
+                tag={tag}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
             ))}
           </div>
         </div>
