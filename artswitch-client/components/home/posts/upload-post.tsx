@@ -5,6 +5,7 @@ import { MODAL_VIEWS } from "typings/app";
 import { XIcon } from "@heroicons/react/solid";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
 import { errorMessage } from "services/client";
+import { useMutation } from "react-query";
 
 type TPostTagProps = {
   tag: string;
@@ -55,7 +56,6 @@ const UploadPost = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValues);
   };
 
   const handleImageLoad = (e: React.ChangeEvent<HTMLInputElement>) => {
