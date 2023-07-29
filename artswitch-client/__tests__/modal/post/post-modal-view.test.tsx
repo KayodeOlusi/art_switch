@@ -140,6 +140,22 @@ describe("Upload Post Modal View Test", () => {
     });
   });
 
+  it("should prevent the default action of the form element when it is submitted", async () => {
+    const preventDefault = jest.fn();
+    renderElementWithIntersectionObserver(<MockedModalWithStore />);
+
+    act(() => {
+      const formElement = screen.getByRole("form");
+      ReactTestUtils.Simulate.submit(formElement, {
+        preventDefault,
+      });
+    });
+
+    await waitFor(() => {
+      expect(preventDefault).toHaveBeenCalled();
+    });
+  });
+
   it("should call the error toast when user does not fill in all required fields", async () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
