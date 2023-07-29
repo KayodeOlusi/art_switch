@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:5001/api/",
@@ -87,13 +87,18 @@ export const errorMessage = (message?: string) => {
   toast.error(message || "Something went wrong");
 };
 
-export const handleError = (error: any) => {
-  if (error?.response?.status === 401) {
-    return (window.location.href = "/login");
+export const handleError = (error: unknown) => {
+  let errorMsg: string = "";
+
+  if (isAxiosError(error)) {
+    if (error?.response?.status === 401) {
+      return (window.location.href = "/login");
+    } else {
+      errorMsg = error?.response?.data?.message;
+    }
   }
 
-  const errMessage = error?.response?.data?.message;
-  return errorMessage(errMessage || "Something went wrong");
+  return errorMessage(errorMsg || "Something went wrong");
 };
 
 export default new HttpClient();

@@ -13,6 +13,7 @@ import useModal from "hooks/useModal";
 import { postTags } from "utils/data";
 import { Provider } from "react-redux";
 import { MODAL_VIEWS } from "typings/app";
+import { toast } from "react-hot-toast";
 import ReactTestUtils from "react-dom/test-utils";
 import { closeAppModal } from "features/slices/modal";
 import ModalContainer from "@/components/global/modal";
@@ -136,6 +137,20 @@ describe("Upload Post Modal View Test", () => {
       fireEvent.click(singleTag);
 
       expect(mockedSetStateAction).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("should call the error toast when user does not fill in all required fields", async () => {
+    renderElementWithIntersectionObserver(<MockedModalWithStore />);
+
+    await act(async () => {
+      const formElement = screen.getByRole("form");
+      fireEvent.submit(formElement);
+    });
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+      expect(toast.error).toHaveBeenCalledTimes(1);
     });
   });
 });

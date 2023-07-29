@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const isValidObjectId = id => mongoose.Types.ObjectId.isValid(id);
 
 const isNotValidPostsRequestBody = body => {
-  const { caption, userId } = body;
+  const { caption } = body;
 
-  if (!caption || !userId || !isNotValidPostsRequestBody(userId)) return true;
+  if (!caption) return true;
 
   return false;
 };

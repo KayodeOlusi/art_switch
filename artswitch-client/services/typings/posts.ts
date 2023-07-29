@@ -12,3 +12,9 @@ export type TAllPostsByTag<T> = {
   message: string;
   data: T[];
 };
+
+export type TCreatePostBody = {
+  caption: string;
+  image?: string;
+  tags: string[];
+};

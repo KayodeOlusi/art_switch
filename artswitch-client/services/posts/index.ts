@@ -1,6 +1,11 @@
 import Cookies from "js-cookie";
-import HttpClient from "../client";
-import { TAllPostsByTag, TPostByTag } from "services/typings/posts";
+import { AxiosError } from "axios";
+import HttpClient, { handleError } from "../client";
+import {
+  TAllPostsByTag,
+  TCreatePostBody,
+  TPostByTag,
+} from "services/typings/posts";
 
 const user_token = Cookies.get("_token") as string;
 
@@ -12,4 +17,18 @@ export const getPostsByTagSelected = async (tag: string) => {
   );
 
   return res?.data;
+};
+
+export const createPost = async (
+  data: TCreatePostBody,
+  onSuccess?: () => void,
+  onError?: () => void
+) => {
+  try {
+    await HttpClient.postWithToken("/posts", data, user_token);
+    onSuccess?.();
+  } catch (error) {
+    onError?.();
+    handleError(error as AxiosError);
+  }
 };

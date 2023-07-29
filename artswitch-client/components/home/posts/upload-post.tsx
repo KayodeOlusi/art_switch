@@ -3,9 +3,10 @@ import useModal from "hooks/useModal";
 import { postTags } from "utils/data";
 import { MODAL_VIEWS } from "typings/app";
 import { XIcon } from "@heroicons/react/solid";
+import { errorMessage, successMessage } from "services/client";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
-import { errorMessage } from "services/client";
-import { useMutation } from "react-query";
+import { createPost } from "services/posts";
+import { ClipLoader } from "react-spinners";
 
 type TPostTagProps = {
   tag: string;
@@ -48,14 +49,35 @@ export const PostTag = ({ tag, formValues, setFormValues }: TPostTagProps) => (
 const UploadPost = () => {
   const { closeModal } = useModal();
   const imageInputRef = React.useRef<HTMLInputElement>(null);
+  const [loadingUpload, setLoadingUpload] = React.useState(false);
   const [formValues, setFormValues] = React.useState<TFormValues>({
     caption: "",
     selectedTags: [],
     image: "",
   });
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formValues.caption || !formValues.selectedTags.length) {
+      return errorMessage("Please fill in all required fields");
+    }
+
+    setLoadingUpload(true);
+    let data = {
+      caption: formValues.caption,
+      tags: formValues.selectedTags,
+      image: formValues.image,
+    };
+
+    await createPost(
+      data,
+      () => {
+        setLoadingUpload(false);
+        successMessage("Post created Successfully");
+        return closeModal();
+      },
+      () => setLoadingUpload(false)
+    );
   };
 
   const handleImageLoad = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +116,7 @@ const UploadPost = () => {
         />
       </section>
 
-      <form className="space-y-8 mt-9" onSubmit={handleFormSubmit}>
+      <form className="space-y-8 mt-9" role="form" onSubmit={handleFormSubmit}>
         <div className="flex flex-col">
           <textarea
             role="textbox"
@@ -107,7 +129,7 @@ const UploadPost = () => {
           />
         </div>
         <div className="flex flex-col">
-          <p className="font-medium text-sm">Select Category</p>
+          <p className="font-medium text-sm">Select Category *</p>
           <div className="mt-3">
             {postTags.map((tag: string) => (
               <PostTag
@@ -155,7 +177,11 @@ const UploadPost = () => {
           className="w-full bg-black text-white py-5
           rounded-lg font-bold text-sm"
         >
-          Continue
+          {loadingUpload ? (
+            <ClipLoader size={15} color="#000000" />
+          ) : (
+            "Continue"
+          )}
         </button>
       </form>
     </div>
