@@ -144,7 +144,7 @@ describe("Upload Post Modal View Test", () => {
     const preventDefault = jest.fn();
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
-    act(() => {
+    await act(async () => {
       const formElement = screen.getByRole("form");
       ReactTestUtils.Simulate.submit(formElement, {
         preventDefault,
