@@ -16,7 +16,6 @@ const MobileNav: FC = (props: Props) => {
       <PlusCircleIcon className="mobile-icons" />
       <ChatAlt2Icon className="mobile-icons" />
       <UserIcon className="mobile-icons" />
-      <CogIcon className="mobile-icons" />
     </div>
   );
 };
