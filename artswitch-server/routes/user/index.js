@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { searchForUser } = require("../../controllers/user");
+const { searchForUser, getUserDetails } = require("../../controllers/user");
 
 router.get("/", searchForUser);
-router.patch("/profile");
+router.route("/profile").get(getUserDetails);
 router.patch("/user/follow");
 
 module.exports = router;

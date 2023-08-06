@@ -1,6 +1,26 @@
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 
+// @desc get user details
+const getUserDetails = asyncHandler(async (req, res) => {
+  try {
+    const userDetails = await User.findOne({
+      _id: { $eq: req.user._id },
+    }).select("-password");
+
+    if (!userDetails) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User details fetched successfully",
+      data: userDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Cannot fetch user" });
+  }
+});
+
 // @desc follow a user
 const followUser = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -15,11 +35,6 @@ const followUser = asyncHandler(async (req, res) => {
       { _id: { $eq: userId } },
       { $push: { followers: req.user._id } }
     );
-
-    // don't send response as json back to client
-    // return res.status(200).json({
-    //   message: "User followed successfully",
-    //   data: user,
   } catch (error) {}
 });
 
@@ -39,13 +54,17 @@ const searchForUser = asyncHandler(async (req, res) => {
       ],
     }).select("-password");
 
+    if (!searchedUsers) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
     return res.status(200).json({
       message: "Users found successfully",
       data: searchedUsers,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Cannot fetch users" });
+    return res.status(500).json({ message: "Cannot fetch user" });
   }
 });
 
-module.exports = { followUser, searchForUser };
+module.exports = { followUser, searchForUser, getUserDetails };
