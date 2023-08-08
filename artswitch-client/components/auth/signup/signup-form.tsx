@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 type TFormState = {
   name: string;
   email: string;
+  username: string;
   password: string;
 };
 
@@ -21,6 +22,7 @@ const SignupForm = () => {
   const [loading, setLoading] = React.useState(false);
   const [formState, setFormState] = React.useState<TFormState>({
     name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -36,10 +38,16 @@ const SignupForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    await signupUser(formState, () => {
-      setLoading(false);
-      router.push("/login");
-    });
+    await signupUser(
+      formState,
+      () => {
+        setLoading(false);
+        router.push("/login");
+      },
+      () => {
+        setLoading(false);
+      }
+    );
   };
 
   return (
@@ -54,6 +62,15 @@ const SignupForm = () => {
         onChange={handleChange}
         value={formState.name}
         placeholder="Enter your Full name"
+        className="border-2 border-gray-800 w-80 text-sm
+         px-4 py-3 text-black rounded-md mb-6"
+      />
+      <input
+        type="text"
+        name="username"
+        onChange={handleChange}
+        value={formState.username}
+        placeholder="Enter a username"
         className="border-2 border-gray-800 w-80 text-sm
          px-4 py-3 text-black rounded-md mb-6"
       />
@@ -75,7 +92,7 @@ const SignupForm = () => {
         className="border-2 border-gray-800 w-80 text-sm 
         px-4 py-3 text-black rounded-md mb-6"
       />
-      <section className="flex items-center mb-4">
+      {/* <section className="flex items-center mb-4">
         <input
           type="checkbox"
           id="remember-me"
@@ -84,7 +101,7 @@ const SignupForm = () => {
         <label htmlFor="remember-me" className="text-sm font-semibold">
           Remember Me
         </label>
-      </section>
+      </section> */}
       <Button type="login" loading={loading} />
     </form>
   );

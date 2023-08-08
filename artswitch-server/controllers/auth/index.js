@@ -7,9 +7,9 @@ const createToken = require("../../config/auth/createToken");
 // @access Public
 // @route POST/auth
 const Signup = asyncHandler(async (req, res) => {
-  const { name, email, password, profilePicture } = req.body;
+  const { name, email, password, profilePicture, username } = req.body;
 
-  if (!name || !email || !password)
+  if (!name || !email || !password || !username)
     return res.status(400).json({ message: "Please fill in all fields" });
 
   const duplicateUser = await User.findOne({ email });
@@ -17,15 +17,23 @@ const Signup = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
 
   try {
-    const user = await User.create({ name, email, password, profilePicture });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      profilePicture,
+      username,
+    });
     return res.status(201).json({
       id: user._id,
       name: user.name,
       email: user.email,
+      username: user.username,
       token: createToken(user._id),
       profilePicture: user.profilePicture,
     });
   } catch (error) {
+    console.log(error, "here");
     return res.status(400).json({ message: "Failed to create user" });
   }
 });

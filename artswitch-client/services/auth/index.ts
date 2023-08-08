@@ -22,7 +22,7 @@ export const loginUser = async (
 };
 
 export const signupUser = async (
-  user_details: Login_User_Details & { name: string },
+  user_details: Login_User_Details & { name: string; username: string },
   onSuccess: () => void,
   onError?: () => void
 ) => {

@@ -5,6 +5,6 @@ const { searchForUser, getUserDetails } = require("../../controllers/user");
 
 router.get("/", searchForUser);
 router.route("/profile").get(getUserDetails);
-router.post("/user/action", followProcess);
+router.post("/action", followProcess);
 
 module.exports = router;

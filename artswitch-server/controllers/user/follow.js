@@ -17,6 +17,8 @@ const followProcess = asyncHandler(async (req, res) => {
     user: Types.ObjectId(follow_id),
   });
 
+  // TODO: Fix bulkFollowProcess to add to the map instead of replacing it
+
   switch (action) {
     case "follow":
       updateUserFollowing.following.set(follow_id, Types.ObjectId(follow_id));
