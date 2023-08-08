@@ -4,6 +4,6 @@ const { searchForUser, getUserDetails } = require("../../controllers/user");
 
 router.get("/", searchForUser);
 router.route("/profile").get(getUserDetails);
-router.patch("/user/follow");
+router.post("/user/follow");
 
 module.exports = router;
