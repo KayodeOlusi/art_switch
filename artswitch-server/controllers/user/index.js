@@ -21,23 +21,6 @@ const getUserDetails = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc follow a user
-const followUser = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-
-  // TODO: re-structure controller and extract follow to a different model
-  if (!userId || !isValidObjectId(userId)) {
-    return res.status(400).json({ message: "Invalid User Id" });
-  }
-
-  try {
-    await User.updateOne(
-      { _id: { $eq: userId } },
-      { $push: { followers: req.user._id } }
-    );
-  } catch (error) {}
-});
-
 const searchForUser = asyncHandler(async (req, res) => {
   const { artist } = req.query;
 
@@ -67,4 +50,4 @@ const searchForUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { followUser, searchForUser, getUserDetails };
+module.exports = { searchForUser, getUserDetails };

@@ -2,7 +2,7 @@ const {
   isValidObjectId,
   isNotValidPostsRequestBody,
 } = require("../../utils/functions");
-const Posts = require("../../models/posts");
+const Posts = require("../../models/posts/index");
 const asyncHandler = require("express-async-handler");
 
 // @desc Create a post
@@ -90,6 +90,99 @@ const getPostsForExplore = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get posts based on followed users
+// @access Public
+const getFeedPosts = asyncHandler(async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    const posts = await Posts.aggregate([
+      // lookup followed users and get their posts
+      {
+        $lookup: {
+          from: "follows",
+          let: { user_id: "$userId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$user", "$$user_id"] },
+                    // use exists to check if key exists in map
+                    { following: { $exists: true } },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "followed_users",
+        },
+      },
+      // lookup posts of followed users
+      {
+        $lookup: {
+          from: "posts",
+          let: { followed_users: "$followed_users" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$userId", "$$followed_users.userId"],
+                },
+              },
+            },
+          ],
+          as: "followed_users_posts",
+        },
+      },
+      // lookup posts of current user
+      {
+        $lookup: {
+          from: "posts",
+          let: { user_id: "$userId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$userId", "$$user_id"],
+                },
+              },
+            },
+          ],
+          as: "user_posts",
+        },
+      },
+      // merge posts of followed users and current user
+      {
+        $project: {
+          posts: {
+            $concatArrays: ["$followed_users_posts", "$user_posts"],
+          },
+        },
+      },
+      // unwind posts array
+      {
+        $unwind: "$posts",
+      },
+      // sort posts by createdAt
+      {
+        $sort: {
+          "posts.createdAt": -1,
+        },
+      },
+    ]);
+
+    console.log(posts);
+    return res.status(200).json({
+      message: "Posts fetched successfully",
+      data: posts,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error fetching posts" });
+  }
+});
+
 // @desc Delete a post
 // @access Public
 const deletePost = asyncHandler(async (req, res) => {
@@ -114,6 +207,7 @@ const deletePost = asyncHandler(async (req, res) => {
 module.exports = {
   createPost,
   deletePost,
+  getFeedPosts,
   getUserPosts,
   getSinglePost,
   getPostsForExplore,

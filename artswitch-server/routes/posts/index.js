@@ -5,13 +5,12 @@ const {
   deletePost,
   getSinglePost,
   getPostsForExplore,
+  getFeedPosts,
 } = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
 
 // Manage Posts
-router.post("/", createPost);
-router.delete("/", deletePost);
-// router.get("/", getPostsForUser);
+router.route("/").get(getFeedPosts).post(createPost).delete(deletePost);
 router.get("/explore", getPostsForExplore);
 
 // Get Single Post
