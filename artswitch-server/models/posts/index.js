@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const postsSchema = mongoose.Schema(
+const PostsSchema = Schema(
   {
     caption: { type: String, required: true },
     image: { type: String, default: "" },
@@ -17,4 +18,4 @@ const postsSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Posts", postsSchema);
+module.exports = mongoose.model("Posts", PostsSchema);
