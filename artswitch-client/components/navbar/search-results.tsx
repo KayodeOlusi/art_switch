@@ -5,31 +5,42 @@ import { searchArtist } from "services/user";
 import useDebounce from "hooks/useDebounce";
 import { SearchIcon } from "@heroicons/react/solid";
 import { TSearchUser } from "services/typings/user";
+import { SpinnerLoader } from "../global/loader";
 
 type Props = {};
 
+type TSearchResultProps = {
+  data: TSearchUser["data"];
+  loadingSearch: boolean;
+  error: string;
+};
+
 const SearchResult = (props: Props) => {
   const { data } = useModal();
-  const [loadingSearch, setLoadingSearch] = React.useState(false);
   const [artistValue, setArtistValue] = React.useState(data?.searchValue);
   const { debouncedValue } = useDebounce({
     value: artistValue,
     delay: 2000,
   });
-  const [searchResult, setSearchResult] = React.useState<TSearchUser["data"]>(
-    []
-  );
+  const [searchResult, setSearchResult] = React.useState<TSearchResultProps>({
+    data: [],
+    error: "",
+    loadingSearch: false,
+  });
 
   const searchForArtist = React.useCallback(async (search: string) => {
-    setLoadingSearch(prev => !prev);
+    setSearchResult(prev => ({ ...prev, loadingSearch: true }));
 
     await searchArtist(
       search,
       res => {
-        setSearchResult(res);
-        setLoadingSearch(prev => !prev);
+        setSearchResult(prev => ({
+          ...prev,
+          data: res,
+          loadingSearch: false,
+        }));
       },
-      () => setLoadingSearch(prev => !prev)
+      () => setSearchResult(prev => ({ ...prev, loadingSearch: false }))
     );
   }, []);
 
@@ -51,6 +62,15 @@ const SearchResult = (props: Props) => {
           className="w-full rounded-lg h-11 pl-3 pr-10"
         />
         <SearchIcon className="w-4 h-4 absolute right-2 top-[14px]" />
+      </div>
+      <div>
+        {searchResult.loadingSearch ? (
+          <SpinnerLoader size={30} color="#000" />
+        ) : searchResult.data.length > 0 ? (
+          searchResult.data.map(artist => <></>)
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
