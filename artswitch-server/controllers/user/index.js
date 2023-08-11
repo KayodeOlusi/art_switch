@@ -57,16 +57,16 @@ const searchForUser = asyncHandler(async (req, res) => {
 
   try {
     const searchedUsers = await User.find({
-      $and: [
-        {
-          $or: [
-            { name: { $regex: artist, $options: "i" } },
-            { email: { $regex: artist, $options: "i" } },
-          ],
-        },
-        { _id: { $ne: req.user._id } },
+      $or: [
+        { name: { $regex: artist, $options: "i" } },
+        { email: { $regex: artist, $options: "i" } },
+        { username: { $regex: artist, $options: "i" } },
       ],
-    }).select("-password");
+    })
+      .find({
+        _id: { $ne: req.user._id },
+      })
+      .select("-password");
 
     if (!searchedUsers) {
       return res.status(404).json({ message: "No users found" });

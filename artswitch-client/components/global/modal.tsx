@@ -4,6 +4,7 @@ import { MODAL_VIEWS } from "typings/app";
 import { XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import UploadPost from "../home/posts/upload-post";
+import SearchResult from "../navbar/search-results";
 
 const ModalContainer = () => {
   const { view, isOpen, closeModal } = useModal();
@@ -12,8 +13,8 @@ const ModalContainer = () => {
     switch (view) {
       case MODAL_VIEWS.UPLOAD_POST:
         return <UploadPost />;
-      case MODAL_VIEWS.NONE:
-        return null;
+      case MODAL_VIEWS.SEARCH_FOR_ARTIST:
+        return <SearchResult />;
       default:
         return null;
     }

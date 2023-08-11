@@ -4,6 +4,7 @@ import { ReactElement, ReactNode } from "react";
 
 export enum MODAL_VIEWS {
   UPLOAD_POST = "UPLOAD_POST",
+  SEARCH_FOR_ARTIST = "SEARCH_FOR_ARTIST",
   NONE = "NONE",
 }
 

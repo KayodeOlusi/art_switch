@@ -82,6 +82,9 @@ describe("Modal Container Test", () => {
       itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
         MODAL_VIEWS.UPLOAD_POST
       );
+      itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
+        MODAL_VIEWS.SEARCH_FOR_ARTIST
+      );
     });
   });
 });

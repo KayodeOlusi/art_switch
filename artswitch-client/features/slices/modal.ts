@@ -9,11 +9,13 @@ type TOpenModalPayload = {
 type TInitialState = {
   isOpen: boolean;
   view: MODAL_VIEWS;
+  data: any;
 };
 
 const initialState: TInitialState = {
   isOpen: false,
   view: MODAL_VIEWS.NONE,
+  data: null,
 };
 
 const modalSlice = createSlice({
@@ -28,9 +30,12 @@ const modalSlice = createSlice({
       state.isOpen = false;
       state.view = MODAL_VIEWS.NONE;
     },
+    setModalData: (state, action: PayloadAction<any>) => {
+      state.data = action.payload;
+    },
   },
 });
 
 export const modalReducer = modalSlice.reducer;
 export const modalState = (state: RootState) => state.modal;
-export const { openAppModal, closeAppModal } = modalSlice.actions;
+export const { openAppModal, closeAppModal, setModalData } = modalSlice.actions;

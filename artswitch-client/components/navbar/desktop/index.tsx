@@ -5,21 +5,28 @@ import {
   ChatAlt2Icon,
   PlusCircleIcon,
 } from "@heroicons/react/outline";
-import React, { FC } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import useModal from "hooks/useModal";
 import { MODAL_VIEWS } from "typings/app";
+import { setModalData } from "features/slices/modal";
+import { useAppDispatch } from "../../../app/hooks";
 
 type Props = {};
 
-const DesktopNav: FC = (props: Props) => {
+const DesktopNav = (props: Props) => {
   const router = useRouter();
   const { openModal } = useModal();
+  const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const searchForArtist = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!searchValue.length) return;
-    e.key === "Enter" && console.log(searchValue);
+    e.key === "Enter" &&
+      (() => {
+        dispatch(setModalData({ searchValue }));
+        openModal(MODAL_VIEWS.SEARCH_FOR_ARTIST);
+      })();
   };
 
   return (
