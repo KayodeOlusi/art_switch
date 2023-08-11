@@ -15,12 +15,37 @@ type TSearchResultProps = {
   error: string;
 };
 
+const Loader = () => (
+  <div className="w-full mx-auto text-center my-12">
+    <SpinnerLoader size={30} color="#000" />
+  </div>
+);
+
+const SearchResultItem = (artist: TSearchResultProps["data"][0]) => (
+  <div
+    className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
+    hover:bg-gray-200 hover:bg-opacity-50 p-3"
+  >
+    <div className="w-10 h-10">
+      <img
+        alt="image"
+        className="w-full h-full object-contain rounded-full"
+        src={artist?.profilePicture || artist?.name[0]}
+      />
+    </div>
+    <section className="flex flex-col space-y-0">
+      <p className="text-sm font-semibold">{artist?.name}</p>
+      <p className="text-sm font-normal">@{artist?.username}</p>
+    </section>
+  </div>
+);
+
 const SearchResult = (props: Props) => {
   const { data } = useModal();
   const [artistValue, setArtistValue] = React.useState(data?.searchValue);
   const { debouncedValue } = useDebounce({
     value: artistValue,
-    delay: 2000,
+    delay: 1500,
   });
   const [searchResult, setSearchResult] = React.useState<TSearchResultProps>({
     data: [],
@@ -52,24 +77,28 @@ const SearchResult = (props: Props) => {
     <div
       id={MODAL_VIEWS.SEARCH_FOR_ARTIST}
       data-testid={MODAL_VIEWS.SEARCH_FOR_ARTIST}
-      className="w-[500px] rounded-lg bg-white p-3 overflow-y-scroll"
+      className="w-[500px] h-[400px] rounded-lg bg-white p-3 overflow-y-scroll"
     >
-      <div className="relative w-full">
+      <div className="relative w-full mb-3">
         <input
           type="text"
           value={artistValue}
           onChange={e => setArtistValue(e.target.value)}
-          className="w-full rounded-lg h-11 pl-3 pr-10"
+          className="w-full rounded-lg h-11 pl-3 pr-10 border-[1px]"
         />
         <SearchIcon className="w-4 h-4 absolute right-2 top-[14px]" />
       </div>
-      <div>
+      <div className="flex flex-col h-[320px] overflow-y-scroll">
         {searchResult.loadingSearch ? (
-          <SpinnerLoader size={30} color="#000" />
-        ) : searchResult.data.length > 0 ? (
-          searchResult.data.map(artist => <></>)
+          <Loader />
+        ) : searchResult.data?.length > 0 ? (
+          searchResult.data?.map(artist => (
+            <SearchResultItem key={artist._id} {...artist} />
+          ))
         ) : (
-          <></>
+          <p className="font-semibold text-sm opacity-50">
+            Search for an artist
+          </p>
         )}
       </div>
     </div>
