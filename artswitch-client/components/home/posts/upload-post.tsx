@@ -174,11 +174,12 @@ const UploadPost = () => {
         />
         <button
           type="submit"
+          disabled={loadingUpload}
           className="w-full bg-black text-white py-5
           rounded-lg font-bold text-sm"
         >
           {loadingUpload ? (
-            <ClipLoader size={15} color="#000000" />
+            <ClipLoader size={15} color="#FFFFFF" />
           ) : (
             "Continue"
           )}

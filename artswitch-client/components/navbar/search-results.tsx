@@ -6,6 +6,7 @@ import useDebounce from "hooks/useDebounce";
 import { SearchIcon } from "@heroicons/react/solid";
 import { TSearchUser } from "services/typings/user";
 import { SpinnerLoader } from "../global/loader";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -21,31 +22,36 @@ const Loader = () => (
   </div>
 );
 
-const SearchResultItem = (artist: TSearchResultProps["data"][0]) => (
-  <div
-    className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
-    hover:bg-gray-200 hover:bg-opacity-50 p-3"
-  >
-    <div className="w-10 h-10">
-      <img
-        alt="image"
-        className="w-full h-full object-contain rounded-full"
-        src={artist?.profilePicture || artist?.name[0]}
-      />
+const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
+  const router = useRouter();
+
+  return (
+    <div
+      onClick={() => router.push(`/user/${artist?._id}`)}
+      className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
+    hover:bg-gray-200 hover:bg-opacity-50 p-3 transition-all duration-200"
+    >
+      <div className="w-10 h-10">
+        <img
+          alt="image"
+          className="w-full h-full object-contain rounded-full"
+          src={artist?.profilePicture || artist?.name[0]}
+        />
+      </div>
+      <section className="flex flex-col space-y-0">
+        <p className="text-sm font-semibold">{artist?.name}</p>
+        <p className="text-sm font-normal">@{artist?.username}</p>
+      </section>
     </div>
-    <section className="flex flex-col space-y-0">
-      <p className="text-sm font-semibold">{artist?.name}</p>
-      <p className="text-sm font-normal">@{artist?.username}</p>
-    </section>
-  </div>
-);
+  );
+};
 
 const SearchResult = (props: Props) => {
   const { data } = useModal();
   const [artistValue, setArtistValue] = React.useState(data?.searchValue);
   const { debouncedValue } = useDebounce({
     value: artistValue,
-    delay: 1500,
+    delay: 1000,
   });
   const [searchResult, setSearchResult] = React.useState<TSearchResultProps>({
     data: [],
@@ -84,7 +90,7 @@ const SearchResult = (props: Props) => {
           type="text"
           value={artistValue}
           onChange={e => setArtistValue(e.target.value)}
-          className="w-full rounded-lg h-11 pl-3 pr-10 border-[1px]"
+          className="w-full rounded-lg h-11 pl-3 pr-10 border-[1px] text-sm"
         />
         <SearchIcon className="w-4 h-4 absolute right-2 top-[14px]" />
       </div>

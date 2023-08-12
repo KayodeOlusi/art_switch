@@ -4,7 +4,6 @@ const {
 } = require("../../utils/functions");
 const Posts = require("../../models/posts");
 const asyncHandler = require("express-async-handler");
-const { default: mongoose } = require("mongoose");
 
 // @desc Create a post
 // @access Public
@@ -75,12 +74,29 @@ const getUserPosts = asyncHandler(async (req, res) => {
 // @desc Get posts for explore page
 // @access Public
 const getPostsForExplore = asyncHandler(async (req, res) => {
-  const { tag } = req.query;
+  const { tag, details } = req.query;
+
+  const fullPostDetails = !details
+    ? {
+        title: 0,
+        caption: 0,
+        likes: 0,
+        userId: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      }
+    : {};
 
   try {
-    const postsWithTags = await Posts.find({
-      tags: { $in: [new RegExp(tag, "i")] },
-    });
+    const postsWithTags = await Posts.find(
+      {
+        $and: [
+          { tags: { $in: [new RegExp(tag, "i")] } },
+          { image: { $ne: "" } },
+        ],
+      },
+      fullPostDetails
+    ).exec();
 
     return res.status(200).json({
       message: "Posts fetched successfully",
