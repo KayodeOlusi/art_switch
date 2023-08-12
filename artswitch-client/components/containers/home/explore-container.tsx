@@ -69,11 +69,14 @@ const ExploreContainer = (props: Props) => {
 
       {!isLoading && !error && (
         <section className="mt-6 h-[244px] overflow-y-scroll scrollbar-hide">
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
+          <div
+            data-testid="post-container"
+            className="grid grid-cols-2 md:grid-cols-2 gap-2"
+          >
             {allTagPosts?.map((postArr, idx) => (
-              <div className="grid gap-2" key={idx}>
-                {postArr?.map((post, idx_2) => (
-                  <div key={idx_2}>
+              <div className="grid gap-2" key={idx} data-testid="post-card">
+                {postArr?.map(post => (
+                  <div key={post.id}>
                     <img
                       alt="image"
                       src={post?.image}

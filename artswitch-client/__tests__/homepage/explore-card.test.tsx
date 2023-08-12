@@ -1,5 +1,6 @@
 jest.mock("../../hooks/posts/usePosts");
 
+import { testPostByTag } from "utils/data";
 import Tag from "@/components/home/explore/tag";
 import ReactTestUtils, { act } from "react-dom/test-utils";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -122,5 +123,47 @@ describe("Tag test", () => {
       expect(errorMessage).not.toBeNull();
       expect(errorMessage).toBeInTheDocument();
     });
+
+    it(`should show the post container and children based 
+      on the clicked tag when there is data`, async () => {
+      mockedUseGetPostsByTag.mockReturnValue({
+        error: false,
+        isLoading: false,
+        data: {
+          message: "success",
+          data: testPostByTag.slice(0, 3),
+        },
+      });
+
+      render(<MockedExploreContainer />);
+      const postContainer = screen.getByTestId("post-container");
+
+      expect(postContainer).not.toBeNull();
+    });
+
+    const itShouldRenderTheAppropriateLengthOfPostContainerAndChildren = (
+      startIdx: number,
+      endIdx: number
+    ) =>
+      it(`should render the appropriate length of post container
+       and children when there are posts`, () => {
+        mockedUseGetPostsByTag.mockReturnValue({
+          error: false,
+          isLoading: false,
+          data: {
+            message: "success",
+            data: testPostByTag.slice(startIdx, endIdx),
+          },
+        });
+
+        render(<MockedExploreContainer />);
+        const postContainer = screen.getByTestId("post-container");
+
+        expect(postContainer.children.length).toBe(Math.ceil(endIdx / 3));
+      });
+
+    itShouldRenderTheAppropriateLengthOfPostContainerAndChildren(0, 3);
+    itShouldRenderTheAppropriateLengthOfPostContainerAndChildren(0, 4);
+    itShouldRenderTheAppropriateLengthOfPostContainerAndChildren(0, 7);
   });
 });
