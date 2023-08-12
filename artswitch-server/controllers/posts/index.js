@@ -91,8 +91,8 @@ const getPostsForExplore = asyncHandler(async (req, res) => {
     const postsWithTags = await Posts.find(
       {
         $and: [
-          { tags: { $in: [new RegExp(tag, "i")] } },
           { image: { $ne: "" } },
+          { tags: { $in: [new RegExp(tag, "i")] } },
         ],
       },
       fullPostDetails

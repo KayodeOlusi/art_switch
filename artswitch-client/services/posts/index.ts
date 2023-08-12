@@ -50,13 +50,13 @@ export const uploadImageToCloudinary = async (
 };
 
 export const getPostsByTagSelected = async (tag: string) => {
-  const res = await HttpClient.getWithToken<TAllPostsByTag<TPostByTag>>(
+  const res = await HttpClient.getWithToken<TAllPostsByTag>(
     "/posts/explore",
     user_token,
     { tag }
   );
 
-  return res?.data;
+  return res;
 };
 
 export const createPost = async (

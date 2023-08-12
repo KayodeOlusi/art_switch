@@ -1,14 +1,33 @@
 import React from "react";
-import Tag from "@/components/home/explore/tag";
-import { useGetPostsByTag } from "hooks/posts/usePosts";
 import { postTags } from "utils/data";
+import Tag from "@/components/home/explore/tag";
 import AppLoader from "@/components/global/loader";
+import { TPostByTag } from "services/typings/posts";
+import { useGetPostsByTag } from "hooks/posts/usePosts";
 
 type Props = {};
 
 const ExploreContainer = (props: Props) => {
   const [activeTag, setActiveTag] = React.useState(postTags[0]);
   const { data, error, isLoading } = useGetPostsByTag(activeTag);
+
+  const allTagPosts = React.useMemo(() => {
+    if (data?.data) {
+      const posts = data.data.reduce((acc: TPostByTag[][], post, index) => {
+        if (index % 3 === 0) {
+          acc.push([post]);
+        } else {
+          acc[acc.length - 1].push(post);
+        }
+
+        return acc;
+      }, []);
+
+      return posts;
+    }
+
+    return [];
+  }, [data]);
 
   return (
     <div className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
@@ -47,6 +66,26 @@ const ExploreContainer = (props: Props) => {
           </p>
         )}
       </section>
+
+      {!isLoading && !error && (
+        <section className="mt-6 h-[244px] overflow-y-scroll scrollbar-hide">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
+            {allTagPosts?.map((postArr, idx) => (
+              <div className="grid gap-2" key={idx}>
+                {postArr?.map((post, idx_2) => (
+                  <div key={idx_2}>
+                    <img
+                      alt="image"
+                      src={post?.image}
+                      className="h-auto max-w-full rounded-lg"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

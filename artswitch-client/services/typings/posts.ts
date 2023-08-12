@@ -8,9 +8,9 @@ export type TPostByTag = {
   createdAt: string;
 };
 
-export type TAllPostsByTag<T> = {
+export type TAllPostsByTag = {
   message: string;
-  data: T[];
+  data: TPostByTag[];
 };
 
 export type TCreatePostBody = {
