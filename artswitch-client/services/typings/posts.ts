@@ -1,4 +1,9 @@
-export type TPostByTag = {
+export type TResponseBody<T> = {
+  message: string;
+  data: T;
+};
+
+export type TPost = {
   id: string;
   image: string;
   tags: string[];
@@ -10,7 +15,7 @@ export type TPostByTag = {
 
 export type TAllPostsByTag = {
   message: string;
-  data: TPostByTag[];
+  data: TPost[];
 };
 
 export type TCreatePostBody = {

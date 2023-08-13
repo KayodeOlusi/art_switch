@@ -1,13 +1,23 @@
 import {
-  TPostByTag,
   TAllPostsByTag,
   TCreatePostBody,
+  TResponseBody,
+  TPost,
 } from "services/typings/posts";
 import Cookies from "js-cookie";
 import { AxiosError } from "axios";
 import HttpClient, { handleError } from "../client";
 
 const user_token = Cookies.get("_token") as string;
+
+export const getFeedPosts = async () => {
+  const res = await HttpClient.getWithToken<TResponseBody<TPost[]>>(
+    "/posts",
+    user_token
+  );
+
+  return res;
+};
 
 const addPost = async (
   data: TCreatePostBody,

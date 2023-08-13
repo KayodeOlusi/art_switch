@@ -1,19 +1,14 @@
-const {
-  isValidObjectId,
-  isNotValidPostsRequestBody,
-  shuffleArray,
-} = require("../../utils/functions");
 const Posts = require("../../models/posts");
-const Users = require("../../models/user");
 const Follow = require("../../models/follow");
 const asyncHandler = require("express-async-handler");
+const { isValidObjectId, shuffleArray } = require("../../utils/functions");
 
 // @desc Create a post
 // @access Public
 const createPost = asyncHandler(async (req, res) => {
-  const requestBody = req.body;
+  const { caption } = req.body;
 
-  if (isNotValidPostsRequestBody(requestBody)) {
+  if (!caption) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 
@@ -108,8 +103,8 @@ const getPostsForExplore = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Get posts based on followed users
 // @access Public
+// @desc Get posts based on followed users
 const getFeedPosts = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
 
@@ -129,6 +124,14 @@ const getFeedPosts = asyncHandler(async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
         $project: {
           following: 0,
           userId: 0,
@@ -137,6 +140,7 @@ const getFeedPosts = asyncHandler(async (req, res) => {
       },
     ]);
 
+    console.log(posts);
     posts = shuffleArray(posts[0].posts);
 
     return res.status(200).json({
