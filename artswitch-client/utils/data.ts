@@ -1,5 +1,35 @@
 import { StoriesState } from "features/slices/stories";
 
+export const testPosts = [
+  {
+    id: "1",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design"],
+    caption: "test caption one",
+    userId: "1",
+    likes: ["1", "2"],
+    createdAt: "18/08/2021",
+  },
+  {
+    id: "2",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design"],
+    caption: "test caption two",
+    userId: "2",
+    likes: ["1", "2"],
+    createdAt: "18/08/2021",
+  },
+  {
+    id: "3",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design"],
+    caption: "test caption three",
+    userId: "3",
+    likes: ["1", "2"],
+    createdAt: "18/08/2021",
+  },
+];
+
 export const testStories: Omit<StoriesState["stories"], "email"> = [
   {
     id: "1",

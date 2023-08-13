@@ -18,9 +18,11 @@ const PostsContainer = () => {
   return (
     <div className="space-y-4" data-testid="post-container">
       <Stories stories={stories} />
-      {allPosts.map(post => (
-        <Post {...post} key={post.id} />
-      ))}
+      <div data-testid="posts-view" id="post-view" className="space-y-4">
+        {allPosts.map(post => (
+          <Post {...post} key={post.id} />
+        ))}
+      </div>
     </div>
   );
 };
