@@ -10,8 +10,8 @@ const performOperation = async (action, follow_id, user_id) => {
         updateOne: {
           filter: { user: Types.ObjectId(user_id) },
           update: {
-            [action === "follow" ? "$set" : "$unset"]: {
-              [`following.${follow_id}`]: Types.ObjectId(follow_id),
+            [action === "follow" ? "$addToSet" : "$pull"]: {
+              following: Types.ObjectId(follow_id),
             },
           },
           upsert: true,
@@ -21,8 +21,8 @@ const performOperation = async (action, follow_id, user_id) => {
         updateOne: {
           filter: { user: Types.ObjectId(follow_id) },
           update: {
-            [action === "follow" ? "$set" : "$unset"]: {
-              [`followers.${user_id}`]: Types.ObjectId(user_id),
+            [action === "follow" ? "$addToSet" : "$pull"]: {
+              followers: Types.ObjectId(user_id),
             },
           },
           upsert: true,
@@ -39,6 +39,9 @@ const performOperation = async (action, follow_id, user_id) => {
 const followProcess = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
   const { follow_id, action } = req.body;
+
+  if (user_id.toString() === follow_id.toString())
+    return res.status(400).json({ message: "Invalid request" });
 
   if (!follow_id || !isValidObjectId(follow_id) || !action)
     return res.status(400).send("Validation failed");

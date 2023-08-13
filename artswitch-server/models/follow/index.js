@@ -7,14 +7,18 @@ const FollowSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    followers: {
-      type: Map,
-      of: Schema.Types.ObjectId,
-    },
-    following: {
-      type: Map,
-      of: Schema.Types.ObjectId,
-    },
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     toJSON: {

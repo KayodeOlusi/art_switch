@@ -38,7 +38,10 @@ const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
           src={artist?.profilePicture || artist?.name[0]}
         />
       </div>
-      <section className="flex flex-col space-y-0">
+      <section
+        className="flex flex-col space-y-0"
+        onClick={() => router.push(`/user/${artist?.username}`)}
+      >
         <p className="text-sm font-semibold">{artist?.name}</p>
         <p className="text-sm font-normal">@{artist?.username}</p>
       </section>

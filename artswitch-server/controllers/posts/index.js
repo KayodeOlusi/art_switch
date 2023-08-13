@@ -1,8 +1,11 @@
 const {
   isValidObjectId,
   isNotValidPostsRequestBody,
+  shuffleArray,
 } = require("../../utils/functions");
 const Posts = require("../../models/posts");
+const Users = require("../../models/user");
+const Follow = require("../../models/follow");
 const asyncHandler = require("express-async-handler");
 
 // @desc Create a post
@@ -90,13 +93,11 @@ const getPostsForExplore = asyncHandler(async (req, res) => {
   try {
     const postsWithTags = await Posts.find(
       {
-        $and: [
-          { image: { $ne: "" } },
-          { tags: { $in: [new RegExp(tag, "i")] } },
-        ],
+        image: { $ne: "" },
+        tags: { $in: [String(tag).toLocaleLowerCase()] },
       },
       fullPostDetails
-    ).exec();
+    );
 
     return res.status(200).json({
       message: "Posts fetched successfully",
@@ -113,7 +114,30 @@ const getFeedPosts = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
 
   try {
-    const posts = await Posts.aggregate([]);
+    let posts = await Follow.aggregate([
+      {
+        $match: {
+          user: user_id,
+        },
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "following",
+          foreignField: "userId",
+          as: "posts",
+        },
+      },
+      {
+        $project: {
+          following: 0,
+          userId: 0,
+          followers: 0,
+        },
+      },
+    ]);
+
+    posts = shuffleArray(posts[0].posts);
 
     return res.status(200).json({
       message: "Posts fetched successfully",
