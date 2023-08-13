@@ -10,13 +10,13 @@ const PostsContainer = () => {
   const { data, isLoading, error } = useGetFeedPosts();
 
   const allPosts = React.useMemo(() => {
-    if (!data?.data) return [];
+    if (!data) return [];
 
-    return data.data;
+    return data;
   }, [data]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="post-container">
       <Stories stories={stories} />
       {allPosts.map(post => (
         <Post {...post} key={post.id} />

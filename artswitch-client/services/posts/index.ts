@@ -16,7 +16,7 @@ export const getFeedPosts = async () => {
     user_token
   );
 
-  return res;
+  return res?.data;
 };
 
 const addPost = async (

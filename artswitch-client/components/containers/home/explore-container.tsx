@@ -1,8 +1,8 @@
 import React from "react";
 import { postTags } from "utils/data";
 import Tag from "@/components/home/explore/tag";
+import { TPost } from "services/typings/posts";
 import AppLoader from "@/components/global/loader";
-import { TPostByTag } from "services/typings/posts";
 import { useGetPostsByTag } from "hooks/posts/usePosts";
 
 type Props = {};
@@ -13,7 +13,7 @@ const ExploreContainer = (props: Props) => {
 
   const allTagPosts = React.useMemo(() => {
     if (data?.data) {
-      const posts = data.data.reduce((acc: TPostByTag[][], post, index) => {
+      const posts = data.data.reduce((acc: TPost[][], post, index) => {
         if (index % 3 === 0) {
           acc.push([post]);
         } else {

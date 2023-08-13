@@ -7,11 +7,12 @@ import {
   act,
 } from "@testing-library/react";
 import Login from "../../pages/login";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
+import { inputField, roleElement, testIdElement } from "utils/lib/helpers";
 
 type TOnChangeLogin = {
   text: string;
@@ -26,10 +27,6 @@ describe("Login Tests", () => {
     jest.clearAllMocks();
     cleanup();
   });
-
-  const roleElement = (role: string) => screen.getByRole(role);
-  const testIdElement = (testId: string) => screen.getByTestId(testId);
-  const inputField = (text: string) => screen.getByPlaceholderText(text);
 
   it("should render the login page", () => {
     render(<Login />);

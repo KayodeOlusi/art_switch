@@ -6,12 +6,18 @@ import {
   act,
   waitFor,
 } from "@testing-library/react";
+import {
+  inputField,
+  roleElement,
+  testIdElement,
+  textElement,
+} from "utils/lib/helpers";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 import SignUp from "../../pages/signup";
 import HttpClient from "../../services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import SignupForm from "../../components/auth/signup/signup-form";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
 
 type IOnChangeSignUp = {
   text: string;
@@ -22,11 +28,6 @@ const mockedHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
 mockedHttpClient.post = jest.fn();
 
 describe("SignUp Test", () => {
-  const roleElement = (role: string) => screen.getByRole(role);
-  const textElement = (text: string) => screen.getByText(text);
-  const testIdElement = (testId: string) => screen.getByTestId(testId);
-  const inputField = (field: string) => screen.getByPlaceholderText(field);
-
   afterEach(() => {
     jest.clearAllMocks();
     cleanup();

@@ -1,26 +1,21 @@
-import Stories from "@/components/home/posts/stories";
-import { store } from "../../app/store";
-import { Provider } from "react-redux";
 import { testStories } from "../../utils/data";
-import { render, screen } from "@testing-library/react";
 import Story from "@/components/home/posts/story";
+import { getTestLayout } from "utils/lib/wrappers";
+import Stories from "@/components/home/posts/stories";
+import { render, screen } from "@testing-library/react";
 
-const MockedStories = () => (
-  <Provider store={store}>
-    <Stories stories={testStories} />
-  </Provider>
-);
+const element = getTestLayout(<Stories stories={testStories} />, "redux");
 
 describe("Stories Test", () => {
   it("should render the stories component", () => {
-    render(<MockedStories />);
+    render(element);
 
     const stories = screen.getByTestId("stories");
     expect(stories).toBeInTheDocument();
   });
 
   it("should render the correct amount of stories", () => {
-    render(<MockedStories />);
+    render(element);
 
     const stories = screen.getByTestId("stories");
     expect(stories.children.length).toBe(3);

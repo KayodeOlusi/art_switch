@@ -9,5 +9,8 @@ export const useGetPostsByTag = (activeTag: string) => {
 };
 
 export const useGetFeedPosts = () => {
-  return useQuery<TResponseBody<TPost[]>, any>("feed-posts", getFeedPosts);
+  return useQuery<TResponseBody<TPost[]>["data"], any>(
+    "feed-posts",
+    getFeedPosts
+  );
 };

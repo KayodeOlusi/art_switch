@@ -2,21 +2,11 @@ jest.mock("../../hooks/posts/usePosts");
 
 import { testPostByTag } from "utils/data";
 import Tag from "@/components/home/explore/tag";
+import { getTestLayout } from "utils/lib/wrappers";
 import ReactTestUtils, { act } from "react-dom/test-utils";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { useGetPostsByTag } from "../../hooks/posts/usePosts";
 import ExploreContainer from "@/components/containers/home/explore-container";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-
-const MockedExploreContainer = () => {
-  const queryClient = new QueryClient({});
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ExploreContainer />
-    </QueryClientProvider>
-  );
-};
 
 const mockedUseGetPostsByTag = useGetPostsByTag as jest.Mock<any>;
 
@@ -81,7 +71,9 @@ describe("Tag test", () => {
       });
 
     it("should use the right class for a clicked tag", async () => {
-      render(<MockedExploreContainer />);
+      const element = getTestLayout(<ExploreContainer />, "react-query");
+
+      render(element);
       const activeTag = screen.getByText("design");
 
       act(() => ReactTestUtils.Simulate.click(activeTag));
@@ -101,11 +93,12 @@ describe("Tag test", () => {
 
   describe("API Calls", () => {
     it("should show loader when fetching posts by tag", () => {
+      const element = getTestLayout(<ExploreContainer />, "react-query");
       mockedUseGetPostsByTag.mockReturnValue({
         isLoading: true,
       });
 
-      render(<MockedExploreContainer />);
+      render(element);
       const appSpinner = screen.getByTestId("app-loader");
 
       expect(appSpinner).not.toBeNull();
@@ -113,11 +106,12 @@ describe("Tag test", () => {
     });
 
     it("should show error message when there is an error fetching posts by tag", async () => {
+      const element = getTestLayout(<ExploreContainer />, "react-query");
       mockedUseGetPostsByTag.mockReturnValue({
         error: true,
       });
 
-      render(<MockedExploreContainer />);
+      render(element);
       const errorMessage = screen.getByRole("alert");
 
       expect(errorMessage).not.toBeNull();
@@ -126,6 +120,7 @@ describe("Tag test", () => {
 
     it(`should show the post container and children based 
       on the clicked tag when there is data`, async () => {
+      const element = getTestLayout(<ExploreContainer />, "react-query");
       mockedUseGetPostsByTag.mockReturnValue({
         error: false,
         isLoading: false,
@@ -135,7 +130,7 @@ describe("Tag test", () => {
         },
       });
 
-      render(<MockedExploreContainer />);
+      render(element);
       const postContainer = screen.getByTestId("post-container");
 
       expect(postContainer).not.toBeNull();
@@ -147,6 +142,7 @@ describe("Tag test", () => {
     ) =>
       it(`should render the appropriate length of post container
        and children when there are posts`, () => {
+        const element = getTestLayout(<ExploreContainer />, "react-query");
         mockedUseGetPostsByTag.mockReturnValue({
           error: false,
           isLoading: false,
@@ -156,7 +152,7 @@ describe("Tag test", () => {
           },
         });
 
-        render(<MockedExploreContainer />);
+        render(element);
         const postContainer = screen.getByTestId("post-container");
 
         expect(postContainer.children.length).toBe(Math.ceil(endIdx / 3));
