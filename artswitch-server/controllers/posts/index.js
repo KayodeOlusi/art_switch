@@ -128,7 +128,7 @@ const getFeedPosts = asyncHandler(async (req, res) => {
           from: "users",
           localField: "user",
           foreignField: "_id",
-          as: "user",
+          as: "userDetails",
         },
       },
       {

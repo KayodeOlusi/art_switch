@@ -1,12 +1,12 @@
 import React from "react";
 import useModal from "hooks/useModal";
+import { useRouter } from "next/router";
 import { MODAL_VIEWS } from "typings/app";
 import { searchArtist } from "services/user";
 import useDebounce from "hooks/useDebounce";
+import { SpinnerLoader } from "../global/loader";
 import { SearchIcon } from "@heroicons/react/solid";
 import { TSearchUser } from "services/typings/user";
-import { SpinnerLoader } from "../global/loader";
-import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -27,7 +27,7 @@ const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
 
   return (
     <div
-      onClick={() => router.push(`/user/${artist?._id}`)}
+      onClick={() => router.push(`/user/${artist?.username}`)}
       className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
     hover:bg-gray-200 hover:bg-opacity-50 p-3 transition-all duration-200"
     >

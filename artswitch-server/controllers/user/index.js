@@ -3,19 +3,11 @@ const asyncHandler = require("express-async-handler");
 
 // @desc get user details
 const getUserDetails = asyncHandler(async (req, res) => {
-  const user_id = req.user._id;
+  const { username } = req.query;
 
   try {
     const userDetails = await User.aggregate([
-      { $match: { _id: user_id } },
-      {
-        $lookup: {
-          from: "posts",
-          localField: "_id",
-          foreignField: "userId",
-          as: "posts",
-        },
-      },
+      { $match: { username } },
       {
         $lookup: {
           from: "follows",
@@ -45,7 +37,7 @@ const getUserDetails = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
       message: "User details fetched successfully",
-      data: userDetails,
+      data: userDetails[0],
     });
   } catch (error) {
     return res.status(500).json({ message: "Cannot fetch user" });

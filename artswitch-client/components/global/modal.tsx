@@ -1,5 +1,6 @@
 import React from "react";
 import useModal from "hooks/useModal";
+import { useRouter } from "next/router";
 import { MODAL_VIEWS } from "typings/app";
 import { XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
@@ -8,6 +9,7 @@ import SearchResult from "../navbar/search-results";
 import ViewSinglePost from "../home/explore/view-single-post";
 
 const ModalContainer = () => {
+  const router = useRouter();
   const { view, isOpen, closeModal } = useModal();
 
   function renderModalContent(view: MODAL_VIEWS | string) {
@@ -22,6 +24,15 @@ const ModalContainer = () => {
         return null;
     }
   }
+
+  React.useEffect(() => {
+    // close search modal when route change
+    router.events.on("routeChangeStart", closeModal);
+    return () => {
+      router.events.off("routeChangeStart", closeModal);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div data-testid="modal-container">

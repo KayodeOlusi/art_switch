@@ -4,11 +4,14 @@ import {
   HeartIcon,
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
 import { TPost } from "services/typings/posts";
 
 type Props = TPost;
 
 const Post = (props: Props) => {
+  const router = useRouter();
+
   return (
     <div className="bg-white rounded-lg p-3 space-y-5">
       <div className="flex items-center justify-between">
@@ -19,6 +22,7 @@ const Post = (props: Props) => {
                 alt="Avatar"
                 src={props?.image}
                 className="w-10 h-10 rounded-full"
+                onClick={() => router.push(`/user/`)}
               />
             )}
             <p className="font-semibold text-sm">{props?.id}</p>
