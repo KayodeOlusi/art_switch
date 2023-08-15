@@ -4,8 +4,8 @@ import AppLayout from "@/components/layout";
 import { getUserDetails } from "services/user";
 import { NextPageWithLayout } from "typings/app";
 import { generateAPIError } from "utils/functions";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { TUserAccountDetails } from "services/typings/user";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import UserContainer from "@/components/containers/user/user-container";
 
 type Props = {

@@ -26,12 +26,10 @@ const ModalContainer = () => {
   }
 
   React.useEffect(() => {
-    // close search modal when route change
     router.events.on("routeChangeStart", closeModal);
     return () => {
       router.events.off("routeChangeStart", closeModal);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
