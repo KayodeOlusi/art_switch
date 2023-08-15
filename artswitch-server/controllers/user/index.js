@@ -5,6 +5,8 @@ const asyncHandler = require("express-async-handler");
 const getUserDetails = asyncHandler(async (req, res) => {
   const { username } = req.query;
 
+  if (!username) return res.status(400).json({ message: "Invalid request" });
+
   try {
     const userDetails = await User.aggregate([
       { $match: { username } },
