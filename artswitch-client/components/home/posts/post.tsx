@@ -1,10 +1,10 @@
 import React from "react";
-import { TPost } from "services/typings/posts";
 import {
   ChatIcon,
-  DotsHorizontalIcon,
   HeartIcon,
+  DotsHorizontalIcon,
 } from "@heroicons/react/outline";
+import { TPost } from "services/typings/posts";
 
 type Props = TPost;
 
@@ -40,7 +40,16 @@ const Post = (props: Props) => {
         </div>
       )}
       <div>
-        <span className="text-sm font-semibold">username</span> {props?.caption}
+        <p className="text-sm">
+          <span className="font-semibold">username</span> {props?.caption}
+        </p>
+        <div className="flex gap-x-2">
+          {props?.tags?.map(tag => (
+            <p className="capitalize bg-gray-200 px-2 py-1 rounded-lg text-[10px] w-fit">
+              {tag}
+            </p>
+          ))}
+        </div>
       </div>
       <div className="w-full flex gap-x-4">
         <HeartIcon className="w-7 h-7" />
