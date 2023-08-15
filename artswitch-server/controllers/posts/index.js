@@ -6,15 +6,15 @@ const { isValidObjectId, shuffleArray } = require("../../utils/functions");
 // @desc Create a post
 // @access Public
 const createPost = asyncHandler(async (req, res) => {
-  const { caption } = req.body;
+  const body = req.body;
 
-  if (!caption) {
+  if (!body.caption) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 
   try {
     const newPost = await Posts.create({
-      ...requestBody,
+      ...body,
       userId: req.user._id,
     });
 
