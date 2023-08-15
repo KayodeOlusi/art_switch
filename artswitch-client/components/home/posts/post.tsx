@@ -24,8 +24,8 @@ const Post = (props: Props) => {
             <p className="font-semibold text-sm">{props?.id}</p>
           </div>
           <section>
-            <h4>{props.caption}</h4>
-            <p>{props.userId}</p>
+            <h4>{props?.caption}</h4>
+            <p>{props?.userId}</p>
           </section>
         </section>
         <DotsHorizontalIcon className="w-6 h-6" />
@@ -45,7 +45,10 @@ const Post = (props: Props) => {
         </p>
         <div className="flex gap-x-2">
           {props?.tags?.map(tag => (
-            <p className="capitalize bg-gray-200 px-2 py-1 rounded-lg text-[10px] w-fit">
+            <p
+              key={tag}
+              className="capitalize bg-gray-200 px-2 py-1 rounded-lg text-[10px] w-fit"
+            >
               {tag}
             </p>
           ))}
@@ -55,7 +58,7 @@ const Post = (props: Props) => {
         <HeartIcon className="w-7 h-7" />
         <ChatIcon className="w-7 h-7" />
       </div>
-      {props.likes.length > 0 && (
+      {props?.likes?.length > 0 && (
         <div>
           <p>{props.likes.length} likes</p>
         </div>

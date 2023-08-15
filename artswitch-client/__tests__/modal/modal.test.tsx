@@ -1,18 +1,13 @@
 jest.mock("../../hooks/useModal");
 
-import { store } from "app/store";
 import useModal from "hooks/useModal";
-import { Provider } from "react-redux";
 import { MODAL_VIEWS } from "typings/app";
+import { getTestLayout } from "utils/lib/wrappers";
 import ModalContainer from "@/components/global/modal";
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 
-const MockedModalWithStore = () => (
-  <Provider store={store}>
-    <ModalContainer />
-  </Provider>
-);
+const modalElement = getTestLayout(<ModalContainer />, "redux-react-query");
 
 describe("Modal Container Test", () => {
   const mockedUseModal = useModal as jest.Mock<any>;
@@ -37,7 +32,7 @@ describe("Modal Container Test", () => {
     });
 
     it("should not render the modal child element when isOpen is false", () => {
-      render(<MockedModalWithStore />);
+      render(modalElement);
       const modalContainer = screen.getByTestId("modal-container");
       expect(modalContainer.children.length).toEqual(0);
     });
@@ -49,7 +44,7 @@ describe("Modal Container Test", () => {
         closeModal: () => null,
       });
 
-      renderElementWithIntersectionObserver(<MockedModalWithStore />);
+      renderElementWithIntersectionObserver(modalElement);
 
       await act(async () => {
         const modalContainer = screen.getByTestId("modal-container");
@@ -60,14 +55,15 @@ describe("Modal Container Test", () => {
     const itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue = (
       modalView: MODAL_VIEWS
     ) => {
-      it(`should render ${modalView} view when the modal container is open and the view is ${modalView}`, async () => {
+      it(`should render ${modalView} view when the modal container 
+      is open and the view is ${modalView}`, async () => {
         mockedUseModal.mockReturnValueOnce({
           isOpen: true,
           view: modalView,
           closeModal: () => null,
         });
 
-        renderElementWithIntersectionObserver(<MockedModalWithStore />);
+        renderElementWithIntersectionObserver(modalElement);
 
         await act(async () => {
           const modalContainerChild = screen.getByTestId(modalView);
@@ -84,6 +80,9 @@ describe("Modal Container Test", () => {
       );
       itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
         MODAL_VIEWS.SEARCH_FOR_ARTIST
+      );
+      itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
+        MODAL_VIEWS.VIEW_SINGLE_POST
       );
     });
   });

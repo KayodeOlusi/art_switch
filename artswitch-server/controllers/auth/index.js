@@ -33,7 +33,6 @@ const Signup = asyncHandler(async (req, res) => {
       profilePicture: user.profilePicture,
     });
   } catch (error) {
-    console.log(error, "here");
     return res.status(400).json({ message: "Failed to create user" });
   }
 });

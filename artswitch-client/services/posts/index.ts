@@ -1,14 +1,23 @@
 import {
-  TAllPostsByTag,
-  TCreatePostBody,
-  TResponseBody,
   TPost,
+  TAllPostsByTag,
+  TResponseBody,
+  TCreatePostBody,
 } from "services/typings/posts";
 import Cookies from "js-cookie";
 import { AxiosError } from "axios";
 import HttpClient, { handleError } from "../client";
 
 const user_token = Cookies.get("_token") as string;
+
+export const getSinglePost = async (postId: string) => {
+  const res = await HttpClient.getWithToken<TResponseBody<TPost>>(
+    `/posts/${postId}`,
+    user_token
+  );
+
+  return res?.data;
+};
 
 export const getFeedPosts = async () => {
   const res = await HttpClient.getWithToken<TResponseBody<TPost[]>>(

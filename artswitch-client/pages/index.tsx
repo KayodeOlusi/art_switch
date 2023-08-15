@@ -3,10 +3,10 @@ import React from "react";
 import AppLayout from "@/components/layout";
 import { useAppDispatch } from "app/hooks";
 import { NextPageWithLayout } from "typings/app";
+import { loadStories } from "features/slices/stories";
 import PostsContainer from "@/components/containers/home/posts-container";
 import ExploreContainer from "@/components/containers/home/explore-container";
 import OptionsContainer from "@/components/containers/home/options-container";
-import { loadStories } from "features/slices/stories";
 
 const Home: NextPageWithLayout = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,10 @@ const Home: NextPageWithLayout = () => {
         <section className="hidden lg:block lg:col-span-1">
           <ExploreContainer />
         </section>
-        <section className="col-auto max-h-screen overflow-y-scroll mb-4 md:col-span-2 lg:col-span-2">
+        <section
+          className="col-auto max-h-screen overflow-y-scroll no-scrollbar 
+          mb-4 md:col-span-2 lg:col-span-2"
+        >
           <PostsContainer />
         </section>
         <section className="hidden md:block md:col-span-1">

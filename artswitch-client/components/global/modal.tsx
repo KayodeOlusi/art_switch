@@ -5,6 +5,7 @@ import { XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import UploadPost from "../home/posts/upload-post";
 import SearchResult from "../navbar/search-results";
+import ViewSinglePost from "../home/explore/view-single-post";
 
 const ModalContainer = () => {
   const { view, isOpen, closeModal } = useModal();
@@ -15,6 +16,8 @@ const ModalContainer = () => {
         return <UploadPost />;
       case MODAL_VIEWS.SEARCH_FOR_ARTIST:
         return <SearchResult />;
+      case MODAL_VIEWS.VIEW_SINGLE_POST:
+        return <ViewSinglePost />;
       default:
         return null;
     }
@@ -59,7 +62,7 @@ const ModalContainer = () => {
           >
             <div
               className="absolute bottom-0 sm:relative z-50 inline-block
-            w-full text-left left-0 sm:align-middle sm:w-auto"
+              w-full text-left left-0 sm:align-middle sm:w-auto"
             >
               {view && renderModalContent(view)}
             </div>

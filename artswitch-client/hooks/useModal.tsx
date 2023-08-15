@@ -1,7 +1,11 @@
+import {
+  closeAppModal,
+  openAppModal,
+  setModalData,
+} from "features/slices/modal";
 import React from "react";
 import { store } from "app/store";
 import { MODAL_VIEWS } from "typings/app";
-import { closeAppModal, openAppModal } from "features/slices/modal";
 
 const useModal = () => {
   const appModalState = store.getState().modal;
@@ -21,10 +25,13 @@ const useModal = () => {
 
   const closeModal = () => store.dispatch(closeAppModal());
 
+  const setModalViewData = (data: any) => store.dispatch(setModalData(data));
+
   return {
     ...state,
     openModal,
     closeModal,
+    setModalViewData,
   };
 };
 

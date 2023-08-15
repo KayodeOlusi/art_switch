@@ -1,15 +1,23 @@
 import React from "react";
 import { postTags } from "utils/data";
+import useModal from "hooks/useModal";
 import Tag from "@/components/home/explore/tag";
 import { TPost } from "services/typings/posts";
 import AppLoader from "@/components/global/loader";
 import { useGetPostsByTag } from "hooks/posts/usePosts";
+import { MODAL_VIEWS } from "typings/app";
 
 type Props = {};
 
 const ExploreContainer = (props: Props) => {
+  const { openModal, setModalViewData } = useModal();
   const [activeTag, setActiveTag] = React.useState(postTags[0]);
   const { data, error, isLoading } = useGetPostsByTag(activeTag);
+
+  const openModalToViewPost = (data: TPost) => {
+    setModalViewData(data);
+    openModal(MODAL_VIEWS.VIEW_SINGLE_POST);
+  };
 
   const allTagPosts = React.useMemo(() => {
     if (data?.data) {
@@ -76,7 +84,11 @@ const ExploreContainer = (props: Props) => {
             {allTagPosts?.map((postArr, idx) => (
               <div className="grid gap-2" key={idx} data-testid="post-card">
                 {postArr?.map(post => (
-                  <div key={post.id}>
+                  <div
+                    key={post.id}
+                    className="cursor-pointer"
+                    onClick={() => openModalToViewPost(post)}
+                  >
                     <img
                       alt="image"
                       src={post?.image}

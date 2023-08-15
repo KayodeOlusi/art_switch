@@ -140,7 +140,6 @@ const getFeedPosts = asyncHandler(async (req, res) => {
       },
     ]);
 
-    console.log(posts);
     posts = shuffleArray(posts[0].posts);
 
     return res.status(200).json({
@@ -148,7 +147,6 @@ const getFeedPosts = asyncHandler(async (req, res) => {
       data: posts,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: "Error fetching posts" });
   }
 });
