@@ -1,12 +1,12 @@
 import React from "react";
-import useModal from "hooks/useModal";
+import useModal from "utils/hooks/useModal";
 import { useRouter } from "next/router";
-import { MODAL_VIEWS } from "typings/app";
-import { searchArtist } from "services/user";
-import useDebounce from "hooks/useDebounce";
+import { MODAL_VIEWS } from "utils/typings/app";
+import { searchArtist } from "utils/services/user";
+import useDebounce from "utils/hooks/useDebounce";
 import { SpinnerLoader } from "../global/loader";
 import { SearchIcon } from "@heroicons/react/solid";
-import { TSearchUser } from "services/typings/user";
+import { TSearchUser } from "utils/services/typings/user";
 
 type Props = {};
 

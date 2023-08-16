@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NextPageWithLayout } from "typings/app";
+import { NextPageWithLayout } from "utils/typings/app";
 import SignupForm from "../../components/auth/signup/signup-form";
 
 const SignUp: NextPageWithLayout = () => {

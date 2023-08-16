@@ -1,5 +1,5 @@
 import { RootState } from "app/store";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type TOpenModalPayload = {

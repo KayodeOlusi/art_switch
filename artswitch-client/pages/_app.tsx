@@ -3,7 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { store } from "app/store";
-import { AppPropsWithLayout } from "typings/app";
+import { AppPropsWithLayout } from "utils/typings/app";
 import ModalContainer from "@/components/global/modal";
 import { QueryClient, QueryClientProvider } from "react-query";
 

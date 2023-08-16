@@ -9,7 +9,7 @@ import {
 import Login from "../../pages/login";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
-import HttpClient from "../../services/client";
+import HttpClient from "../../utils/services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
 import { inputField, roleElement, testIdElement } from "utils/lib/helpers";

@@ -1,11 +1,11 @@
 import React from "react";
 import { postTags } from "utils/data";
-import useModal from "hooks/useModal";
+import useModal from "utils/hooks/useModal";
 import Tag from "@/components/home/explore/tag";
-import { TPost } from "services/typings/posts";
+import { TPost } from "utils/services/typings/posts";
 import AppLoader from "@/components/global/loader";
-import { useGetPostsByTag } from "hooks/posts/usePosts";
-import { MODAL_VIEWS } from "typings/app";
+import { useGetPostsByTag } from "utils/hooks/posts/usePosts";
+import { MODAL_VIEWS } from "utils/typings/app";
 
 type Props = {};
 

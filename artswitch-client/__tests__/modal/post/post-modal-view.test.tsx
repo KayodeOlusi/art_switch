@@ -1,4 +1,4 @@
-jest.mock("../../../hooks/useModal");
+jest.mock("../../../utils/hooks/useModal");
 
 import {
   cleanup,
@@ -9,10 +9,10 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { store } from "app/store";
-import useModal from "hooks/useModal";
+import useModal from "utils/hooks/useModal";
 import { postTags } from "utils/data";
 import { Provider } from "react-redux";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { toast } from "react-hot-toast";
 import ReactTestUtils from "react-dom/test-utils";
 import { closeAppModal } from "features/slices/modal";

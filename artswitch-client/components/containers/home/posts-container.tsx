@@ -2,8 +2,8 @@ import React from "react";
 import Post from "@/components/home/posts/post";
 import { useAppSelector } from "../../../app/hooks";
 import Stories from "@/components/home/posts/stories";
-import { selectStories } from "../../../features/slices/stories";
-import { useGetFeedPosts } from "hooks/posts/usePosts";
+import { useGetFeedPosts } from "utils/hooks/posts/usePosts";
+import { selectStories } from "features/slices/stories";
 
 const PostsContainer = () => {
   const stories = useAppSelector(selectStories);

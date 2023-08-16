@@ -5,7 +5,7 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import { TPost } from "services/typings/posts";
+import { TPost } from "utils/services/typings/posts";
 
 type Props = TPost;
 

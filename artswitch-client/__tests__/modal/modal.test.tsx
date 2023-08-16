@@ -1,7 +1,7 @@
-jest.mock("../../hooks/useModal");
+jest.mock("../../utils/hooks/useModal");
 
-import useModal from "hooks/useModal";
-import { MODAL_VIEWS } from "typings/app";
+import useModal from "utils/hooks/useModal";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { getTestLayout } from "utils/lib/wrappers";
 import ModalContainer from "@/components/global/modal";
 import { act, cleanup, render, screen } from "@testing-library/react";

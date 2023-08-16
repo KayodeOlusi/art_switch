@@ -1,6 +1,6 @@
 import React from "react";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
-import { TUserAccountDetails } from "services/typings/user";
+import { TUserAccountDetails } from "utils/services/typings/user";
 
 type Props = TUserAccountDetails;
 

@@ -1,10 +1,10 @@
-jest.mock("../../hooks/posts/usePosts");
+jest.mock("../../utils/hooks/posts/usePosts");
 
 import { testPostByTag } from "utils/data";
 import Tag from "@/components/home/explore/tag";
 import { getTestLayout } from "utils/lib/wrappers";
 import ReactTestUtils, { act } from "react-dom/test-utils";
-import { useGetPostsByTag } from "../../hooks/posts/usePosts";
+import { useGetPostsByTag } from "../../utils/hooks/posts/usePosts";
 import ExploreContainer from "@/components/containers/home/explore-container";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 

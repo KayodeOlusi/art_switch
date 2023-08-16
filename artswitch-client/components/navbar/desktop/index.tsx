@@ -7,10 +7,10 @@ import {
 } from "@heroicons/react/outline";
 import React from "react";
 import { useRouter } from "next/router";
-import useModal from "hooks/useModal";
-import { MODAL_VIEWS } from "typings/app";
-import { setModalData } from "features/slices/modal";
+import useModal from "utils/hooks/useModal";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { useAppDispatch } from "../../../app/hooks";
+import { setModalData } from "features/slices/modal";
 
 type Props = {};
 

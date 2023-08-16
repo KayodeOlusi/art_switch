@@ -1,11 +1,11 @@
 import React from "react";
-import useModal from "hooks/useModal";
+import useModal from "utils/hooks/useModal";
 import { postTags } from "utils/data";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { XIcon } from "@heroicons/react/solid";
-import { errorMessage, successMessage } from "services/client";
+import { errorMessage, successMessage } from "utils/services/client";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
-import { createPost } from "services/posts";
+import { createPost } from "utils/services/posts";
 import { ClipLoader } from "react-spinners";
 
 type TPostTagProps = {

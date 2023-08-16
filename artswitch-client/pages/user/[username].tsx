@@ -1,10 +1,10 @@
 import React from "react";
 import { AxiosError } from "axios";
 import AppLayout from "@/components/layout";
-import { getUserDetails } from "services/user";
-import { NextPageWithLayout } from "typings/app";
+import { getUserDetails } from "utils/services/user";
+import { NextPageWithLayout } from "utils/typings/app";
 import { generateAPIError } from "utils/functions";
-import { TUserAccountDetails } from "services/typings/user";
+import { TUserAccountDetails } from "utils/services/typings/user";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import UserContainer from "@/components/containers/user/user-container";
 

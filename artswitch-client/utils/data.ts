@@ -1,4 +1,4 @@
-import { StoriesState } from "features/slices/stories";
+import { StoriesState } from "redux/features/slices/stories";
 
 export const testPosts = [
   {

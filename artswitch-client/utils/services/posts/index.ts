@@ -3,7 +3,7 @@ import {
   TAllPostsByTag,
   TResponseBody,
   TCreatePostBody,
-} from "services/typings/posts";
+} from "utils/services/typings/posts";
 import Cookies from "js-cookie";
 import { AxiosError } from "axios";
 import HttpClient, { handleError } from "../client";

@@ -5,7 +5,7 @@ import {
 } from "features/slices/modal";
 import React from "react";
 import { store } from "app/store";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 
 const useModal = () => {
   const appModalState = store.getState().modal;

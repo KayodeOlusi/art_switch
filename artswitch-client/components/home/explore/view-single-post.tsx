@@ -1,8 +1,8 @@
 import SkeletonLoader from "@/components/global/skeleton";
-import { useGetSinglePost } from "hooks/posts/usePosts";
-import useModal from "hooks/useModal";
+import { useGetSinglePost } from "utils/hooks/posts/usePosts";
+import useModal from "utils/hooks/useModal";
 import React from "react";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 import Post from "../posts/post";
 
 type Props = {};

@@ -2,9 +2,13 @@ import {
   getFeedPosts,
   getSinglePost,
   getPostsByTagSelected,
-} from "services/posts";
+} from "utils/services/posts";
 import { useQuery } from "react-query";
-import { TAllPostsByTag, TPost, TResponseBody } from "services/typings/posts";
+import {
+  TAllPostsByTag,
+  TPost,
+  TResponseBody,
+} from "utils/services/typings/posts";
 
 export const useGetPostsByTag = (activeTag: string) => {
   return useQuery<TAllPostsByTag, any>(["postByTag", activeTag], () =>

@@ -15,7 +15,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import SignUp from "../../pages/signup";
-import HttpClient from "../../services/client";
+import HttpClient from "../../utils/services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import SignupForm from "../../components/auth/signup/signup-form";
 

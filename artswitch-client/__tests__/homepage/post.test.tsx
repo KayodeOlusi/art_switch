@@ -1,9 +1,9 @@
-jest.mock("../../hooks/posts/usePosts");
+jest.mock("../../utils/hooks/posts/usePosts");
 
 import { testPosts } from "utils/data";
 import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
-import { useGetFeedPosts } from "hooks/posts/usePosts";
+import { useGetFeedPosts } from "utils/hooks/posts/usePosts";
 import { screen, render, cleanup } from "@testing-library/react";
 import PostsContainer from "@/components/containers/home/posts-container";
 

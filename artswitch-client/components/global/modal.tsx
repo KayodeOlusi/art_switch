@@ -1,7 +1,7 @@
 import React from "react";
-import useModal from "hooks/useModal";
+import useModal from "utils/hooks/useModal";
 import { useRouter } from "next/router";
-import { MODAL_VIEWS } from "typings/app";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import UploadPost from "../home/posts/upload-post";

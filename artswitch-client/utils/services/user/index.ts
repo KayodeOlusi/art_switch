@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import { AxiosError } from "axios";
 import HttpClient, { handleError } from "../client";
-import { TResponseBody } from "services/typings/posts";
-import { TSearchUser, TUserAccountDetails } from "services/typings/user";
+import { TResponseBody } from "utils/services/typings/posts";
+import { TSearchUser, TUserAccountDetails } from "utils/services/typings/user";
 
 const user_token = Cookies.get("_token") as string;
 
