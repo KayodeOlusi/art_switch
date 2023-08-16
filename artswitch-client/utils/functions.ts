@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 type TErrorType = "authorization" | "not-found" | "server" | "custom";
 
@@ -51,4 +52,6 @@ const buildErrorResponse = (errorType: TErrorType, error?: AxiosError) => {
   }
 };
 
-export { generateAPIError };
+const clearUserToken = () => Cookies.remove("_token");
+
+export { generateAPIError, clearUserToken };

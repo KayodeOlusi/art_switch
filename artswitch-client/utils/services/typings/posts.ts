@@ -4,7 +4,7 @@ export type TResponseBody<T> = {
 };
 
 export type TPost = {
-  id: string;
+  _id: string;
   image: string;
   tags: string[];
   caption: string;

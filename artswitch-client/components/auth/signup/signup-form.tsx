@@ -102,7 +102,7 @@ const SignupForm = () => {
           Remember Me
         </label>
       </section> */}
-      <Button type="login" loading={loading} />
+      <Button type="signup" loading={loading} />
     </form>
   );
 };

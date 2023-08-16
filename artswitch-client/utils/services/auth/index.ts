@@ -1,5 +1,19 @@
 import Cookies from "js-cookie";
+import { store } from "app/store";
+import { TUserProfile } from "../typings/user";
+import { TResponseBody } from "../typings/posts";
 import HttpClient, { handleError, successMessage } from "../client";
+
+const _token = Cookies.get("_token") as string;
+
+export const prepareUserDetails = async () => {
+  const res = await HttpClient.getWithToken<TResponseBody<TUserProfile>>(
+    "/user/profile",
+    _token
+  );
+
+  return res?.data;
+};
 
 export const loginUser = async (
   user_details: Login_User_Details,

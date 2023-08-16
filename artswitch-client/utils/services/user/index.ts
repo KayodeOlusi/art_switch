@@ -3,12 +3,23 @@ import { AxiosError } from "axios";
 import HttpClient, { handleError } from "../client";
 import { TResponseBody } from "utils/services/typings/posts";
 import { TSearchUser, TUserAccountDetails } from "utils/services/typings/user";
+import { FollowOperationData } from "@/components/user/user-stats";
 
 const user_token = Cookies.get("_token") as string;
 
+export const followOperation = async (
+  data: FollowOperationData,
+  onSuccess: () => void
+) => {
+  try {
+    await HttpClient.postWithToken("/user/action", data, user_token);
+    onSuccess();
+  } catch (error) {}
+};
+
 export const getUserDetails = async (token: string, username: string) => {
   const res = await HttpClient.getWithToken<TResponseBody<TUserAccountDetails>>(
-    "/user/profile",
+    "/user/details",
     token,
     { username }
   );

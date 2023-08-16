@@ -1,8 +1,8 @@
-import "../styles/global.css";
 import React from "react";
+import "../styles/global.css";
+import { store } from "app/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import { store } from "app/store";
 import { AppPropsWithLayout } from "utils/typings/app";
 import ModalContainer from "@/components/global/modal";
 import { QueryClient, QueryClientProvider } from "react-query";

@@ -2,10 +2,10 @@ import React from "react";
 import { postTags } from "utils/data";
 import useModal from "utils/hooks/useModal";
 import Tag from "@/components/home/explore/tag";
+import { MODAL_VIEWS } from "utils/typings/app";
 import { TPost } from "utils/services/typings/posts";
 import AppLoader from "@/components/global/loader";
 import { useGetPostsByTag } from "utils/hooks/posts/usePosts";
-import { MODAL_VIEWS } from "utils/typings/app";
 
 type Props = {};
 
@@ -85,7 +85,7 @@ const ExploreContainer = (props: Props) => {
               <div className="grid gap-2" key={idx} data-testid="post-card">
                 {postArr?.map(post => (
                   <div
-                    key={post.id}
+                    key={post._id}
                     className="cursor-pointer"
                     onClick={() => openModalToViewPost(post)}
                   >

@@ -1,6 +1,24 @@
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    const user = await User.findById(user_id, {
+      __v: 0,
+      updatedAt: 0,
+      password: 0,
+    });
+    return res.status(200).json({
+      message: "User profile fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Cannot fetch user" });
+  }
+});
+
 // @desc get user details
 const getUserDetails = asyncHandler(async (req, res) => {
   const { username } = req.query;
@@ -78,4 +96,4 @@ const searchForUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { searchForUser, getUserDetails };
+module.exports = { searchForUser, getUserDetails, getUserProfile };

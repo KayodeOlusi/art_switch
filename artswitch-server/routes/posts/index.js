@@ -3,15 +3,19 @@ const router = express.Router();
 const {
   createPost,
   deletePost,
+  getFeedPosts,
+  getUserPosts,
   getSinglePost,
   getPostsForExplore,
-  getFeedPosts,
 } = require("../../controllers/posts");
 const { createNewComment } = require("../../controllers/comments");
 
 // Manage Posts
-router.route("/").get(getFeedPosts).post(createPost).delete(deletePost);
 router.get("/explore", getPostsForExplore);
+router.route("/").get(getFeedPosts).post(createPost).delete(deletePost);
+
+// User Posts
+router.route("/user/:id").get(getUserPosts);
 
 // Get Single Post
 router.get("/:id", getSinglePost);

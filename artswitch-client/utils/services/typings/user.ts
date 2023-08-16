@@ -1,3 +1,5 @@
+export type TUserProfile = Omit<TUserAccountDetails, "follow-details">;
+
 export type TSearchUser = {
   message: string;
   data: {

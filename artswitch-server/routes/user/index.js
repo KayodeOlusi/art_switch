@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const {
+  searchForUser,
+  getUserDetails,
+  getUserProfile,
+} = require("../../controllers/user");
 const { followProcess } = require("../../controllers/user/follow");
-const { searchForUser, getUserDetails } = require("../../controllers/user");
 
 router.get("/", searchForUser);
-router.route("/profile").get(getUserDetails);
+router.route("/details").get(getUserDetails);
+router.route("/profile").get(getUserProfile);
 router.post("/action", followProcess);
 
 module.exports = router;

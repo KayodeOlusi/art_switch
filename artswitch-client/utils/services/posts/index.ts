@@ -10,6 +10,15 @@ import HttpClient, { handleError } from "../client";
 
 const user_token = Cookies.get("_token") as string;
 
+export const getAllPostsForUser = async (id: string) => {
+  const res = await HttpClient.getWithToken<TResponseBody<TPost[]>>(
+    `/posts/user/${id}`,
+    user_token
+  );
+
+  return res?.data;
+};
+
 export const getSinglePost = async (postId: string) => {
   const res = await HttpClient.getWithToken<TResponseBody<TPost>>(
     `/posts/${postId}`,

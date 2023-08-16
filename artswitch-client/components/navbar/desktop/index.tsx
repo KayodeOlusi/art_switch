@@ -2,15 +2,16 @@ import {
   CogIcon,
   UserIcon,
   SearchIcon,
-  ChatAlt2Icon,
   PlusCircleIcon,
 } from "@heroicons/react/outline";
 import React from "react";
 import { useRouter } from "next/router";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
+import { clearUserToken } from "utils/functions";
 import { useAppDispatch } from "../../../app/hooks";
 import { setModalData } from "features/slices/modal";
+import MenuDropDown from "@/components/global/menu-dropdown";
 
 type Props = {};
 
@@ -19,6 +20,21 @@ const DesktopNav = (props: Props) => {
   const { openModal } = useModal();
   const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = React.useState<string>("");
+
+  const _signOutUser = () => {
+    clearUserToken();
+    router.push("/login");
+  };
+
+  const settingsItems = React.useMemo(
+    () => [
+      {
+        text: "Sign Out",
+        action: _signOutUser,
+      },
+    ],
+    []
+  );
 
   const searchForArtist = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!searchValue.length) return;
@@ -59,7 +75,11 @@ const DesktopNav = (props: Props) => {
           >
             <PlusCircleIcon className="w-auto h-auto" />
           </div>
-          <CogIcon className="w-7 h-7 cursor-pointer" />
+          <MenuDropDown
+            items={settingsItems}
+            containerClass="pt-2"
+            DisplayContent={<CogIcon className="w-7 h-7 cursor-pointer" />}
+          />
           <UserIcon className="w-6 h-6 cursor-pointer" />
         </div>
       </div>

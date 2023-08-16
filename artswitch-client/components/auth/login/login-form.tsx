@@ -1,7 +1,7 @@
 import Button from "../button";
 import React, { FormEvent } from "react";
-import { loginUser } from "../../../utils/services/auth";
 import { useRouter } from "next/router";
+import { loginUser } from "../../../utils/services/auth";
 
 type TFormState = {
   email: string;
