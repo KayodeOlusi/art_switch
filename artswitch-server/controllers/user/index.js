@@ -39,7 +39,10 @@ const getUserDetails = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
       message: "User details fetched successfully",
-      data: userDetails[0],
+      data: {
+        ...userDetails[0],
+        "follow-details": userDetails[0]["follow-details"][0],
+      },
     });
   } catch (error) {
     return res.status(500).json({ message: "Cannot fetch user" });

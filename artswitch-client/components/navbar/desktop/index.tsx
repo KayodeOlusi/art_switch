@@ -59,9 +59,6 @@ const DesktopNav = (props: Props) => {
           >
             <PlusCircleIcon className="w-auto h-auto" />
           </div>
-          <div className="nav-icons">
-            <ChatAlt2Icon className="w-auto h-auto cursor-pointer" />
-          </div>
           <CogIcon className="w-7 h-7 cursor-pointer" />
           <UserIcon className="w-6 h-6 cursor-pointer" />
         </div>

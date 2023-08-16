@@ -1,6 +1,5 @@
 import {
   HomeIcon,
-  CogIcon,
   UserIcon,
   ChatAlt2Icon,
   PlusCircleIcon,
