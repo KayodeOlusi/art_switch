@@ -9,9 +9,10 @@ import { useRouter } from "next/router";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
 import { clearUserToken } from "utils/functions";
-import { useAppDispatch } from "../../../app/hooks";
 import { setModalData } from "features/slices/modal";
+import { selectUserDetails } from "features/slices/user";
 import MenuDropDown from "@/components/global/menu-dropdown";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 type Props = {};
 
@@ -19,6 +20,7 @@ const DesktopNav = (props: Props) => {
   const router = useRouter();
   const { openModal } = useModal();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector(selectUserDetails);
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const _signOutUser = () => {
@@ -80,7 +82,10 @@ const DesktopNav = (props: Props) => {
             containerClass="pt-2"
             DisplayContent={<CogIcon className="w-7 h-7 cursor-pointer" />}
           />
-          <UserIcon className="w-6 h-6 cursor-pointer" />
+          <UserIcon
+            className="w-6 h-6 cursor-pointer"
+            onClick={() => router.push(`/user/${user?.username}`)}
+          />
         </div>
       </div>
     </div>
