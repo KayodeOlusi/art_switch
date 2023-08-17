@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 
 type TErrorType = "authorization" | "not-found" | "server" | "custom";
 
+const randomNum = () => Math.floor(Math.random() * 1000);
+
 const generateAPIError = (status: number | string, err: AxiosError) => {
   console.log("status", status);
 
@@ -54,4 +56,4 @@ const buildErrorResponse = (errorType: TErrorType, error?: AxiosError) => {
 
 const clearUserToken = () => Cookies.remove("_token");
 
-export { generateAPIError, clearUserToken };
+export { generateAPIError, clearUserToken, randomNum };

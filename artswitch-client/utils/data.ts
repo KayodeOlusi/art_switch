@@ -1,8 +1,8 @@
-import { StoriesState } from "redux/features/slices/stories";
+import { StoriesState } from "features/slices/stories";
 
 export const testPosts = [
   {
-    id: "1",
+    _id: "1",
     image: "https://i.pravatar.cc/150?img=1",
     tags: ["art", "design"],
     caption: "test caption one",
@@ -11,7 +11,7 @@ export const testPosts = [
     createdAt: "18/08/2021",
   },
   {
-    id: "2",
+    _id: "2",
     image: "https://i.pravatar.cc/150?img=1",
     tags: ["art", "design"],
     caption: "test caption two",
@@ -20,7 +20,7 @@ export const testPosts = [
     createdAt: "18/08/2021",
   },
   {
-    id: "3",
+    _id: "3",
     image: "https://i.pravatar.cc/150?img=1",
     tags: ["art", "design"],
     caption: "test caption three",
@@ -53,31 +53,31 @@ export const testStories: Omit<StoriesState["stories"], "email"> = [
 
 export const testPostByTag = [
   {
-    id: 1,
+    _id: 1,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 2,
+    _id: 2,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 3,
+    _id: 3,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 4,
+    _id: 4,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 5,
+    _id: 5,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 6,
+    _id: 6,
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
-    id: 7,
+    _id: 7,
     image: "https://i.pravatar.cc/150?img=1",
   },
 ];

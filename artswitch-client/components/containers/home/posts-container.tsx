@@ -20,7 +20,7 @@ const PostsContainer = () => {
       <Stories stories={stories} />
       <div data-testid="posts-view" id="post-view" className="space-y-4">
         {allPosts.map(post => (
-          <Post {...post} key={post.id} />
+          <Post {...post} key={post._id} />
         ))}
       </div>
     </div>

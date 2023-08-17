@@ -131,7 +131,7 @@ describe("Tag test", () => {
       });
 
       render(element);
-      const postContainer = screen.getByTestId("post-container");
+      const postContainer = await screen.getByTestId("post-container");
 
       expect(postContainer).not.toBeNull();
     });

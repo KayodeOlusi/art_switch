@@ -47,7 +47,10 @@ export const SingleUserPost = ({ post }: SingleUserPostProps) => {
             <p className="text-sm font-semibold">Tags</p>
             <div className="flex flex-wrap gap-2 mt-1">
               {post?.tags?.map(tag => (
-                <p className="bg-gray-300 font-light text-xs p-2 rounded-md text-white">
+                <p
+                  key={tag}
+                  className="bg-gray-300 font-light text-xs p-2 rounded-md text-white"
+                >
                   {tag}
                 </p>
               ))}
