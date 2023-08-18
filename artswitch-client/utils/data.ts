@@ -82,6 +82,19 @@ export const testPostByTag = [
   },
 ];
 
+export const testUserAccountDetails = {
+  _id: "1",
+  name: "John Doe",
+  username: "johndoe",
+  email: "johndoe@gmail.com",
+  profilePicture: "https://i.pravatar.cc/150?img=1",
+  createdAt: "12/02/24",
+  "follow-details": {
+    followers: ["1", "2"],
+    following: ["2"],
+  },
+};
+
 export const postTags = [
   "art",
   "technology",

@@ -56,7 +56,11 @@ const UserStats = (props: Props) => {
   };
 
   return (
-    <div className="mt-4" key={Number(followingUser)}>
+    <div
+      className="mt-4"
+      key={Number(followingUser)}
+      data-testid="user-stats-container"
+    >
       <div>
         <div className="bg-gray-200 h-36 rounded-lg" />
         <div className="mx-6">
@@ -64,6 +68,7 @@ const UserStats = (props: Props) => {
             <div className="w-32 h-32 -mt-14" id="profile-picture">
               <img
                 alt="avatar"
+                role="img"
                 src={props?.profilePicture}
                 className="w-full h-full z-50 object-contain rounded-full"
               />
@@ -86,20 +91,20 @@ const UserStats = (props: Props) => {
               <p className="font-medium">@{props?.username}</p>
             </div>
             <div id="follow-details" className="flex gap-x-8">
-              <div>
+              <div id="followers">
                 <p className="font-semibold">Followers</p>
                 <p className="font-bold">
                   {props?.["follow-details"]?.followers?.length}
                 </p>
               </div>
-              <div>
+              <div id="following">
                 <p className="font-semibold">Following</p>
                 <p className="font-bold">
                   {props?.["follow-details"]?.following?.length}
                 </p>
               </div>
             </div>
-            <div className="" id="follow-button">
+            <div id="follow-button">
               {props?._id !== _id && (
                 <button
                   onClick={followAction}
