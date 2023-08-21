@@ -67,13 +67,23 @@ const UserPosts = ({ error, loading, posts }: Props) => {
     <div className="mx-6 mt-12">
       <h2 className="text-xl font-semibold uppercase">Posts</h2>
       <div className="flex items-center justify-center mt-6">
-        {loading && <ClipLoader size={40} color="#000000" className="mt-9" />}
+        {loading && (
+          <ClipLoader
+            size={40}
+            color="#000000"
+            className="mt-9"
+            role="progressbar"
+          />
+        )}
         {(error as AxiosError) && (
-          <p className="mt-9 font-medium">
+          <p className="mt-9 font-medium" role="alert">
             An error occurred while fetching posts. Please try again later.
           </p>
         )}
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div
+          className="grid gap-4 lg:grid-cols-3"
+          data-testid="user-posts-container"
+        >
           {!loading && !error && posts.length > 0 ? (
             posts?.map(post => <SingleUserPost post={post} key={post._id} />)
           ) : !loading && !error && posts.length === 0 ? (

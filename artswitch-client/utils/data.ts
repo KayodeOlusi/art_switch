@@ -28,6 +28,33 @@ export const testPosts = [
     likes: ["1", "2"],
     createdAt: "18/08/2021",
   },
+  {
+    _id: "4",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design", "technology"],
+    caption: "test caption three",
+    userId: "4",
+    likes: ["1", "2", "3"],
+    createdAt: "18/08/2021",
+  },
+  {
+    _id: "5",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design"],
+    caption: "test caption three",
+    userId: "5",
+    likes: ["1", "2"],
+    createdAt: "18/08/2021",
+  },
+  {
+    _id: "6",
+    image: "https://i.pravatar.cc/150?img=1",
+    tags: ["art", "design"],
+    caption: "test caption three",
+    userId: "6",
+    likes: ["1", "2"],
+    createdAt: "18/08/2021",
+  },
 ];
 
 export const testStories: Omit<StoriesState["stories"], "email"> = [
