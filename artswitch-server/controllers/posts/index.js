@@ -109,42 +109,49 @@ const getFeedPosts = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
 
   try {
-    let posts = await Follow.aggregate([
+    const followingIDs = await Follow.findOne({ user: user_id })
+      .select("following")
+      .lean();
+
+    const followingUserIDs = followingIDs.following.map(id => id);
+
+    let postsFromFollowings = await Posts.aggregate([
       {
         $match: {
-          user: user_id,
-        },
-      },
-      {
-        $lookup: {
-          from: "posts",
-          localField: "following",
-          foreignField: "userId",
-          as: "posts",
+          userId: { $in: followingUserIDs },
         },
       },
       {
         $lookup: {
           from: "users",
-          localField: "user",
+          localField: "userId",
           foreignField: "_id",
-          as: "userDetails",
+          as: "user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$user",
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
         $project: {
-          following: 0,
-          userId: 0,
-          followers: 0,
+          "user.password": 0,
+          "user.createdAt": 0,
+          "user.updatedAt": 0,
+          "user.__v": 0,
+          updatedAt: 0,
+          __v: 0,
         },
       },
     ]);
 
-    posts = shuffleArray(posts[0].posts);
+    postsFromFollowings = shuffleArray(postsFromFollowings);
 
     return res.status(200).json({
       message: "Posts fetched successfully",
-      data: posts,
+      data: postsFromFollowings,
     });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching posts" });
