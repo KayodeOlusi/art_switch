@@ -8,7 +8,9 @@ import { SpinnerLoader } from "../global/loader";
 import { SearchIcon } from "@heroicons/react/solid";
 import { TSearchUser } from "utils/services/typings/user";
 
-type Props = {};
+type Props = {
+  action: "create-chat" | "view-profile";
+};
 
 type TSearchResultProps = {
   data: TSearchUser["data"];
@@ -22,12 +24,29 @@ const Loader = () => (
   </div>
 );
 
-const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
+const SearchResultItem = ({
+  artist,
+  action,
+}: {
+  artist: TSearchResultProps["data"][0];
+  action: "create-chat" | "view-profile";
+}) => {
   const router = useRouter();
+
+  const handleUserAction = () => {
+    switch (action) {
+      case "view-profile":
+        return router.push(`/user/${artist?.username}`);
+      case "create-chat":
+        return router.push(`/chat/${artist?._id}`);
+      default:
+        break;
+    }
+  };
 
   return (
     <div
-      onClick={() => router.push(`/user/${artist?.username}`)}
+      onClick={handleUserAction}
       className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
     hover:bg-gray-200 hover:bg-opacity-50 p-3 transition-all duration-200"
     >
@@ -38,10 +57,7 @@ const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
           src={artist?.profilePicture || artist?.name[0]}
         />
       </div>
-      <section
-        className="flex flex-col space-y-0"
-        onClick={() => router.push(`/user/${artist?.username}`)}
-      >
+      <section className="flex flex-col space-y-0">
         <p className="text-sm font-semibold">{artist?.name}</p>
         <p className="text-sm font-normal">@{artist?.username}</p>
       </section>
@@ -49,7 +65,7 @@ const SearchResultItem = (artist: TSearchResultProps["data"][0]) => {
   );
 };
 
-const SearchResult = (props: Props) => {
+const SearchResult = ({ action }: Props) => {
   const { data } = useModal();
   const [artistValue, setArtistValue] = React.useState(data?.searchValue);
   const { debouncedValue } = useDebounce({
@@ -84,8 +100,16 @@ const SearchResult = (props: Props) => {
 
   return (
     <div
-      id={MODAL_VIEWS.SEARCH_FOR_ARTIST}
-      data-testid={MODAL_VIEWS.SEARCH_FOR_ARTIST}
+      id={
+        action === "create-chat"
+          ? MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST
+          : MODAL_VIEWS.VIEW_ARTIST_PROFILE
+      }
+      data-testid={
+        action === "create-chat"
+          ? MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST
+          : MODAL_VIEWS.VIEW_ARTIST_PROFILE
+      }
       className="w-[500px] h-[400px] rounded-lg bg-white p-3 overflow-y-scroll"
     >
       <div className="relative w-full mb-3">
@@ -102,7 +126,11 @@ const SearchResult = (props: Props) => {
           <Loader />
         ) : searchResult.data?.length > 0 ? (
           searchResult.data?.map(artist => (
-            <SearchResultItem key={artist._id} {...artist} />
+            <SearchResultItem
+              key={artist._id}
+              artist={artist}
+              action={action}
+            />
           ))
         ) : (
           <p className="font-semibold text-sm opacity-50">

@@ -43,7 +43,7 @@ const DesktopNav = (props: Props) => {
     e.key === "Enter" &&
       (() => {
         dispatch(setModalData({ searchValue }));
-        openModal(MODAL_VIEWS.SEARCH_FOR_ARTIST);
+        openModal(MODAL_VIEWS.VIEW_ARTIST_PROFILE);
       })();
   };
 

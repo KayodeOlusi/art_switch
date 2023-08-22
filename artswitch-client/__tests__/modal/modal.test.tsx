@@ -79,7 +79,10 @@ describe("Modal Container Test", () => {
         MODAL_VIEWS.UPLOAD_POST
       );
       itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
-        MODAL_VIEWS.SEARCH_FOR_ARTIST
+        MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST
+      );
+      itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
+        MODAL_VIEWS.VIEW_ARTIST_PROFILE
       );
       itShouldRenderTheAppropriateModalChildElementWhenIsOpenIsTrue(
         MODAL_VIEWS.VIEW_SINGLE_POST
