@@ -1,14 +1,42 @@
+import React from "react";
 import Link from "next/link";
+import Lottie from "react-lottie";
+import { signInAnimations } from "utils/data";
 import { NextPageWithLayout } from "utils/typings/app";
 import LoginForm from "../../components/auth/login/login-form";
 
 const Login: NextPageWithLayout = () => {
+  const [selectedAnimations, setSelectedAnimations] = React.useState<any>(
+    signInAnimations[Math.floor(Math.random() * signInAnimations.length)]
+  );
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * signInAnimations.length);
+      setSelectedAnimations(signInAnimations[randomIndex]);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [selectedAnimations]);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: selectedAnimations,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <div
       data-testid="login-page"
       className="grid grid-cols-2 h-screen font-Inter"
     >
-      <section className="form-section block p-4 col-span-2 lg:col-span-1 lg:border-r-2 lg:border-black">
+      <section
+        className="form-section block p-4 col-span-2 lg:col-span-1
+        lg:border-r-2 lg:border-black"
+      >
         <div className="logo mb-4 px-4 lg:px-0 lg:p-4">
           <h1 className="font-semibold">ArtSwitch</h1>
         </div>
@@ -30,12 +58,19 @@ const Login: NextPageWithLayout = () => {
           </p>
         </div>
       </section>
-      <section className="hidden lg:block relative">
-        <img
-          alt=""
-          src={"/assets/svgs/bg-desktop.svg"}
-          className="w-full h-screen object-cover"
-        />
+      <section
+        className="hidden lg:block relative bg-gradient-to-bl 
+       from-orange-100 via-orange-200 to-green-100"
+      >
+        <div className="w-full h-screen">
+          <Lottie
+            speed={0.5}
+            width={"100%"}
+            height={"100%"}
+            options={defaultOptions}
+            isClickToPauseDisabled={true}
+          />
+        </div>
       </section>
     </div>
   );

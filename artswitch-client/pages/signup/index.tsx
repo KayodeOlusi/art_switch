@@ -1,8 +1,33 @@
 import Link from "next/link";
+import React from "react";
+import Lottie from "react-lottie";
+import { signUpAnimations } from "utils/data";
 import { NextPageWithLayout } from "utils/typings/app";
 import SignupForm from "../../components/auth/signup/signup-form";
 
 const SignUp: NextPageWithLayout = () => {
+  const [selectedAnimations, setSelectedAnimations] = React.useState<any>(
+    signUpAnimations[Math.floor(Math.random() * signUpAnimations.length)]
+  );
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * signUpAnimations.length);
+      setSelectedAnimations(signUpAnimations[randomIndex]);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [selectedAnimations]);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: selectedAnimations,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <div
       data-testid="signup-page"
@@ -30,12 +55,19 @@ const SignUp: NextPageWithLayout = () => {
           </p>
         </div>
       </section>
-      <section className="hidden lg:block relative">
-        <img
-          alt=""
-          src={"/assets/svgs/bg-desktop.svg"}
-          className="w-full h-screen object-cover"
-        />
+      <section
+        className="hidden lg:block relative bg-gradient-to-bl 
+       from-orange-100 via-orange-200 to-green-100"
+      >
+        <div className="w-full h-screen">
+          <Lottie
+            speed={0.5}
+            width={"100%"}
+            height={"100%"}
+            options={defaultOptions}
+            isClickToPauseDisabled={true}
+          />
+        </div>
       </section>
     </div>
   );

@@ -1,3 +1,4 @@
+import { animations } from "./animations";
 import { StoriesState } from "features/slices/stories";
 
 export const testPosts = [
@@ -121,6 +122,18 @@ export const testUserAccountDetails = {
     following: ["2"],
   },
 };
+
+export const signInAnimations = [
+  animations.animation_one,
+  animations.animation_two,
+  animations.animation_five,
+];
+
+export const signUpAnimations = [
+  animations.animation_nine,
+  animations.animation_ten,
+  animations.animation_seven,
+];
 
 export const postTags = [
   "art",

@@ -3,6 +3,7 @@
 
 // Used for __tests__/testing-library.js
 // Learn more: https://github.com/testing-library/jest-dom
+require("jest-canvas-mock");
 import "@testing-library/jest-dom/extend-expect";
 
 const mockRouter = {
