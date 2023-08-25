@@ -12,8 +12,6 @@ type Props = TPost;
 const Post = (props: Props) => {
   const router = useRouter();
 
-  console.log(props);
-
   return (
     <div className="bg-white rounded-lg p-3 space-y-5">
       <div className="flex items-center justify-between">

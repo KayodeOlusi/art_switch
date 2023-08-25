@@ -50,7 +50,6 @@ describe("Posts Container Test", () => {
     expect(postView.children.length).toBe(testPosts.length);
   });
 
-  // TODO: Finish test when backend is complete
   it("should render the post component with its props", () => {
     mockedUseGetFeedPosts.mockReturnValue({
       data: testPosts,

@@ -6,8 +6,6 @@ type TErrorType = "authorization" | "not-found" | "server" | "custom";
 const randomNum = () => Math.floor(Math.random() * 1000);
 
 const generateAPIError = (status: number | string, err: AxiosError) => {
-  console.log("status", status);
-
   switch (status) {
     case 401:
       return buildErrorResponse("authorization");
