@@ -19,14 +19,14 @@ const Post = (props: Props) => {
           <div>
             {props?.user?.profilePicture && (
               <img
-                alt="Avatar"
+                alt="Profile Picture"
                 src={props?.user?.profilePicture}
                 className="w-10 h-10 rounded-full cursor-pointer"
                 onClick={() => router.push(`/user/${props?.user?.username}`)}
               />
             )}
           </div>
-          <section>
+          <section id="user-details">
             <h4 className="font-semibold">{props?.user?.name}</h4>
             <p className="font-medium text-sm">@{props?.user?.username}</p>
           </section>
@@ -36,7 +36,7 @@ const Post = (props: Props) => {
       {props?.image && (
         <div className="w-full h-80 rounded-lg">
           <img
-            alt="Post"
+            alt="Post Image"
             src={props?.image}
             className="w-full h-full object-cover rounded-lg"
           />

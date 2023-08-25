@@ -68,7 +68,7 @@ export const testPosts = [
   },
   {
     _id: "5",
-    image: "https://i.pravatar.cc/150?img=1",
+    image: "",
     tags: ["art", "design"],
     caption: "test caption three",
     userId: "5",
