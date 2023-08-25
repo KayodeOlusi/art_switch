@@ -41,11 +41,13 @@ const Login: NextPageWithLayout = () => {
           <h1 className="font-semibold">ArtSwitch</h1>
         </div>
         <section className="block relative px-4 lg:hidden">
-          <img
-            alt="mobile"
-            src={"/assets/svgs/bg-mobile.svg"}
-            className="object-contain w-24 h-24"
-          />
+          <div className="w-16 h-16">
+            <img
+              alt="mobile"
+              src={"/assets/svgs/bg-mobile.svg"}
+              className="object-contain w-full h-full"
+            />
+          </div>
         </section>
         <div className="login-form flex h-3/5 flex-col items-center justify-center lg:h-5/6">
           <p className="font-semibold text-4xl mb-4">Welcome Back</p>

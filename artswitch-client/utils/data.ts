@@ -10,6 +10,13 @@ export const testPosts = [
     userId: "1",
     likes: ["1", "2"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "1",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
   {
     _id: "2",
@@ -19,6 +26,13 @@ export const testPosts = [
     userId: "2",
     likes: ["1", "2"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "2",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
   {
     _id: "3",
@@ -28,6 +42,13 @@ export const testPosts = [
     userId: "3",
     likes: ["1", "2"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "3",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
   {
     _id: "4",
@@ -37,6 +58,13 @@ export const testPosts = [
     userId: "4",
     likes: ["1", "2", "3"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "4",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
   {
     _id: "5",
@@ -46,6 +74,13 @@ export const testPosts = [
     userId: "5",
     likes: ["1", "2"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "5",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
   {
     _id: "6",
@@ -55,6 +90,13 @@ export const testPosts = [
     userId: "6",
     likes: ["1", "2"],
     createdAt: "18/08/2021",
+    user: {
+      _id: "6",
+      name: "Jane",
+      username: "jane",
+      email: "jane@gmail.com",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
   },
 ];
 

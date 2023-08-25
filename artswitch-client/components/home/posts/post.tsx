@@ -12,24 +12,25 @@ type Props = TPost;
 const Post = (props: Props) => {
   const router = useRouter();
 
+  console.log(props);
+
   return (
     <div className="bg-white rounded-lg p-3 space-y-5">
       <div className="flex items-center justify-between">
         <section className="flex items-center space-x-2">
           <div>
-            {props?.image && (
+            {props?.user?.profilePicture && (
               <img
                 alt="Avatar"
-                src={props?.image}
-                className="w-10 h-10 rounded-full"
-                onClick={() => router.push(`/user/`)}
+                src={props?.user?.profilePicture}
+                className="w-10 h-10 rounded-full cursor-pointer"
+                onClick={() => router.push(`/user/${props?.user?.username}`)}
               />
             )}
-            <p className="font-semibold text-sm">{props?.id}</p>
           </div>
           <section>
-            <h4>{props?.caption}</h4>
-            <p>{props?.userId}</p>
+            <h4 className="font-semibold">{props?.user?.name}</h4>
+            <p className="font-medium text-sm">@{props?.user?.username}</p>
           </section>
         </section>
         <DotsHorizontalIcon className="w-6 h-6" />
@@ -43,11 +44,24 @@ const Post = (props: Props) => {
           />
         </div>
       )}
+      {props?.image && (
+        <div className="w-full flex gap-x-4">
+          <HeartIcon className="w-7 h-7" />
+          <ChatIcon className="w-7 h-7" />
+        </div>
+      )}
       <div>
         <p className="text-sm">
-          <span className="font-semibold">username</span> {props?.caption}
+          <span className="font-semibold">{props?.user?.username}</span>{" "}
+          {props?.caption} Lorem ipsum dolor sit amet consectetur adipisicing
+          elit. Cumque esse nihil ipsam nulla. Consequuntur aliquam voluptate
+          unde eaque sint neque, quia magni eos. Eveniet vero eum, ex veniam id
+          mollitia.
         </p>
-        <div className="flex gap-x-2">
+        <p className="text-xs opacity-30 mt-1">
+          {new Date(props?.createdAt).toLocaleString()}
+        </p>
+        <div className="flex gap-x-2 mt-3">
           {props?.tags?.map(tag => (
             <p
               key={tag}
@@ -58,10 +72,12 @@ const Post = (props: Props) => {
           ))}
         </div>
       </div>
-      <div className="w-full flex gap-x-4">
-        <HeartIcon className="w-7 h-7" />
-        <ChatIcon className="w-7 h-7" />
-      </div>
+      {!props?.image && (
+        <div className="w-full flex gap-x-4">
+          <HeartIcon className="w-7 h-7" />
+          <ChatIcon className="w-7 h-7" />
+        </div>
+      )}
       {props?.likes?.length > 0 && (
         <div>
           <p>{props.likes.length} likes</p>

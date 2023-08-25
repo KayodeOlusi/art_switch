@@ -11,6 +11,13 @@ export type TPost = {
   userId: string;
   likes: string[];
   createdAt: string;
+  user: {
+    _id: string;
+    name: string;
+    username: string;
+    email: string;
+    profilePicture: string;
+  };
 };
 
 export type TAllPostsByTag = {

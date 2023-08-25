@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { shuffle } = require("lodash");
 
+const changeSinglePostBody = post => {
+  const { userId, ...rest } = post;
+  return { user: userId, ...rest };
+};
+
 const isValidObjectId = id => mongoose.Types.ObjectId.isValid(id);
 
 const prepareJSONResponse = args => {
@@ -13,4 +18,5 @@ module.exports = {
   shuffleArray,
   prepareJSONResponse,
   isValidObjectId,
+  changeSinglePostBody,
 };

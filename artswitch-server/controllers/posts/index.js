@@ -1,7 +1,11 @@
 const Posts = require("../../models/posts");
 const Follow = require("../../models/follow");
 const asyncHandler = require("express-async-handler");
-const { isValidObjectId, shuffleArray } = require("../../utils/functions");
+const {
+  isValidObjectId,
+  shuffleArray,
+  changeSinglePostBody,
+} = require("../../utils/functions");
 
 // @desc Create a post
 // @access Public
@@ -37,11 +41,15 @@ const getSinglePost = asyncHandler(async (req, res) => {
   }
 
   try {
-    const post = await Posts.findOne({ _id: { $eq: postId.toString() } });
+    const post = await Posts.findOne({
+      _id: { $eq: postId.toString() },
+    })
+      .populate("userId", "-password -createdAt -updatedAt -__v")
+      .lean();
 
     return res.status(200).json({
       message: "Post fetched successfully",
-      data: post,
+      data: changeSinglePostBody(post),
     });
   } catch (error) {
     return res.status(500).json({ message: "Error fetching post" });
