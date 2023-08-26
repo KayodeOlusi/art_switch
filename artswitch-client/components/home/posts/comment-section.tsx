@@ -1,14 +1,14 @@
 import React from "react";
 import { CommentHandler } from "./post";
-import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useGetCommentsForPost } from "utils/hooks/posts/usePosts";
-import { SpinnerLoader } from "@/components/global/loader";
 import { useRouter } from "next/router";
 import { useQueryClient } from "react-query";
 import { useAppSelector } from "app/hooks";
+import { SpinnerLoader } from "@/components/global/loader";
 import { selectUserDetails } from "features/slices/user";
 import { addCommentToPost } from "utils/services/posts";
 import { successMessage } from "utils/services/client";
+import { useGetCommentsForPost } from "utils/hooks/posts/usePosts";
+import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
 
 type TComment = {
   time: string;
