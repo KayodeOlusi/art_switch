@@ -6,9 +6,9 @@ const { isValidObjectId } = require("../../utils/functions");
 // @access PUBLIC
 const createNewComment = asyncHandler(async (req, res) => {
   const { id: postId } = req.params;
-  const { comment, authorId } = req.body;
+  const { comment, user } = req.body;
 
-  if (!comment || !isValidObjectId(postId) || !isValidObjectId(authorId)) {
+  if (!comment || !isValidObjectId(postId) || !isValidObjectId(user)) {
     return res.status(400).json({ message: "Validation Error" });
   }
 
@@ -16,7 +16,7 @@ const createNewComment = asyncHandler(async (req, res) => {
     const newComment = await Comments.create({
       comment,
       postId,
-      authorId,
+      user,
     });
 
     return res.status(201).json({
@@ -28,6 +28,28 @@ const createNewComment = asyncHandler(async (req, res) => {
   }
 });
 
+const getAllCommentsInAPost = asyncHandler(async (req, res) => {
+  const { id: postId } = req.params;
+
+  if (!isValidObjectId(postId)) {
+    return res.status(400).json({ message: "Invalid Post Id" });
+  }
+
+  try {
+    const comments = await Comments.find({ postId })
+      .populate("user", "-password -createdAt -updatedAt -__v")
+      .sort({ createdAt: 1 });
+
+    return res.status(200).json({
+      message: "Comments fetched successfully",
+      data: comments,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching comments" });
+  }
+});
+
 module.exports = {
   createNewComment,
+  getAllCommentsInAPost,
 };

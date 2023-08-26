@@ -8,7 +8,10 @@ const {
   getSinglePost,
   getPostsForExplore,
 } = require("../../controllers/posts");
-const { createNewComment } = require("../../controllers/comments");
+const {
+  createNewComment,
+  getAllCommentsInAPost,
+} = require("../../controllers/comments");
 
 // Manage Posts
 router.get("/explore", getPostsForExplore);
@@ -21,6 +24,6 @@ router.route("/user/:id").get(getUserPosts);
 router.get("/:id", getSinglePost);
 
 // Manage Comments
-router.route("/comments/:id").post(createNewComment);
+router.route("/comments/:id").get(getAllCommentsInAPost).post(createNewComment);
 
 module.exports = router;
