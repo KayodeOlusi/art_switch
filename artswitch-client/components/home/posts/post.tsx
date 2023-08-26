@@ -5,12 +5,39 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import CommentSection from "./comment-section";
 import { TPost } from "utils/services/typings/posts";
 
 type Props = TPost;
 
+export type CommentHandler = {
+  showCommentSection: boolean;
+  setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const PostInteractions = ({ setShowCommentSection }: CommentHandler) => {
+  return (
+    <div className="w-full flex gap-x-4">
+      <HeartIcon className="w-7 h-7" />
+      <ChatIcon
+        className="w-7 h-7"
+        onClick={() => setShowCommentSection(true)}
+      />
+    </div>
+  );
+};
+
 const Post = (props: Props) => {
   const router = useRouter();
+  const [showCommentSection, setShowCommentSection] = React.useState(false);
+
+  const handleCommentSection = React.useMemo(
+    () => ({
+      showCommentSection,
+      setShowCommentSection,
+    }),
+    []
+  );
 
   return (
     <div className="bg-white rounded-lg p-3 space-y-5">
@@ -42,19 +69,11 @@ const Post = (props: Props) => {
           />
         </div>
       )}
-      {props?.image && (
-        <div className="w-full flex gap-x-4">
-          <HeartIcon className="w-7 h-7" />
-          <ChatIcon className="w-7 h-7" />
-        </div>
-      )}
+      {props?.image && <PostInteractions {...handleCommentSection} />}
       <div>
         <p className="text-sm">
           <span className="font-semibold">{props?.user?.username}</span>{" "}
-          {props?.caption} Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Cumque esse nihil ipsam nulla. Consequuntur aliquam voluptate
-          unde eaque sint neque, quia magni eos. Eveniet vero eum, ex veniam id
-          mollitia.
+          {props?.caption}
         </p>
         <p className="text-xs opacity-30 mt-1">
           {new Date(props?.createdAt).toLocaleString()}
@@ -70,11 +89,10 @@ const Post = (props: Props) => {
           ))}
         </div>
       </div>
-      {!props?.image && (
-        <div className="w-full flex gap-x-4">
-          <HeartIcon className="w-7 h-7" />
-          <ChatIcon className="w-7 h-7" />
-        </div>
+      {showCommentSection ? (
+        <CommentSection {...handleCommentSection} id={props?._id} />
+      ) : (
+        !props?.image && <PostInteractions {...handleCommentSection} />
       )}
       {props?.likes?.length > 0 && (
         <div>

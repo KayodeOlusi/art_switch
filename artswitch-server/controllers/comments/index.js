@@ -36,7 +36,13 @@ const getAllCommentsInAPost = asyncHandler(async (req, res) => {
   }
 
   try {
-    const comments = await Comments.find({ postId })
+    const comments = await Comments.find(
+      { postId },
+      {
+        __v: 0,
+        updatedAt: 0,
+      }
+    )
       .populate("user", "-password -createdAt -updatedAt -__v")
       .sort({ createdAt: 1 });
 

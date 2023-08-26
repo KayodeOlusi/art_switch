@@ -3,11 +3,13 @@ import {
   getSinglePost,
   getPostsByTagSelected,
   getAllPostsForUser,
+  getCommentForPost,
 } from "utils/services/posts";
 import {
   TPost,
   TAllPostsByTag,
   TResponseBody,
+  TGetCommentsForPost,
 } from "utils/services/typings/posts";
 import { useQuery } from "react-query";
 
@@ -38,6 +40,16 @@ export const useGetUserPosts = (id: string) => {
   return useQuery<TResponseBody<TPost[]>["data"]>(
     ["user-posts", id],
     () => getAllPostsForUser(id),
+    {
+      enabled: !!id,
+    }
+  );
+};
+
+export const useGetCommentsForPost = (id: string) => {
+  return useQuery<TResponseBody<TGetCommentsForPost[]>["data"]>(
+    ["comments", id],
+    () => getCommentForPost(id),
     {
       enabled: !!id,
     }

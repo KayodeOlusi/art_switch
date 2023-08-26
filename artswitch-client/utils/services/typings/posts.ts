@@ -3,6 +3,20 @@ export type TResponseBody<T> = {
   data: T;
 };
 
+export type TGetCommentsForPost = {
+  _id: string;
+  comment: string;
+  postId: string;
+  user: {
+    _id: string;
+    name: string;
+    username: string;
+    email: string;
+    profilePicture: string;
+  };
+  createdAt: string;
+};
+
 export type TPost = {
   _id: string;
   image: string;

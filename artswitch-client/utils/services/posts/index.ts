@@ -3,6 +3,7 @@ import {
   TAllPostsByTag,
   TResponseBody,
   TCreatePostBody,
+  TGetCommentsForPost,
 } from "utils/services/typings/posts";
 import Cookies from "js-cookie";
 import { AxiosError } from "axios";
@@ -105,6 +106,33 @@ export const createPost = async (
           () => onError?.()
         )
       : await addPost(data, onSuccess, onError);
+  } catch (error) {
+    onError?.();
+    handleError(error as AxiosError);
+  }
+};
+
+export const getCommentForPost = async (id: string) => {
+  const res = await HttpClient.getWithToken<
+    TResponseBody<TGetCommentsForPost[]>
+  >(`/posts/comments/${id}`, user_token);
+
+  return res?.data;
+};
+
+export const addCommentToPost = async (
+  id: string,
+  data: {
+    comment: string;
+    user: string;
+  },
+  onSuccess: () => Promise<void>,
+  onError?: () => void
+) => {
+  try {
+    await HttpClient.postWithToken(`/posts/comments/${id}`, data, user_token);
+
+    onSuccess();
   } catch (error) {
     onError?.();
     handleError(error as AxiosError);
