@@ -44,7 +44,7 @@ const getAllCommentsInAPost = asyncHandler(async (req, res) => {
       }
     )
       .populate("user", "-password -createdAt -updatedAt -__v")
-      .sort({ createdAt: 1 });
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       message: "Comments fetched successfully",

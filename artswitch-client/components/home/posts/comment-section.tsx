@@ -105,15 +105,14 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
               />
             ))}
           </div>
+        ) : error ? (
+          <p className="text-xs text-center">
+            An error occurred while fetching comments. Please try again later.
+          </p>
         ) : (
           <p className="text-xs text-center">
             No comments yet. Be the first to comment on this post and start a
             conversation!
-          </p>
-        )}
-        {(error as Error) && !allComments.length && (
-          <p className="text-xs text-center">
-            An error occurred while fetching comments. Please try again later.
           </p>
         )}
       </div>
@@ -122,6 +121,7 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
           <input
             type="text"
             name="comment"
+            value={comment}
             placeholder="Add a comment..."
             onChange={e => setComment(e.target.value)}
             className="w-full rounded-lg pr-8 pl-4 py-1 text-xs outline-none"
