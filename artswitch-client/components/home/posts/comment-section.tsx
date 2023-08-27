@@ -17,8 +17,12 @@ type TComment = {
   username: string;
 };
 
-type Props = CommentHandler & {
+type Props = Omit<
+  CommentHandler,
+  "allLikes" | "hasLikedPost" | "likePost" | "setHasLikedPost"
+> & {
   id: string;
+  setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Comment = (props: TComment) => {
@@ -47,8 +51,8 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
     user: { _id },
   } = useAppSelector(selectUserDetails);
   const queryClient = useQueryClient();
-  const [loading, setLoading] = React.useState(false);
   const [comment, setComment] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const { data, isLoading, error } = useGetCommentsForPost(id);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,7 +82,10 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
   }, [data]);
 
   return (
-    <div className="border-2 rounded-lg border-gray-100 p-3">
+    <div
+      data-testid="comment-section"
+      className="border-2 rounded-lg border-gray-100 p-3"
+    >
       <div>
         <ChevronLeftIcon
           className="w-5 h-5 cursor-pointer mb-1"

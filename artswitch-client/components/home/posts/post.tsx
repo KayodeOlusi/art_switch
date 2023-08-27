@@ -58,6 +58,7 @@ const PostInteractions = ({
           />
         )}
         <ChatIcon
+          id="comment-icon"
           className="w-6 h-6 cursor-pointer"
           onClick={() => setShowCommentSection(true)}
         />

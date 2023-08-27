@@ -1,7 +1,7 @@
 import React from "react";
 import { store } from "app/store";
 import { Provider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
 
 type TLayoutProps = "redux" | "react-query" | "redux-react-query";
 
