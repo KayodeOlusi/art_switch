@@ -7,20 +7,30 @@ import {
 import { useRouter } from "next/router";
 import CommentSection from "./comment-section";
 import { TPost } from "utils/services/typings/posts";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 
 type Props = TPost;
 
 export type CommentHandler = {
-  showCommentSection: boolean;
+  hasLikedPost: boolean;
+  setHasLikedPost: React.Dispatch<React.SetStateAction<boolean>>;
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PostInteractions = ({ setShowCommentSection }: CommentHandler) => {
+const PostInteractions = ({
+  hasLikedPost,
+  setHasLikedPost,
+  setShowCommentSection,
+}: CommentHandler) => {
   return (
     <div className="w-full flex gap-x-4">
-      <HeartIcon className="w-7 h-7" />
+      {hasLikedPost ? (
+        <HeartIconFilled className="text-red-500 w-7 h-7 cursor-pointer" />
+      ) : (
+        <HeartIcon className="w-7 h-7 cursor-pointer" />
+      )}
       <ChatIcon
-        className="w-7 h-7"
+        className="w-7 h-7 cursor-pointer"
         onClick={() => setShowCommentSection(true)}
       />
     </div>
@@ -29,11 +39,15 @@ const PostInteractions = ({ setShowCommentSection }: CommentHandler) => {
 
 const Post = (props: Props) => {
   const router = useRouter();
+  const [hasLikedPost, setHasLikedPost] = React.useState(false);
   const [showCommentSection, setShowCommentSection] = React.useState(false);
 
-  const handleCommentSection = React.useMemo(
+  const likePost = React.useCallback(() => {}, []);
+
+  const handlePostInteraction = React.useMemo(
     () => ({
-      showCommentSection,
+      hasLikedPost,
+      setHasLikedPost,
       setShowCommentSection,
     }),
     []
@@ -44,14 +58,12 @@ const Post = (props: Props) => {
       <div className="flex items-center justify-between">
         <section className="flex items-center space-x-2">
           <div>
-            {props?.user?.profilePicture && (
-              <img
-                alt="Profile Picture"
-                src={props?.user?.profilePicture}
-                className="w-10 h-10 rounded-full cursor-pointer"
-                onClick={() => router.push(`/user/${props?.user?.username}`)}
-              />
-            )}
+            <img
+              alt="Profile Picture"
+              src={props?.user?.profilePicture}
+              className="w-10 h-10 rounded-full cursor-pointer"
+              onClick={() => router.push(`/user/${props?.user?.username}`)}
+            />
           </div>
           <section id="user-details">
             <h4 className="font-semibold">{props?.user?.name}</h4>
@@ -69,7 +81,7 @@ const Post = (props: Props) => {
           />
         </div>
       )}
-      {props?.image && <PostInteractions {...handleCommentSection} />}
+      {props?.image && <PostInteractions {...handlePostInteraction} />}
       <div>
         <p className="text-sm">
           <span className="font-semibold">{props?.user?.username}</span>{" "}
@@ -90,9 +102,9 @@ const Post = (props: Props) => {
         </div>
       </div>
       {showCommentSection ? (
-        <CommentSection {...handleCommentSection} id={props?._id} />
+        <CommentSection {...handlePostInteraction} id={props?._id} />
       ) : (
-        !props?.image && <PostInteractions {...handleCommentSection} />
+        !props?.image && <PostInteractions {...handlePostInteraction} />
       )}
       {props?.likes?.length > 0 && (
         <div>

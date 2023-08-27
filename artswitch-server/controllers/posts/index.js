@@ -1,11 +1,11 @@
+const {
+  shuffleArray,
+  isValidObjectId,
+  changeSinglePostBody,
+} = require("../../utils/functions");
 const Posts = require("../../models/posts");
 const Follow = require("../../models/follow");
 const asyncHandler = require("express-async-handler");
-const {
-  isValidObjectId,
-  shuffleArray,
-  changeSinglePostBody,
-} = require("../../utils/functions");
 
 // @desc Create a post
 // @access Public
@@ -187,11 +187,39 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
+const likeOrUnlikePost = asyncHandler(async (req, res) => {
+  const { action } = req.query;
+  const user_id = req.user._id;
+  const { id: postId } = req.params;
+
+  if (!postId || !isValidObjectId(postId)) {
+    return res.status(400).json({ message: "Invalid post id" });
+  }
+
+  try {
+    await Posts.findOneAndUpdate(
+      { _id: postId },
+      {
+        [action === "like" ? "$addToSet" : "$pull"]: {
+          likes: user_id,
+        },
+      }
+    );
+
+    return res.status(200).json({
+      message: "Post updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating post" });
+  }
+});
+
 module.exports = {
   createPost,
   deletePost,
   getFeedPosts,
   getUserPosts,
   getSinglePost,
+  likeOrUnlikePost,
   getPostsForExplore,
 };
