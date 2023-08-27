@@ -7,9 +7,8 @@ import { SpinnerLoader } from "@/components/global/loader";
 import { selectUserDetails } from "features/slices/user";
 import { addCommentToPost } from "utils/services/posts";
 import { successMessage } from "utils/services/client";
-import { useGetCommentsForPost } from "utils/hooks/posts/usePosts";
-import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
 import { TGetCommentsForPost } from "utils/services/typings/posts";
+import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
 
 type TComment = {
   time: string;
