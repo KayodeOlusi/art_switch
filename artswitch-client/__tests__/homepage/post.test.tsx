@@ -1,16 +1,20 @@
 jest.mock("../../utils/hooks/posts/usePosts");
 
+import {
+  screen,
+  render,
+  cleanup,
+  act,
+  fireEvent,
+} from "@testing-library/react";
+import {
+  useGetFeedPosts,
+  useGetCommentsForPost,
+} from "utils/hooks/posts/usePosts";
 import { testPosts } from "utils/data";
 import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
-import ReactTestUtils from "react-dom/test-utils";
-import CommentSection from "@/components/home/posts/comment-section";
-import { screen, render, cleanup, act } from "@testing-library/react";
 import PostsContainer from "@/components/containers/home/posts-container";
-import {
-  useGetCommentsForPost,
-  useGetFeedPosts,
-} from "utils/hooks/posts/usePosts";
 
 const mockedUseGetFeedPosts = useGetFeedPosts as jest.Mock<any>;
 const mockedUseGetCommentsForPost = useGetCommentsForPost as jest.Mock<any>;
@@ -19,6 +23,12 @@ const element = getTestLayout(<PostsContainer />, "redux-react-query");
 describe("Posts Container Test", () => {
   beforeEach(() => {
     mockedUseGetFeedPosts.mockReturnValue({
+      data: [],
+      isLoading: false,
+      error: false,
+    });
+
+    mockedUseGetCommentsForPost.mockReturnValue({
       data: [],
       isLoading: false,
       error: false,
@@ -130,20 +140,20 @@ describe("Posts Container Test", () => {
       expect(postPictureElement).not.toBeInTheDocument();
     });
 
-    // TODO: Extract getPostComment hook to parent component and pass a props to comment
-    // section to determine if it should be rendered or not
-    it.skip("should show the comment section for a post when the comment icon is clicked", async () => {
+    it("should show the comment section for a post when the comment icon is clicked", async () => {
       const postElement = getTestLayout(
         <Post {...testPosts[0]} />,
         "redux-react-query"
       );
-
       render(postElement);
 
       const commentIcon = document.querySelector("#comment-icon") as SVGElement;
       act(() => {
-        ReactTestUtils.Simulate.click(commentIcon);
+        fireEvent.click(commentIcon);
       });
+
+      const commentSection = screen.getByTestId("comment-section");
+      expect(commentSection).toBeInTheDocument();
     });
   });
 });

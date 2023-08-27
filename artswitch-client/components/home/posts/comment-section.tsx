@@ -9,6 +9,7 @@ import { addCommentToPost } from "utils/services/posts";
 import { successMessage } from "utils/services/client";
 import { useGetCommentsForPost } from "utils/hooks/posts/usePosts";
 import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
+import { TGetCommentsForPost } from "utils/services/typings/posts";
 
 type TComment = {
   time: string;
@@ -22,6 +23,9 @@ type Props = Omit<
   "allLikes" | "hasLikedPost" | "likePost" | "setHasLikedPost"
 > & {
   id: string;
+  error: any;
+  isLoading: boolean;
+  comments: TGetCommentsForPost[];
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -46,14 +50,19 @@ const Comment = (props: TComment) => {
   );
 };
 
-const CommentSection = ({ setShowCommentSection, id }: Props) => {
+const CommentSection = ({
+  setShowCommentSection,
+  id,
+  comments,
+  error,
+  isLoading,
+}: Props) => {
   const {
     user: { _id },
   } = useAppSelector(selectUserDetails);
   const queryClient = useQueryClient();
   const [comment, setComment] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const { data, isLoading, error } = useGetCommentsForPost(id);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
@@ -76,11 +85,6 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
     );
   };
 
-  const allComments = React.useMemo(() => {
-    if (!data) return [];
-    return data;
-  }, [data]);
-
   return (
     <div
       data-testid="comment-section"
@@ -100,9 +104,9 @@ const CommentSection = ({ setShowCommentSection, id }: Props) => {
           <div className="w-full h-full flex items-center justify-center">
             <SpinnerLoader size={20} color="#7C3AED" />
           </div>
-        ) : allComments.length > 0 ? (
+        ) : comments.length > 0 ? (
           <div className="flex flex-col space-y-3">
-            {allComments.map(comment => (
+            {comments.map(comment => (
               <Comment
                 key={comment._id}
                 comment={comment.comment}

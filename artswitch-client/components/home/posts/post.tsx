@@ -11,6 +11,7 @@ import { TPost } from "utils/services/typings/posts";
 import { selectUserDetails } from "features/slices/user";
 import { likeOrUnlikePost } from "utils/services/posts";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
+import { useGetCommentsForPost } from "utils/hooks/posts/usePosts";
 
 type Props = TPost;
 
@@ -68,6 +69,11 @@ const PostInteractions = ({
 };
 
 const Post = (props: Props) => {
+  const {
+    error,
+    isLoading,
+    data: comments,
+  } = useGetCommentsForPost(props?._id);
   const router = useRouter();
   const { user } = useAppSelector(selectUserDetails);
   const [allLikes, setAllLikes] = React.useState(props?.likes);
@@ -75,6 +81,11 @@ const Post = (props: Props) => {
   const [hasLikedPost, setHasLikedPost] = React.useState(
     allLikes?.includes(user?._id)
   );
+
+  const allComments = React.useMemo(() => {
+    if (!comments) return [];
+    return comments;
+  }, [comments]);
 
   const likePost = React.useCallback(async () => {
     switch (hasLikedPost) {
@@ -152,7 +163,13 @@ const Post = (props: Props) => {
         </div>
       </div>
       {showCommentSection ? (
-        <CommentSection {...handlePostInteraction} id={props?._id} />
+        <CommentSection
+          id={props?._id}
+          error={error}
+          comments={allComments}
+          isLoading={isLoading}
+          {...handlePostInteraction}
+        />
       ) : (
         !props?.image && <PostInteractions {...handlePostInteraction} />
       )}
