@@ -51,11 +51,11 @@ const Comment = (props: TComment) => {
 };
 
 const CommentSection = ({
-  setShowCommentSection,
   id,
-  comments,
   error,
+  comments,
   isLoading,
+  setShowCommentSection,
 }: Props) => {
   const {
     user: { _id },

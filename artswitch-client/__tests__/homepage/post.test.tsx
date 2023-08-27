@@ -140,7 +140,7 @@ describe("Posts Container Test", () => {
       expect(postPictureElement).not.toBeInTheDocument();
     });
 
-    it("should show the comment section for a post when the comment icon is clicked", async () => {
+    it("should show the comment section for a post when the comment icon is clicked", () => {
       const postElement = getTestLayout(
         <Post {...testPosts[0]} />,
         "redux-react-query"
