@@ -5,52 +5,101 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import { useAppSelector } from "app/hooks";
 import CommentSection from "./comment-section";
 import { TPost } from "utils/services/typings/posts";
+import { selectUserDetails } from "features/slices/user";
+import { likeOrUnlikePost } from "utils/services/posts";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 
 type Props = TPost;
 
 export type CommentHandler = {
+  allLikes: string[];
   hasLikedPost: boolean;
+  likePost: () => Promise<void>;
   setHasLikedPost: React.Dispatch<React.SetStateAction<boolean>>;
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const PostInteractions = ({
+  likePost,
+  allLikes,
   hasLikedPost,
   setHasLikedPost,
   setShowCommentSection,
 }: CommentHandler) => {
   return (
-    <div className="w-full flex gap-x-4">
-      {hasLikedPost ? (
-        <HeartIconFilled className="text-red-500 w-7 h-7 cursor-pointer" />
-      ) : (
-        <HeartIcon className="w-7 h-7 cursor-pointer" />
+    <div>
+      {allLikes?.length > 0 && (
+        <div className="px-1">
+          <p className="text-xs">
+            <span className="font-bold">{allLikes?.length}</span>{" "}
+            {allLikes?.length > 1 ? "likes" : "like"}
+          </p>
+        </div>
       )}
-      <ChatIcon
-        className="w-7 h-7 cursor-pointer"
-        onClick={() => setShowCommentSection(true)}
-      />
+      <div className="w-full flex gap-x-4">
+        {hasLikedPost ? (
+          <HeartIconFilled
+            className="text-[#894eff] w-6 h-6 cursor-pointer"
+            onClick={async () => {
+              setHasLikedPost(prev => !prev);
+              await likePost();
+            }}
+          />
+        ) : (
+          <HeartIcon
+            className="w-6 h-6 cursor-pointer"
+            onClick={() => {
+              setHasLikedPost(prev => !prev);
+              likePost();
+            }}
+          />
+        )}
+        <ChatIcon
+          className="w-6 h-6 cursor-pointer"
+          onClick={() => setShowCommentSection(true)}
+        />
+      </div>
     </div>
   );
 };
 
 const Post = (props: Props) => {
   const router = useRouter();
-  const [hasLikedPost, setHasLikedPost] = React.useState(false);
+  const { user } = useAppSelector(selectUserDetails);
+  const [allLikes, setAllLikes] = React.useState(props?.likes);
   const [showCommentSection, setShowCommentSection] = React.useState(false);
+  const [hasLikedPost, setHasLikedPost] = React.useState(
+    allLikes?.includes(user?._id)
+  );
 
-  const likePost = React.useCallback(() => {}, []);
+  const likePost = React.useCallback(async () => {
+    switch (hasLikedPost) {
+      case true:
+        await likeOrUnlikePost("unlike", props?._id, res => {
+          setAllLikes(res);
+        });
+        break;
+      case false:
+        await likeOrUnlikePost("like", props?._id, res => {
+          setAllLikes(res);
+        });
+      default:
+        break;
+    }
+  }, [hasLikedPost]);
 
   const handlePostInteraction = React.useMemo(
     () => ({
+      likePost,
+      allLikes,
       hasLikedPost,
       setHasLikedPost,
       setShowCommentSection,
     }),
-    []
+    [showCommentSection, hasLikedPost, allLikes]
   );
 
   return (
@@ -105,11 +154,6 @@ const Post = (props: Props) => {
         <CommentSection {...handlePostInteraction} id={props?._id} />
       ) : (
         !props?.image && <PostInteractions {...handlePostInteraction} />
-      )}
-      {props?.likes?.length > 0 && (
-        <div>
-          <p>{props.likes.length} likes</p>
-        </div>
       )}
     </div>
   );

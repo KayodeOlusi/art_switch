@@ -138,3 +138,23 @@ export const addCommentToPost = async (
     handleError(error as AxiosError);
   }
 };
+
+export const likeOrUnlikePost = async (
+  action: "like" | "unlike",
+  id: string,
+  onSuccess?: (res: TPost["likes"]) => void,
+  onError?: () => void
+) => {
+  try {
+    const res = await HttpClient.patchWithToken<TResponseBody<TPost>>(
+      `/posts/${id}`,
+      {},
+      user_token,
+      {
+        action,
+      }
+    );
+
+    onSuccess?.(res?.data?.likes);
+  } catch (error) {}
+};

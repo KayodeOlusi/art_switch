@@ -73,14 +73,17 @@ describe("Posts Container Test", () => {
     itShouldRenderThePostComponentWithItsApprovedProps(5);
 
     it("should render the profile picture of a user who has a post", () => {
-      render(<Post {...testPosts[0]} />);
+      const postElement = getTestLayout(<Post {...testPosts[0]} />, "redux");
+      render(postElement);
 
       const profilePictureElement = screen.getByAltText("Profile Picture");
       expect(profilePictureElement).toBeInTheDocument();
     });
 
     it("should render the author of the post name and username", () => {
-      render(<Post {...testPosts[0]} />);
+      const postElement = getTestLayout(<Post {...testPosts[0]} />, "redux");
+      render(postElement);
+
       const userDetailsElement = document.querySelector("#user-details");
 
       expect(userDetailsElement).toBeInTheDocument();
@@ -94,7 +97,9 @@ describe("Posts Container Test", () => {
     });
 
     it("should render the post image when there is one", () => {
-      render(<Post {...testPosts[0]} />);
+      const postElement = getTestLayout(<Post {...testPosts[0]} />, "redux");
+      render(postElement);
+
       const postPictureElement = screen.getByAltText("Post Image");
 
       expect(postPictureElement).toBeInTheDocument();
@@ -103,7 +108,9 @@ describe("Posts Container Test", () => {
     });
 
     it("should not render the post image when there is no post image", () => {
-      render(<Post {...testPosts[4]} />);
+      const postElement = getTestLayout(<Post {...testPosts[4]} />, "redux");
+      render(postElement);
+
       const postPictureElement = screen.queryByAltText("Post Image");
 
       expect(postPictureElement).not.toBeInTheDocument();

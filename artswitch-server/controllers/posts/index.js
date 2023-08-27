@@ -197,17 +197,21 @@ const likeOrUnlikePost = asyncHandler(async (req, res) => {
   }
 
   try {
-    await Posts.findOneAndUpdate(
+    const post = await Posts.findOneAndUpdate(
       { _id: postId },
       {
         [action === "like" ? "$addToSet" : "$pull"]: {
           likes: user_id,
         },
+      },
+      {
+        new: true,
       }
     );
 
     return res.status(200).json({
       message: "Post updated successfully",
+      data: post,
     });
   } catch (error) {
     return res.status(500).json({ message: "Error updating post" });

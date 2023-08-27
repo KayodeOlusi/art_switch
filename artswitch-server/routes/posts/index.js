@@ -6,6 +6,7 @@ const {
   getFeedPosts,
   getUserPosts,
   getSinglePost,
+  likeOrUnlikePost,
   getPostsForExplore,
 } = require("../../controllers/posts");
 const {
@@ -21,7 +22,7 @@ router.route("/").get(getFeedPosts).post(createPost).delete(deletePost);
 router.route("/user/:id").get(getUserPosts);
 
 // Get Single Post
-router.get("/:id", getSinglePost);
+router.route("/:id").get(getSinglePost).patch(likeOrUnlikePost);
 
 // Manage Comments
 router.route("/comments/:id").get(getAllCommentsInAPost).post(createNewComment);

@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
-import type { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:5001/api/",
@@ -63,6 +63,20 @@ class HttpClient {
     token: string
   ): Promise<T> {
     const response = await Axios.put(endpoint, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return responseBody(response);
+  }
+  async patchWithToken<T>(
+    endpoint: string,
+    body: any,
+    token: string,
+    params?: Record<string, string | number>
+  ): Promise<T> {
+    const response = await Axios.patch(endpoint, body, {
+      params,
       headers: {
         Authorization: `Bearer ${token}`,
       },
