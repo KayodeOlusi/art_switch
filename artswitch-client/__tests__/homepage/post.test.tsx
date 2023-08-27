@@ -64,7 +64,12 @@ describe("Posts Container Test", () => {
 
     const itShouldRenderThePostComponentWithItsApprovedProps = (idx: number) =>
       it("should render the post component with its props", () => {
-        render(<Post {...testPosts[idx]} />);
+        const postElement = getTestLayout(
+          <Post {...testPosts[idx]} />,
+          "redux"
+        );
+
+        render(postElement);
         expect(testPosts[idx]).toMatchObject(testPosts[idx]);
       });
 
