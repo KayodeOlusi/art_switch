@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { CommentHandler } from "./post";
 import { useRouter } from "next/router";
 import { useQueryClient } from "react-query";
@@ -25,6 +25,7 @@ type Props = Omit<
   error: any;
   isLoading: boolean;
   comments: TGetCommentsForPost[];
+  innerRef: React.RefObject<HTMLDivElement>;
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -53,6 +54,7 @@ const CommentSection = ({
   id,
   error,
   comments,
+  innerRef,
   isLoading,
   setShowCommentSection,
 }: Props) => {
@@ -86,6 +88,7 @@ const CommentSection = ({
 
   return (
     <div
+      ref={innerRef}
       data-testid="comment-section"
       className="border-2 rounded-lg border-gray-100 p-3"
     >

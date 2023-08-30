@@ -19,6 +19,7 @@ export type CommentHandler = {
   allLikes: string[];
   hasLikedPost: boolean;
   likePost: () => Promise<void>;
+  commentRef: React.RefObject<HTMLDivElement>;
   setHasLikedPost: React.Dispatch<React.SetStateAction<boolean>>;
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -26,6 +27,7 @@ export type CommentHandler = {
 const PostInteractions = ({
   likePost,
   allLikes,
+  commentRef,
   hasLikedPost,
   setHasLikedPost,
   setShowCommentSection,
@@ -61,7 +63,15 @@ const PostInteractions = ({
         <ChatIcon
           id="comment-icon"
           className="w-6 h-6 cursor-pointer"
-          onClick={() => setShowCommentSection(true)}
+          onClick={() => {
+            setShowCommentSection(true);
+            setTimeout(() => {
+              commentRef?.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }, 500);
+          }}
         />
       </div>
     </div>
@@ -75,6 +85,7 @@ const Post = (props: Props) => {
     data: comments,
   } = useGetCommentsForPost(props?._id);
   const router = useRouter();
+  const commentRef = React.useRef<HTMLDivElement>(null);
   const { user } = useAppSelector(selectUserDetails);
   const [allLikes, setAllLikes] = React.useState(props?.likes);
   const [showCommentSection, setShowCommentSection] = React.useState(false);
@@ -107,11 +118,12 @@ const Post = (props: Props) => {
     () => ({
       likePost,
       allLikes,
+      commentRef,
       hasLikedPost,
       setHasLikedPost,
       setShowCommentSection,
     }),
-    [showCommentSection, hasLikedPost, allLikes]
+    [showCommentSection, hasLikedPost, allLikes, commentRef]
   );
 
   return (
@@ -164,8 +176,9 @@ const Post = (props: Props) => {
       </div>
       {showCommentSection ? (
         <CommentSection
-          id={props?._id}
           error={error}
+          id={props?._id}
+          innerRef={commentRef}
           comments={allComments}
           isLoading={isLoading}
           {...handlePostInteraction}
