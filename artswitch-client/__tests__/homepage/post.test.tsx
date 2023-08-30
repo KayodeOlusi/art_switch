@@ -155,5 +155,18 @@ describe("Posts Container Test", () => {
       const commentSection = screen.getByTestId("comment-section");
       expect(commentSection).toBeInTheDocument();
     });
+
+    // it("", () => {
+    //   const postElement = getTestLayout(
+    //     <Post {...testPosts[0]} />,
+    //     "redux-react-query"
+    //   );
+    //   render(postElement);
+
+    //   const commentIcon = document.querySelector("#comment-icon") as SVGElement;
+    //   act(() => {
+    //     fireEvent.click(commentIcon);
+    //   });
+    // });
   });
 });

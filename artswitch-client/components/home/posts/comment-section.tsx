@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { CommentHandler } from "./post";
 import { useRouter } from "next/router";
 import { useQueryClient } from "react-query";
