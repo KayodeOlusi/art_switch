@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import HttpClient from "../../utils/services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import LoginForm from "../../components/auth/login/login-form";
-import { inputField, roleElement, testIdElement } from "utils/lib/helpers";
+import { inputField, roleElement, testIdElement } from "utils/lib/test-helpers";
 
 type TOnChangeLogin = {
   text: string;

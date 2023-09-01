@@ -11,7 +11,7 @@ import {
   roleElement,
   testIdElement,
   textElement,
-} from "utils/lib/helpers";
+} from "utils/lib/test-helpers";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import SignUp from "../../pages/signup";

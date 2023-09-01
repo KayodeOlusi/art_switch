@@ -134,6 +134,7 @@ const CommentSection = ({
           <input
             type="text"
             name="comment"
+            role="textbox"
             value={comment}
             placeholder="Add a comment..."
             onChange={e => setComment(e.target.value)}

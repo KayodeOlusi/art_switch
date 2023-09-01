@@ -2,13 +2,10 @@ jest.mock("../../utils/hooks/posts/usePosts");
 jest.mock("../../utils/services/posts");
 
 import {
-  screen,
-  render,
-  cleanup,
-  act,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
+  clickAndUpdate,
+  onChangeInput,
+  submitFormAndSimulate,
+} from "utils/lib/test-helpers";
 import {
   useGetFeedPosts,
   useGetCommentsForPost,
@@ -16,11 +13,14 @@ import {
 import { testPosts } from "utils/data";
 import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
+import HttpClient from "../../utils/services/client";
 import { likeOrUnlikePost } from "utils/services/posts";
+import { screen, render, cleanup } from "@testing-library/react";
 import PostsContainer from "@/components/containers/home/posts-container";
 
 const mockedLikeOrUnlikePost = likeOrUnlikePost as jest.Mock<any>;
 const mockedUseGetFeedPosts = useGetFeedPosts as jest.Mock<any>;
+const mockedHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
 const mockedUseGetCommentsForPost = useGetCommentsForPost as jest.Mock<any>;
 const element = getTestLayout(<PostsContainer />, "redux-react-query");
 
@@ -140,40 +140,89 @@ describe("Posts Container Test", () => {
       render(postElement);
 
       const postPictureElement = screen.queryByAltText("Post Image");
-
       expect(postPictureElement).not.toBeInTheDocument();
     });
 
-    it("should show the comment section for a post when the comment icon is clicked", () => {
-      const postElement = getTestLayout(
-        <Post {...testPosts[0]} />,
-        "redux-react-query"
-      );
-      render(postElement);
+    describe("Comment on post functionality", () => {
+      it("should show the comment section for a post when the comment icon is clicked", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
 
-      const commentIcon = document.querySelector("#comment-icon") as SVGElement;
-      act(() => {
-        fireEvent.click(commentIcon);
+        const commentIcon = document.querySelector(
+          "#comment-icon"
+        ) as SVGElement;
+        clickAndUpdate<SVGElement>(commentIcon);
+
+        const commentSection = screen.getByTestId("comment-section");
+        expect(commentSection).toBeInTheDocument();
       });
 
-      const commentSection = screen.getByTestId("comment-section");
-      expect(commentSection).toBeInTheDocument();
-    });
+      it("should show the form to comment on a post when the comment button is clicked", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
 
-    it("should show the form to comment on a post when the comment button is clicked", () => {
-      const postElement = getTestLayout(
-        <Post {...testPosts[0]} />,
-        "redux-react-query"
-      );
-      render(postElement);
+        const commentIcon = document.querySelector(
+          "#comment-icon"
+        ) as SVGElement;
 
-      const commentIcon = document.querySelector("#comment-icon") as SVGElement;
-      act(() => {
-        fireEvent.click(commentIcon);
+        clickAndUpdate<SVGElement>(commentIcon);
+
+        const commentFormElement = screen.getByRole("form");
+        expect(commentFormElement).toBeInTheDocument();
       });
 
-      const commentFormElement = screen.getByRole("form");
-      expect(commentFormElement).toBeInTheDocument();
+      it("should change the value of a user's comment based on user's input", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const commentIcon = document.querySelector(
+          "#comment-icon"
+        ) as SVGElement;
+
+        clickAndUpdate<SVGElement>(commentIcon);
+        const commentInputElement = screen.getByRole(
+          "textbox"
+        ) as HTMLInputElement;
+
+        onChangeInput(commentInputElement, "A great post!");
+        expect(commentInputElement.value).toBe("A great post!");
+      });
+
+      it("should prevent the default reload of the page when the comment form is submitted", () => {
+        const preventDefault = jest.fn();
+
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const commentIcon = document.querySelector(
+          "#comment-icon"
+        ) as SVGElement;
+
+        clickAndUpdate<SVGElement>(commentIcon);
+
+        const commentFormElement = screen.getByRole("form") as HTMLFormElement;
+        const commentInputElement = screen.getByRole(
+          "textbox"
+        ) as HTMLInputElement;
+
+        onChangeInput(commentInputElement, "A great post!");
+        submitFormAndSimulate(commentFormElement, preventDefault);
+
+        expect(preventDefault).toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalledTimes(1);
+      });
     });
 
     describe("Like post functionality", () => {
@@ -200,9 +249,7 @@ describe("Posts Container Test", () => {
         render(postElement);
 
         const unlikeIcon = document.querySelector("#unlike-icon") as SVGElement;
-        act(() => {
-          fireEvent.click(unlikeIcon);
-        });
+        clickAndUpdate<SVGElement>(unlikeIcon);
 
         const likeIcon = document.querySelector("#like-icon") as SVGElement;
         expect(likeIcon).toBeInTheDocument();
@@ -216,9 +263,7 @@ describe("Posts Container Test", () => {
         render(postElement);
 
         const unlikeIcon = document.querySelector("#unlike-icon") as SVGElement;
-        act(() => {
-          fireEvent.click(unlikeIcon);
-        });
+        clickAndUpdate<SVGElement>(unlikeIcon);
 
         expect(mockedLikeOrUnlikePost).toHaveBeenCalledTimes(1);
         expect(mockedLikeOrUnlikePost).toHaveBeenCalledWith(
