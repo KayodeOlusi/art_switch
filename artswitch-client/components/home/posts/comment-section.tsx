@@ -129,7 +129,7 @@ const CommentSection = ({
           </p>
         )}
       </div>
-      <form className="mt-2" onSubmit={handleSubmit}>
+      <form className="mt-2" onSubmit={handleSubmit} role="form">
         <div className="w-full relative">
           <input
             type="text"

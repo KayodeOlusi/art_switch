@@ -18,25 +18,25 @@ type Props = TPost;
 export type CommentHandler = {
   allLikes: string[];
   hasLikedPost: boolean;
-  likePost: () => Promise<void>;
+  likeAndUnlikePost: () => Promise<void>;
   commentRef: React.RefObject<HTMLDivElement>;
   setHasLikedPost: React.Dispatch<React.SetStateAction<boolean>>;
   setShowCommentSection: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const PostInteractions = ({
-  likePost,
   allLikes,
   commentRef,
   hasLikedPost,
   setHasLikedPost,
+  likeAndUnlikePost,
   setShowCommentSection,
 }: CommentHandler) => {
   return (
     <div>
       {allLikes?.length > 0 && (
         <div className="px-1">
-          <p className="text-xs">
+          <p className="text-xs" id="likes-num">
             <span className="font-bold">{allLikes?.length}</span>{" "}
             {allLikes?.length > 1 ? "likes" : "like"}
           </p>
@@ -45,18 +45,20 @@ const PostInteractions = ({
       <div className="w-full flex gap-x-4">
         {hasLikedPost ? (
           <HeartIconFilled
+            id="like-icon"
             className="text-[#894eff] w-6 h-6 cursor-pointer"
             onClick={async () => {
               setHasLikedPost(prev => !prev);
-              await likePost();
+              await likeAndUnlikePost();
             }}
           />
         ) : (
           <HeartIcon
+            id="unlike-icon"
             className="w-6 h-6 cursor-pointer"
-            onClick={() => {
+            onClick={async () => {
               setHasLikedPost(prev => !prev);
-              likePost();
+              await likeAndUnlikePost();
             }}
           />
         )}
@@ -98,7 +100,7 @@ const Post = (props: Props) => {
     return comments;
   }, [comments]);
 
-  const likePost = React.useCallback(async () => {
+  const likeAndUnlikePost = React.useCallback(async () => {
     switch (hasLikedPost) {
       case true:
         await likeOrUnlikePost("unlike", props?._id, res => {
@@ -116,11 +118,11 @@ const Post = (props: Props) => {
 
   const handlePostInteraction = React.useMemo(
     () => ({
-      likePost,
       allLikes,
       commentRef,
       hasLikedPost,
       setHasLikedPost,
+      likeAndUnlikePost,
       setShowCommentSection,
     }),
     [showCommentSection, hasLikedPost, allLikes, commentRef]

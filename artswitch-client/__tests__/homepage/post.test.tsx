@@ -1,4 +1,5 @@
 jest.mock("../../utils/hooks/posts/usePosts");
+jest.mock("../../utils/services/posts");
 
 import {
   screen,
@@ -6,6 +7,7 @@ import {
   cleanup,
   act,
   fireEvent,
+  waitFor,
 } from "@testing-library/react";
 import {
   useGetFeedPosts,
@@ -14,8 +16,10 @@ import {
 import { testPosts } from "utils/data";
 import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
+import { likeOrUnlikePost } from "utils/services/posts";
 import PostsContainer from "@/components/containers/home/posts-container";
 
+const mockedLikeOrUnlikePost = likeOrUnlikePost as jest.Mock<any>;
 const mockedUseGetFeedPosts = useGetFeedPosts as jest.Mock<any>;
 const mockedUseGetCommentsForPost = useGetCommentsForPost as jest.Mock<any>;
 const element = getTestLayout(<PostsContainer />, "redux-react-query");
@@ -156,17 +160,84 @@ describe("Posts Container Test", () => {
       expect(commentSection).toBeInTheDocument();
     });
 
-    // it("", () => {
-    //   const postElement = getTestLayout(
-    //     <Post {...testPosts[0]} />,
-    //     "redux-react-query"
-    //   );
-    //   render(postElement);
+    it("should show the form to comment on a post when the comment button is clicked", () => {
+      const postElement = getTestLayout(
+        <Post {...testPosts[0]} />,
+        "redux-react-query"
+      );
+      render(postElement);
 
-    //   const commentIcon = document.querySelector("#comment-icon") as SVGElement;
-    //   act(() => {
-    //     fireEvent.click(commentIcon);
-    //   });
-    // });
+      const commentIcon = document.querySelector("#comment-icon") as SVGElement;
+      act(() => {
+        fireEvent.click(commentIcon);
+      });
+
+      const commentFormElement = screen.getByRole("form");
+      expect(commentFormElement).toBeInTheDocument();
+    });
+
+    describe("Like post functionality", () => {
+      beforeAll(() => {
+        mockedLikeOrUnlikePost.mockImplementation(() => Promise.resolve());
+      });
+
+      it("should show the button to unlike a post when a user has not liked the post", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const unlikeIcon = document.querySelector("#unlike-icon") as SVGElement;
+        expect(unlikeIcon).toBeInTheDocument();
+      });
+
+      it("should show the button to like a post when a user has liked the post", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const unlikeIcon = document.querySelector("#unlike-icon") as SVGElement;
+        act(() => {
+          fireEvent.click(unlikeIcon);
+        });
+
+        const likeIcon = document.querySelector("#like-icon") as SVGElement;
+        expect(likeIcon).toBeInTheDocument();
+      });
+
+      it("should call the likeOrUnlikePost function when the like icon is clicked", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const unlikeIcon = document.querySelector("#unlike-icon") as SVGElement;
+        act(() => {
+          fireEvent.click(unlikeIcon);
+        });
+
+        expect(mockedLikeOrUnlikePost).toHaveBeenCalledTimes(1);
+        expect(mockedLikeOrUnlikePost).toHaveBeenCalledWith(
+          "like",
+          testPosts[0]._id,
+          expect.any(Function)
+        );
+      });
+
+      it("should show the correct number of likes for a post", () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const likesNumberElement = document.querySelector("#likes-num");
+        expect(likesNumberElement).toHaveTextContent("2 likes");
+      });
+    });
   });
 });
