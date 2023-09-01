@@ -1,7 +1,8 @@
 import { getTestLayout } from "utils/lib/wrappers";
 import { testUserAccountDetails } from "utils/data";
 import UserStats from "@/components/user/user-stats";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
+import { roleElement, testIdElement } from "utils/lib/test-helpers";
 
 const element = getTestLayout(
   <UserStats {...testUserAccountDetails} />,
@@ -15,7 +16,7 @@ describe("User Stats", () => {
 
   it("should render the user stats component", () => {
     render(element);
-    const userStatsContainer = screen.getByTestId("user-stats-container");
+    const userStatsContainer = testIdElement("user-stats-container");
 
     expect(userStatsContainer).toBeInTheDocument();
     expect(userStatsContainer).not.toBeNull();
@@ -23,7 +24,7 @@ describe("User Stats", () => {
 
   it("should show the user's profile picture", () => {
     render(element);
-    const profilePictureElement = screen.getByRole("img") as HTMLImageElement;
+    const profilePictureElement = roleElement("img") as HTMLImageElement;
 
     expect(profilePictureElement).toBeInTheDocument();
     expect(profilePictureElement).toHaveAttribute("src");

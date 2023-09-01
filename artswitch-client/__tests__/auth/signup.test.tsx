@@ -1,14 +1,8 @@
 import {
-  screen,
-  render,
-  fireEvent,
-  cleanup,
-  act,
-  waitFor,
-} from "@testing-library/react";
-import {
   inputField,
+  onChangeInput,
   roleElement,
+  submitForm,
   testIdElement,
   textElement,
 } from "utils/lib/test-helpers";
@@ -18,6 +12,7 @@ import SignUp from "../../pages/signup";
 import HttpClient from "../../utils/services/client";
 import ReactTestUtils from "react-dom/test-utils";
 import SignupForm from "../../components/auth/signup/signup-form";
+import { act, render, cleanup, waitFor } from "@testing-library/react";
 
 type IOnChangeSignUp = {
   text: string;
@@ -58,10 +53,12 @@ describe("SignUp Test", () => {
     it("should change the user input onChange event", () => {
       render(<SignupForm />);
 
-      const inputField = screen.getByPlaceholderText(data.placeholder);
-      fireEvent.change(inputField, { target: { value: data.text } });
+      const inputFieldElement = inputField(
+        data.placeholder
+      ) as HTMLInputElement;
+      onChangeInput(inputFieldElement, data.text);
 
-      expect(inputField).toHaveValue(data.text);
+      expect(inputFieldElement).toHaveValue(data.text);
     });
 
   describe("Email Input Field", () => {
@@ -107,10 +104,7 @@ describe("SignUp Test", () => {
 
     it("should call the signup HttpClient instance with it's appropriate arguments", async () => {
       render(<SignupForm />);
-
-      act(() => {
-        fireEvent.submit(testIdElement("signup-form"));
-      });
+      submitForm(testIdElement("signup-form") as HTMLFormElement);
 
       await waitFor(() => {
         expect(mockedHttpClient.post).toHaveBeenCalled();
@@ -136,11 +130,9 @@ describe("SignUp Test", () => {
       });
 
       render(<SignupForm />);
-      const form = testIdElement("signup-form");
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("signup-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledTimes(1);
@@ -156,11 +148,9 @@ describe("SignUp Test", () => {
       });
 
       render(<SignupForm />);
-      const form = testIdElement("signup-form");
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("signup-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(toast.success).toHaveBeenCalledTimes(1);
@@ -177,11 +167,9 @@ describe("SignUp Test", () => {
       });
 
       render(<SignupForm />);
-      const form = testIdElement("signup-form");
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("signup-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(router.push).toHaveBeenCalledTimes(1);

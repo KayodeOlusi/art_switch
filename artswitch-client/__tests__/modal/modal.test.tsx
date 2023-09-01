@@ -6,6 +6,7 @@ import { getTestLayout } from "utils/lib/wrappers";
 import ModalContainer from "@/components/global/modal";
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
+import { testIdElement } from "utils/lib/test-helpers";
 
 const modalElement = getTestLayout(<ModalContainer />, "redux-react-query");
 
@@ -33,7 +34,7 @@ describe("Modal Container Test", () => {
 
     it("should not render the modal child element when isOpen is false", () => {
       render(modalElement);
-      const modalContainer = screen.getByTestId("modal-container");
+      const modalContainer = testIdElement("modal-container");
       expect(modalContainer.children.length).toEqual(0);
     });
 
@@ -47,7 +48,7 @@ describe("Modal Container Test", () => {
       renderElementWithIntersectionObserver(modalElement);
 
       await act(async () => {
-        const modalContainer = screen.getByTestId("modal-container");
+        const modalContainer = testIdElement("modal-container");
         expect(modalContainer.children.length).toEqual(1);
       });
     });
@@ -66,7 +67,7 @@ describe("Modal Container Test", () => {
         renderElementWithIntersectionObserver(modalElement);
 
         await act(async () => {
-          const modalContainerChild = screen.getByTestId(modalView);
+          const modalContainerChild = testIdElement(modalView);
 
           expect(modalContainerChild).toBeInTheDocument();
           expect(modalContainerChild.id).toBe(modalView);

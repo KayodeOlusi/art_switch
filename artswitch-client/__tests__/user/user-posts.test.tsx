@@ -1,7 +1,12 @@
-import { getTestLayout } from "utils/lib/wrappers";
-import { cleanup, render, screen } from "@testing-library/react";
-import UserPosts from "@/components/user/user-posts";
+import {
+  roleElement,
+  textElement,
+  testIdElement,
+} from "utils/lib/test-helpers";
 import { testPosts } from "utils/data";
+import { getTestLayout } from "utils/lib/wrappers";
+import { cleanup, render } from "@testing-library/react";
+import UserPosts from "@/components/user/user-posts";
 
 describe("User Posts", () => {
   afterEach(() => {
@@ -16,7 +21,7 @@ describe("User Posts", () => {
     );
 
     render(postsElement);
-    const loaderElement = screen.getByRole("progressbar");
+    const loaderElement = roleElement("progressbar");
 
     expect(loaderElement).toBeInTheDocument();
   });
@@ -28,7 +33,7 @@ describe("User Posts", () => {
     );
 
     render(postsElement);
-    const errorElement = screen.getByRole("alert");
+    const errorElement = roleElement("alert");
 
     expect(errorElement).toBeInTheDocument();
     expect(errorElement).toHaveTextContent(
@@ -43,7 +48,7 @@ describe("User Posts", () => {
     );
 
     render(postsElement);
-    const noPostsElement = screen.getByText("No posts found.");
+    const noPostsElement = textElement("No posts found.");
 
     expect(noPostsElement).toBeInTheDocument();
   });
@@ -61,7 +66,7 @@ describe("User Posts", () => {
       );
 
       render(postsElement);
-      const postsContainer = screen.getByTestId("user-posts-container");
+      const postsContainer = testIdElement("user-posts-container");
 
       expect(postsContainer.children).toHaveLength(length);
     });

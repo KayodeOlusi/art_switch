@@ -1,13 +1,13 @@
 jest.mock("../../../utils/hooks/useModal");
 
 import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  act,
-  waitFor,
-} from "@testing-library/react";
+  click,
+  roleElement,
+  submitForm,
+  testIdElement,
+  textElement,
+  onChangeInput,
+} from "utils/lib/test-helpers";
 import { store } from "app/store";
 import { postTags } from "utils/data";
 import { Provider } from "react-redux";
@@ -18,6 +18,7 @@ import ReactTestUtils from "react-dom/test-utils";
 import { closeAppModal } from "features/slices/modal";
 import ModalContainer from "@/components/global/modal";
 import { PostTag } from "@/components/home/posts/upload-post";
+import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 
 const MockedModalWithStore = () => (
@@ -83,7 +84,7 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
-      const uploadPostView = screen.getByTestId(MODAL_VIEWS.UPLOAD_POST);
+      const uploadPostView = testIdElement(MODAL_VIEWS.UPLOAD_POST);
 
       expect(uploadPostView).toBeInTheDocument();
       expect(uploadPostView).not.toBeNull();
@@ -95,10 +96,10 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     act(() => {
-      const modalContainer = screen.getByTestId("modal-container");
-      const uploadPostView = screen.getByTestId(MODAL_VIEWS.UPLOAD_POST);
-      const closeModalIcon = screen.getByTestId("close-icon");
-      fireEvent.click(closeModalIcon, {});
+      const modalContainer = testIdElement("modal-container");
+      const uploadPostView = testIdElement(MODAL_VIEWS.UPLOAD_POST);
+      const closeModalIcon = testIdElement("close-icon");
+      click(closeModalIcon);
 
       expect(uploadPostView).not.toBeInTheDocument();
     });
@@ -108,8 +109,8 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
-      const textAreaElement = screen.getByRole("textbox");
-      fireEvent.change(textAreaElement, { target: { value: "A Post" } });
+      const textAreaElement = roleElement("textbox") as HTMLTextAreaElement;
+      onChangeInput(textAreaElement, "A Post");
 
       expect(textAreaElement).toHaveValue("A Post");
     });
@@ -120,8 +121,8 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
-      const singleTag = screen.getByText("art");
-      fireEvent.click(singleTag);
+      const singleTag = textElement("art");
+      click(singleTag);
 
       act(() => {
         expect(singleTag).toHaveClass("border-[2px]");
@@ -133,8 +134,8 @@ describe("Upload Post Modal View Test", () => {
     renderPostTags();
 
     act(() => {
-      const singleTag = screen.getByText("art");
-      fireEvent.click(singleTag);
+      const singleTag = textElement("art");
+      click(singleTag);
 
       expect(mockedSetStateAction).toHaveBeenCalledTimes(1);
     });
@@ -145,7 +146,7 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
-      const formElement = screen.getByRole("form");
+      const formElement = roleElement("form");
       ReactTestUtils.Simulate.submit(formElement, {
         preventDefault,
       });
@@ -160,8 +161,8 @@ describe("Upload Post Modal View Test", () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
     await act(async () => {
-      const formElement = screen.getByRole("form");
-      fireEvent.submit(formElement);
+      const formElement = roleElement("form") as HTMLFormElement;
+      submitForm(formElement);
     });
 
     await waitFor(() => {

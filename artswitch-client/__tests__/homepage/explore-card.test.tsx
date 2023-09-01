@@ -1,12 +1,18 @@
 jest.mock("../../utils/hooks/posts/usePosts");
 
+import {
+  click,
+  roleElement,
+  testIdElement,
+  textElement,
+} from "utils/lib/test-helpers";
 import { testPostByTag } from "utils/data";
 import Tag from "@/components/home/explore/tag";
 import { getTestLayout } from "utils/lib/wrappers";
+import { cleanup, render } from "@testing-library/react";
 import ReactTestUtils, { act } from "react-dom/test-utils";
 import { useGetPostsByTag } from "../../utils/hooks/posts/usePosts";
 import ExploreContainer from "@/components/containers/home/explore-container";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 const mockedUseGetPostsByTag = useGetPostsByTag as jest.Mock<any>;
 
@@ -27,7 +33,7 @@ describe("Tag test", () => {
   const itShouldRenderTheActiveTagWithItsClass = (tag: string) =>
     it("should render the active tag with an active class", () => {
       render(<Tag tag={tag} activeTag={tag} setActiveTag={mockedSetState} />);
-      const activeTag = screen.getByText(tag);
+      const activeTag = textElement(tag);
 
       expect(activeTag).toBeInTheDocument();
       expect(activeTag).toHaveClass("bg-appPrimary");
@@ -45,7 +51,7 @@ describe("Tag test", () => {
           setActiveTag={mockedSetState}
         />
       );
-      const inactiveTag = screen.getByText(inactive);
+      const inactiveTag = textElement(inactive);
       expect(inactiveTag).toBeInTheDocument();
       expect(inactiveTag).not.toHaveClass("bg-appPrimary");
     });
@@ -74,7 +80,7 @@ describe("Tag test", () => {
       const element = getTestLayout(<ExploreContainer />, "react-query");
 
       render(element);
-      const activeTag = screen.getByText("design");
+      const activeTag = textElement("design");
 
       act(() => ReactTestUtils.Simulate.click(activeTag));
       expect(activeTag).toHaveClass("bg-appPrimary");
@@ -82,9 +88,9 @@ describe("Tag test", () => {
 
     it("should call the setState function when a tag is clicked once", () => {
       renderTag(tags);
-      const activeTag = screen.getByText("Design");
+      const activeTag = textElement("Design");
 
-      fireEvent.click(activeTag);
+      click(activeTag);
 
       expect(mockedSetState).toHaveBeenCalledTimes(1);
       expect(mockedSetState).toHaveBeenCalledWith("Design");
@@ -99,7 +105,7 @@ describe("Tag test", () => {
       });
 
       render(element);
-      const appSpinner = screen.getByTestId("app-loader");
+      const appSpinner = testIdElement("app-loader");
 
       expect(appSpinner).not.toBeNull();
       expect(appSpinner).toBeInTheDocument();
@@ -112,7 +118,7 @@ describe("Tag test", () => {
       });
 
       render(element);
-      const errorMessage = screen.getByRole("alert");
+      const errorMessage = roleElement("alert");
 
       expect(errorMessage).not.toBeNull();
       expect(errorMessage).toBeInTheDocument();
@@ -131,7 +137,7 @@ describe("Tag test", () => {
       });
 
       render(element);
-      const postContainer = await screen.getByTestId("post-container");
+      const postContainer = testIdElement("post-container");
 
       expect(postContainer).not.toBeNull();
     });
@@ -153,7 +159,7 @@ describe("Tag test", () => {
         });
 
         render(element);
-        const postContainer = screen.getByTestId("post-container");
+        const postContainer = testIdElement("post-container");
 
         expect(postContainer.children.length).toBe(Math.ceil(endIdx / 3));
       });

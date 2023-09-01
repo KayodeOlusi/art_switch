@@ -2,9 +2,13 @@ jest.mock("../../utils/hooks/posts/usePosts");
 jest.mock("../../utils/services/posts");
 
 import {
+  roleElement,
   clickAndUpdate,
+  testIdElement,
   onChangeInput,
   submitFormAndSimulate,
+  imageElement,
+  queryImageElement,
 } from "utils/lib/test-helpers";
 import {
   useGetFeedPosts,
@@ -15,7 +19,7 @@ import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
 import HttpClient from "../../utils/services/client";
 import { likeOrUnlikePost } from "utils/services/posts";
-import { screen, render, cleanup } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import PostsContainer from "@/components/containers/home/posts-container";
 
 const mockedLikeOrUnlikePost = likeOrUnlikePost as jest.Mock<any>;
@@ -47,13 +51,13 @@ describe("Posts Container Test", () => {
   it("should render the posts container", () => {
     render(element);
 
-    const postsContainer = screen.getByTestId("post-container");
+    const postsContainer = testIdElement("post-container");
     expect(postsContainer).toBeInTheDocument();
   });
 
   it("should render the posts-view container", () => {
     render(element);
-    const postsView = screen.getByTestId("posts-view");
+    const postsView = testIdElement("posts-view");
 
     expect(postsView.id).toBe("post-view");
     expect(postsView).toBeInTheDocument();
@@ -65,7 +69,7 @@ describe("Posts Container Test", () => {
     });
 
     render(element);
-    const postView = screen.getByTestId("posts-view");
+    const postView = testIdElement("posts-view");
 
     expect(postView.children.length).toBe(testPosts.length);
   });
@@ -101,7 +105,7 @@ describe("Posts Container Test", () => {
       const postElement = getTestLayout(<Post {...testPosts[0]} />, "redux");
       render(postElement);
 
-      const profilePictureElement = screen.getByAltText("Profile Picture");
+      const profilePictureElement = imageElement("Profile Picture");
       expect(profilePictureElement).toBeInTheDocument();
     });
 
@@ -125,7 +129,7 @@ describe("Posts Container Test", () => {
       const postElement = getTestLayout(<Post {...testPosts[0]} />, "redux");
       render(postElement);
 
-      const postPictureElement = screen.getByAltText("Post Image");
+      const postPictureElement = imageElement("Post Image");
 
       expect(postPictureElement).toBeInTheDocument();
       expect(postPictureElement?.getAttribute("alt")).toBe("Post Image");
@@ -139,7 +143,7 @@ describe("Posts Container Test", () => {
       );
       render(postElement);
 
-      const postPictureElement = screen.queryByAltText("Post Image");
+      const postPictureElement = queryImageElement("Post Image");
       expect(postPictureElement).not.toBeInTheDocument();
     });
 
@@ -156,7 +160,7 @@ describe("Posts Container Test", () => {
         ) as SVGElement;
         clickAndUpdate<SVGElement>(commentIcon);
 
-        const commentSection = screen.getByTestId("comment-section");
+        const commentSection = testIdElement("comment-section");
         expect(commentSection).toBeInTheDocument();
       });
 
@@ -173,7 +177,7 @@ describe("Posts Container Test", () => {
 
         clickAndUpdate<SVGElement>(commentIcon);
 
-        const commentFormElement = screen.getByRole("form");
+        const commentFormElement = roleElement("form");
         expect(commentFormElement).toBeInTheDocument();
       });
 
@@ -189,9 +193,7 @@ describe("Posts Container Test", () => {
         ) as SVGElement;
 
         clickAndUpdate<SVGElement>(commentIcon);
-        const commentInputElement = screen.getByRole(
-          "textbox"
-        ) as HTMLInputElement;
+        const commentInputElement = roleElement("textbox") as HTMLInputElement;
 
         onChangeInput(commentInputElement, "A great post!");
         expect(commentInputElement.value).toBe("A great post!");
@@ -212,10 +214,8 @@ describe("Posts Container Test", () => {
 
         clickAndUpdate<SVGElement>(commentIcon);
 
-        const commentFormElement = screen.getByRole("form") as HTMLFormElement;
-        const commentInputElement = screen.getByRole(
-          "textbox"
-        ) as HTMLInputElement;
+        const commentFormElement = roleElement("form") as HTMLFormElement;
+        const commentInputElement = roleElement("textbox") as HTMLInputElement;
 
         onChangeInput(commentInputElement, "A great post!");
         submitFormAndSimulate(commentFormElement, preventDefault);

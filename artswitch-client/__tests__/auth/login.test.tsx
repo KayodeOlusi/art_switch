@@ -1,18 +1,18 @@
 import {
-  screen,
-  render,
-  cleanup,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+  submitForm,
+  roleElement,
+  testIdElement,
+  textElement,
+  onChangeInput,
+  inputField as inputFieldElement,
+} from "utils/lib/test-helpers";
 import Login from "../../pages/login";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
-import HttpClient from "../../utils/services/client";
 import ReactTestUtils from "react-dom/test-utils";
+import HttpClient from "../../utils/services/client";
 import LoginForm from "../../components/auth/login/login-form";
-import { inputField, roleElement, testIdElement } from "utils/lib/test-helpers";
+import { act, render, cleanup, waitFor } from "@testing-library/react";
 
 type TOnChangeLogin = {
   text: string;
@@ -36,7 +36,7 @@ describe("Login Tests", () => {
 
   it("should render the login header", () => {
     render(<Login />);
-    const loginHeader = screen.getByText("Welcome Back");
+    const loginHeader = textElement("Welcome Back");
     expect(loginHeader).not.toBeNull();
     expect(loginHeader).toBeInTheDocument();
   });
@@ -50,15 +50,17 @@ describe("Login Tests", () => {
   const itShouldRenderInputField = (text: string) =>
     it(`should render the appropriate input field`, () => {
       render(<LoginForm />);
-      const input = inputField(text);
+      const input = inputFieldElement(text);
       expect(input).toBeInTheDocument();
     });
 
   const itShouldFireOnChangeEventForInputElements = (data: TOnChangeLogin) =>
     it("should trigger onChange event on user input", () => {
       render(<LoginForm />);
-      const inputField = screen.getByPlaceholderText(data.placeholder);
-      fireEvent.change(inputField, { target: { value: data.text } });
+      const inputField = inputFieldElement(
+        data.placeholder
+      ) as HTMLInputElement;
+      onChangeInput(inputField, data.text);
 
       expect(inputField).toHaveValue(data.text);
     });
@@ -97,11 +99,9 @@ describe("Login Tests", () => {
 
     it("should call the HttpClient for login with the appropriate arguments", async () => {
       render(<LoginForm />);
-      const form = testIdElement("login-form");
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("login-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
@@ -125,11 +125,8 @@ describe("Login Tests", () => {
       });
 
       render(<LoginForm />);
-      const form = testIdElement("login-form");
-
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("login-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledTimes(1);
@@ -147,11 +144,8 @@ describe("Login Tests", () => {
       });
 
       render(<LoginForm />);
-      const form = testIdElement("login-form");
-
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("login-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(toast.success).toHaveBeenCalledTimes(1);
@@ -170,11 +164,9 @@ describe("Login Tests", () => {
       });
 
       render(<LoginForm />);
-      const form = testIdElement("login-form");
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+      const form = testIdElement("login-form") as HTMLFormElement;
+      submitForm(form);
 
       await waitFor(() => {
         expect(router.push).toHaveBeenCalledTimes(1);
