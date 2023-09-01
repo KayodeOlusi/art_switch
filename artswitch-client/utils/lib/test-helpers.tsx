@@ -18,7 +18,7 @@ const onChangeInput = (
   value: string
 ) => fireEvent.change(input, { target: { value } });
 
-const submitForm = (form: HTMLFormElement) => fireEvent.submit(form, {});
+const submitForm = (form: HTMLFormElement) => fireEvent.submit(form);
 
 const submitFormAndSimulate = (form: HTMLFormElement, eventCb?: () => void) =>
   act(() =>

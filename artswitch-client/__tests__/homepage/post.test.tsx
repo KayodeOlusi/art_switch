@@ -1,5 +1,5 @@
-jest.mock("../../utils/hooks/posts/usePosts");
 jest.mock("../../utils/services/posts");
+jest.mock("../../utils/hooks/posts/usePosts");
 
 import {
   roleElement,
@@ -9,6 +9,7 @@ import {
   submitFormAndSimulate,
   imageElement,
   queryImageElement,
+  submitForm,
 } from "utils/lib/test-helpers";
 import {
   useGetFeedPosts,
@@ -17,14 +18,15 @@ import {
 import { testPosts } from "utils/data";
 import Post from "@/components/home/posts/post";
 import { getTestLayout } from "utils/lib/wrappers";
-import HttpClient from "../../utils/services/client";
-import { likeOrUnlikePost } from "utils/services/posts";
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, waitFor } from "@testing-library/react";
 import PostsContainer from "@/components/containers/home/posts-container";
+import { likeOrUnlikePost, addCommentToPost } from "utils/services/posts";
 
 const mockedLikeOrUnlikePost = likeOrUnlikePost as jest.Mock<any>;
 const mockedUseGetFeedPosts = useGetFeedPosts as jest.Mock<any>;
-const mockedHttpClient = HttpClient as jest.Mocked<typeof HttpClient>;
+const mockedAddCommentToPost = addCommentToPost as jest.Mock<
+  Promise<void> | undefined
+>;
 const mockedUseGetCommentsForPost = useGetCommentsForPost as jest.Mock<any>;
 const element = getTestLayout(<PostsContainer />, "redux-react-query");
 
@@ -222,6 +224,36 @@ describe("Posts Container Test", () => {
 
         expect(preventDefault).toHaveBeenCalled();
         expect(preventDefault).toHaveBeenCalledTimes(1);
+      });
+
+      it("should call the async function to add a comment when the user submits the comment form", async () => {
+        const postElement = getTestLayout(
+          <Post {...testPosts[0]} />,
+          "redux-react-query"
+        );
+        render(postElement);
+
+        const commentIcon = document.querySelector(
+          "#comment-icon"
+        ) as SVGElement;
+
+        clickAndUpdate<SVGElement>(commentIcon);
+
+        const commentFormElement = roleElement("form") as HTMLFormElement;
+        const commentInputElement = roleElement("textbox") as HTMLInputElement;
+
+        onChangeInput(commentInputElement, "A great post!");
+        submitForm(commentFormElement);
+
+        expect(mockedAddCommentToPost).toHaveBeenCalledWith(
+          expect.any(String),
+          expect.objectContaining({
+            comment: "A great post!",
+            user: expect.any(String),
+          }),
+          expect.any(Function),
+          expect.any(Function)
+        );
       });
     });
 
