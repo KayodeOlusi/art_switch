@@ -39,17 +39,16 @@ describe("Tag test", () => {
       expect(activeTag).toHaveClass("bg-appPrimary");
     });
 
-  const itShouldRenderTheAInActiveTagWithItsClass = (
-    activeTag: string,
-    inactive: string
-  ) =>
+  const itShouldRenderTheInActiveTagWithItsClass = ({
+    active,
+    inactive,
+  }: {
+    active: string;
+    inactive: string;
+  }) =>
     it("should render the inactive tag without the active class", () => {
       render(
-        <Tag
-          tag={inactive}
-          activeTag={activeTag}
-          setActiveTag={mockedSetState}
-        />
+        <Tag tag={inactive} activeTag={active} setActiveTag={mockedSetState} />
       );
       const inactiveTag = textElement(inactive);
       expect(inactiveTag).toBeInTheDocument();
@@ -58,7 +57,10 @@ describe("Tag test", () => {
 
   describe("Tags", () => {
     itShouldRenderTheActiveTagWithItsClass("Product");
-    itShouldRenderTheAInActiveTagWithItsClass("Product", "Art");
+    itShouldRenderTheInActiveTagWithItsClass({
+      active: "Product",
+      inactive: "Art",
+    });
   });
 
   describe("Active tag click functionality Test", () => {
