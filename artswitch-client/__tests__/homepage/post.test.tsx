@@ -89,7 +89,7 @@ describe("Posts Container Test", () => {
     });
 
     const itShouldRenderThePostComponentWithItsApprovedProps = (idx: number) =>
-      it("should render the post component with its props", () => {
+      it(`should render the ${idx + 1} post component with its props`, () => {
         const postElement = getTestLayout(
           <Post {...testPosts[idx]} />,
           "redux"
