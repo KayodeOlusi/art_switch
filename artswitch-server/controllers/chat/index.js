@@ -47,11 +47,9 @@ const accessChatWithUser = asyncHandler(async (req, res) => {
           data: fullChat,
         });
       } catch (error) {
-        return res
-          .status(500)
-          .json({
-            message: error?.message || "Unable to create chat, try again later",
-          });
+        return res.status(500).json({
+          message: error?.message || "Unable to create chat, try again later",
+        });
       }
     }
   } catch (error) {
@@ -65,21 +63,51 @@ const getAllUserChats = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
   try {
-    await Chat.find({ users: { $in: [_id] } })
-      .populate("users", "-password")
-      .populate("latestMessage")
-      .sort({ updatedAt: -1 })
-      .then(async result => {
-        await User.populate(result, {
-          path: "latestMessage.sender",
-          select: "-password",
-        });
+    const chats = await Chat.aggregate([
+      {
+        $match: {
+          users: {
+            $in: [_id],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "users",
+          foreignField: "_id",
+          as: "users",
+        },
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+      {
+        $project: {
+          __v: 0,
+          createdAt: 0,
+          "users.__v": 0,
+          "users.password": 0,
+        },
+      },
+    ]);
 
-        return res.status(200).json({
-          message: "All chats fetched successfully",
-          data: result,
-        });
-      });
+    await Chat.populate(chats, {
+      path: "latestMessage",
+      select: "-__v -chat -createdAt -updatedAt",
+    });
+
+    await User.populate(chats, {
+      path: "latestMessage.sender",
+      select: "-password -__v -createdAt -updatedAt -email",
+    });
+
+    return res.status(200).json({
+      message: "Chats fetched successfully",
+      data: chats,
+    });
   } catch (error) {
     return res
       .status(500)

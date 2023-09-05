@@ -6,6 +6,10 @@ const changeSinglePostBody = post => {
   return { user: userId, ...rest };
 };
 
+const isValidString = string => {
+  return typeof string === "string" && string.trim().length > 0;
+};
+
 const isValidObjectId = id => mongoose.Types.ObjectId.isValid(id);
 
 const prepareJSONResponse = args => {
@@ -19,4 +23,5 @@ module.exports = {
   prepareJSONResponse,
   isValidObjectId,
   changeSinglePostBody,
+  isValidString,
 };
