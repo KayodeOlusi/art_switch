@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const chatRoutes = require("./routes/chat");
 const postsRoutes = require("./routes/posts");
 const connectDB = require("./config/db/dbConn");
 const { verifyJWT } = require("./middlewares/auth");
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", verifyJWT, postsRoutes);
 app.use("/api/user", verifyJWT, userRoutes);
+app.use("/api/chat", verifyJWT, chatRoutes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
