@@ -23,9 +23,10 @@ const DesktopNav = (props: Props) => {
   const { user } = useAppSelector(selectUserDetails);
   const [searchValue, setSearchValue] = React.useState<string>("");
 
-  const _signOutUser = () => {
+  const _signOutUser = async () => {
     clearUserToken();
-    router.push("/login");
+    await router.push("/login");
+    return router.reload();
   };
 
   const settingsItems = React.useMemo(

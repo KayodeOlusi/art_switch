@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const ChatSchema = new Schema(
   {
-    chatName: {
-      type: String,
-      trim: true,
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     users: [
       {

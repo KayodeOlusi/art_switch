@@ -32,7 +32,7 @@ const accessChatWithUser = asyncHandler(async (req, res) => {
     } else {
       let chatToCreate = {
         users: [userId, req.user._id],
-        chatName: "sender",
+        chat: userId,
       };
 
       try {
@@ -100,7 +100,7 @@ const getAllUserChats = asyncHandler(async (req, res) => {
     });
 
     await User.populate(chats, {
-      path: "latestMessage.sender",
+      path: "latestMessage.sender chat",
       select: "-password -__v -createdAt -updatedAt -email",
     });
 

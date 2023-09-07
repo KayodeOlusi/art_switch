@@ -36,9 +36,10 @@ const LoginForm = () => {
 
     await loginUser(
       formState,
-      () => {
+      async () => {
         setLoading(false);
-        router.push("/");
+        await router.push("/");
+        router.reload();
       },
       () => setLoading(false)
     );

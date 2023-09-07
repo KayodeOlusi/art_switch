@@ -7,6 +7,10 @@ import useDebounce from "utils/hooks/useDebounce";
 import { SpinnerLoader } from "../global/loader";
 import { SearchIcon } from "@heroicons/react/solid";
 import { TSearchUser } from "utils/services/typings/user";
+import { startChat } from "utils/services/chat";
+import { useQueryClient } from "react-query";
+import { useAppSelector } from "app/hooks";
+import { selectUserDetails } from "features/slices/user";
 
 type Props = {
   action: "create-chat" | "view-profile";
@@ -27,18 +31,38 @@ const Loader = () => (
 const SearchResultItem = ({
   artist,
   action,
+  closeModal,
 }: {
   artist: TSearchResultProps["data"][0];
   action: "create-chat" | "view-profile";
+  closeModal: () => void;
 }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const {
+    user: { _id },
+  } = useAppSelector(selectUserDetails);
+  const [loading, setLoading] = React.useState(false);
 
-  const handleUserAction = () => {
+  const initializeChat = async () => {
+    setLoading(true);
+    await startChat(
+      artist?._id,
+      async () => {
+        await queryClient.refetchQueries([`chats-${_id}`]);
+        setLoading(false);
+        closeModal();
+      },
+      () => setLoading(false)
+    );
+  };
+
+  const handleUserAction = async () => {
     switch (action) {
       case "view-profile":
         return router.push(`/user/${artist?.username}`);
       case "create-chat":
-        return router.push(`/chat/${artist?._id}`);
+        await initializeChat();
       default:
         break;
     }
@@ -47,8 +71,10 @@ const SearchResultItem = ({
   return (
     <div
       onClick={handleUserAction}
-      className="flex items-center space-x-4 mb-4 rounded-lg cursor-pointer w-full 
-    hover:bg-gray-200 hover:bg-opacity-50 p-3 transition-all duration-200"
+      className={`flex items-center space-x-4 mb-4 rounded-lg w-full ${
+        loading ? "cursor-progress" : "cursor-pointer"
+      }
+    hover:bg-gray-200 hover:bg-opacity-50 p-3 transition-all duration-200`}
     >
       <div className="w-10 h-10">
         <img
@@ -66,7 +92,7 @@ const SearchResultItem = ({
 };
 
 const SearchResult = ({ action }: Props) => {
-  const { data } = useModal();
+  const { data, closeModal } = useModal();
   const [artistValue, setArtistValue] = React.useState(data?.searchValue);
   const { debouncedValue } = useDebounce({
     value: artistValue,
@@ -93,6 +119,8 @@ const SearchResult = ({ action }: Props) => {
       () => setSearchResult(prev => ({ ...prev, loadingSearch: false }))
     );
   }, []);
+
+  const closeSearchModal = React.useCallback(() => closeModal(), []);
 
   React.useEffect(() => {
     if (debouncedValue) searchForArtist(debouncedValue);
@@ -130,6 +158,7 @@ const SearchResult = ({ action }: Props) => {
               key={artist._id}
               artist={artist}
               action={action}
+              closeModal={closeSearchModal}
             />
           ))
         ) : (

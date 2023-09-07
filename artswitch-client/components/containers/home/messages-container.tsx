@@ -1,12 +1,21 @@
 import React from "react";
+import { useAppSelector } from "app/hooks";
 import useModal from "utils/hooks/useModal";
-import { PencilAltIcon } from "@heroicons/react/outline";
 import { MODAL_VIEWS } from "utils/typings/app";
+import AppLoader from "@/components/global/loader";
+import { PencilAltIcon } from "@heroicons/react/outline";
+import { useGetChats } from "utils/hooks/chats/useChats";
+import { selectUserDetails } from "features/slices/user";
+import MessageProfileCard from "@/components/home/messages/message-profile-card";
 
 type Props = {};
 
 const MessagesContainer = (props: Props) => {
   const { openModal } = useModal();
+  const {
+    user: { _id },
+  } = useAppSelector(selectUserDetails);
+  const { data, error, isLoading } = useGetChats(_id);
 
   return (
     <div className="bg-white rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
@@ -17,6 +26,25 @@ const MessagesContainer = (props: Props) => {
           onClick={() => openModal(MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST)}
         />
       </section>
+      <div className="mt-6">
+        {isLoading && !error && (
+          <div className="flex items-center justify-center">
+            <AppLoader size={20} color="#000000" />
+          </div>
+        )}
+        {error && <div className="text-center">{error?.message}</div>}
+        {data &&
+          !error &&
+          !isLoading &&
+          (() =>
+            data.length > 0 ? (
+              data.map(chat => (
+                <MessageProfileCard userId={_id} key={chat._id} chat={chat} />
+              ))
+            ) : (
+              <div className="text-center text-sm">No messages yet</div>
+            ))()}
+      </div>
     </div>
   );
 };
