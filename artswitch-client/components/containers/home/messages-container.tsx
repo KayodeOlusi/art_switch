@@ -39,7 +39,7 @@ const MessagesContainer = (props: Props) => {
           (() =>
             data.length > 0 ? (
               data.map(chat => (
-                <MessageProfileCard userId={_id} key={chat._id} chat={chat} />
+                <MessageProfileCard key={chat._id} chat={chat} />
               ))
             ) : (
               <div className="text-center text-sm">No messages yet</div>

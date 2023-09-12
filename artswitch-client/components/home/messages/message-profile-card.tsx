@@ -3,10 +3,22 @@ import { TGetAllUserChats } from "utils/services/typings/chats";
 
 type Props = {
   chat: TGetAllUserChats;
-  userId: string;
 };
 
-const MessageProfileCard = ({ chat, userId }: Props) => {
+const MessageProfileCard = ({ chat }: Props) => {
+  const generateMessageTime = (date: string) => {
+    return new Date(date).getTime() > Date.now() - 86400000
+      ? new Date(date).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })
+      : new Date(date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+  };
+
   return (
     <div
       className={`flex items-start space-x-4 mb-4 rounded-lg w-full
@@ -28,12 +40,7 @@ const MessageProfileCard = ({ chat, userId }: Props) => {
               ? chat?.chat?.name.substring(0, 12) + "..."
               : chat?.chat?.name}
           </p>
-          <p className="text-[10px]">
-            {new Date(chat?.updatedAt)?.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
+          <p className="text-[10px]">{generateMessageTime(chat?.updatedAt)}</p>
         </div>
         <p className="text-xs truncate font-normal">
           {chat?.latestMessage?.content.length > 20
