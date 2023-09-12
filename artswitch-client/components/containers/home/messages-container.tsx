@@ -22,17 +22,22 @@ const MessagesContainer = (props: Props) => {
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Messages</h3>
         <PencilAltIcon
+          id="create-chat"
           className="w-6 h-6 cursor-pointer"
           onClick={() => openModal(MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST)}
         />
       </section>
-      <div className="mt-6">
+      <div className="mt-6" id="chat-container">
         {isLoading && !error && (
           <div className="flex items-center justify-center">
-            <AppLoader size={20} color="#000000" />
+            <AppLoader role="progressbar" size={20} color="#000000" />
           </div>
         )}
-        {error && <div className="text-center">{error?.message}</div>}
+        {error && (
+          <div className="text-center" role="alert">
+            {error?.message}
+          </div>
+        )}
         {data &&
           !error &&
           !isLoading &&

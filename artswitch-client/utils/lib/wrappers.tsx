@@ -1,7 +1,7 @@
 import React from "react";
 import { store } from "app/store";
 import { Provider } from "react-redux";
-import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 type TLayoutProps = "redux" | "react-query" | "redux-react-query";
 
@@ -29,7 +29,7 @@ const ReactQueryWrapper = ({ component }: { component: React.ReactNode }) => {
   );
 };
 
-export const getTestLayout = (component: JSX.Element, type: TLayoutProps) => {
+export const getTestLayout = (component: JSX.Element, type?: TLayoutProps) => {
   switch (type) {
     case "redux":
       return <Provider store={store}>{component}</Provider>;

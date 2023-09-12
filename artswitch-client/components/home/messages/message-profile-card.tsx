@@ -27,7 +27,7 @@ const MessageProfileCard = ({ chat }: Props) => {
       <div className="">
         <div className="w-10 h-10">
           <img
-            alt="image"
+            alt={`chat-image-${chat?.chat?.name}`}
             className="w-full h-full object-contain rounded-full"
             src={chat?.chat?.profilePicture || chat?.chat?.name[0]}
           />
@@ -40,7 +40,9 @@ const MessageProfileCard = ({ chat }: Props) => {
               ? chat?.chat?.name.substring(0, 12) + "..."
               : chat?.chat?.name}
           </p>
-          <p className="text-[10px]">{generateMessageTime(chat?.updatedAt)}</p>
+          <p className="text-[10px]" id="chat-time">
+            {generateMessageTime(chat?.updatedAt)}
+          </p>
         </div>
         <p className="text-xs truncate font-normal">
           {chat?.latestMessage?.content.length > 20

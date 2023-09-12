@@ -1,12 +1,20 @@
 import ReactTestUtils from "react-dom/test-utils";
-import { act, fireEvent, screen } from "@testing-library/react";
+import { MatcherOptions, act, fireEvent, screen } from "@testing-library/react";
 
-const roleElement = (role: string) => screen.getByRole(role);
-const textElement = (text: string) => screen.getByText(text);
-const testIdElement = (testId: string) => screen.getByTestId(testId);
-const inputField = (field: string) => screen.getByPlaceholderText(field);
-const imageElement = (altText: string) => screen.getByAltText(altText);
-const queryImageElement = (altText: string) => screen.queryByAltText(altText);
+const roleElement = (role: string, options?: MatcherOptions) =>
+  screen.getByRole(role, options);
+const textElement = (text: string, options?: MatcherOptions) =>
+  screen.getByText(text, options);
+const testIdElement = (testId: string, options?: MatcherOptions) =>
+  screen.getByTestId(testId, options);
+const inputField = (field: string, options?: MatcherOptions) =>
+  screen.getByPlaceholderText(field, options);
+const imageElement = (altText: string, options?: MatcherOptions) =>
+  screen.getByAltText(altText, options);
+const queryImageElement = (altText: string, options?: MatcherOptions) =>
+  screen.queryByAltText(altText, options);
+
+const elementById = (id: string) => document.getElementById(id);
 
 const click = (element: HTMLElement) => fireEvent.click(element);
 
@@ -39,4 +47,5 @@ export {
   submitFormAndSimulate,
   imageElement,
   queryImageElement,
+  elementById,
 };

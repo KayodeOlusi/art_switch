@@ -1,5 +1,6 @@
 import { animations } from "./animations";
 import { StoriesState } from "features/slices/stories";
+import { TGetAllUserChats } from "./services/typings/chats";
 
 export const testPosts = [
   {
@@ -192,4 +193,87 @@ export const postTags = [
   "nature",
   "architecture",
   "other",
+];
+
+export const testChatsData: TGetAllUserChats[] = [
+  {
+    _id: "1",
+    chat: {
+      _id: "2",
+      name: "Test Chat",
+      username: "test",
+      profilePicture: "https://i.pravatar.cc/150?img=1",
+    },
+    updatedAt: "2023-09-07T17:53:39.525+00:00",
+    latestMessage: {
+      _id: "1",
+      sender: {
+        _id: "213",
+        name: "Jane",
+        username: "jane",
+        profilePicture: "https://i.pravatar.cc/150?img=2",
+      },
+      content: "Hey there",
+    },
+    users: [
+      {
+        _id: "213",
+        name: "Jane",
+        username: "jane",
+        email: "jane@gmail.com",
+        profilePicture: "https://i.pravatar.cc/150?img=1",
+        createdAt: "",
+        updatedAt: "",
+      },
+      {
+        _id: "214",
+        name: "John",
+        username: "john",
+        email: "john@gmail.com",
+        profilePicture: "https://i.pravatar.cc/150?img=2",
+        createdAt: "",
+        updatedAt: "",
+      },
+    ],
+  },
+  {
+    _id: "2",
+    chat: {
+      _id: "4",
+      name: "Test Chat 2",
+      username: "test 2",
+      profilePicture: "https://i.pravatar.cc/150?img=2",
+    },
+    updatedAt: "2023-09-07T17:53:39.525+00:00",
+    latestMessage: {
+      _id: "4",
+      sender: {
+        _id: "214",
+        name: "John",
+        username: "john",
+        profilePicture: "https://i.pravatar.cc/150?img=2",
+      },
+      content: "Hi",
+    },
+    users: [
+      {
+        _id: "213",
+        name: "Jane",
+        username: "jane",
+        email: "jane@gmail.com",
+        profilePicture: "https://i.pravatar.cc/150?img=1",
+        createdAt: "",
+        updatedAt: "",
+      },
+      {
+        _id: "214",
+        name: "John",
+        username: "john",
+        email: "john@gmail.com",
+        profilePicture: "https://i.pravatar.cc/150?img=2",
+        createdAt: "",
+        updatedAt: "",
+      },
+    ],
+  },
 ];
