@@ -134,7 +134,11 @@ describe("Message Container", () => {
   });
 
   describe("Message Profile Card UI", () => {
-    const itShouldShowTheCorrectNameOfChat = (chatIdx: number) =>
+    const itShouldShowTheCorrectNameOfChat = ({
+      chatIdx,
+    }: {
+      chatIdx: number;
+    }) =>
       it("should show the name of the chat", () => {
         const element = getTestLayout(
           <MessageProfileCard chat={testChatsData[chatIdx]} />
@@ -147,7 +151,11 @@ describe("Message Container", () => {
         expect(chatName.textContent).toBe(testChatsData[chatIdx].chat.name);
       });
 
-    const itShouldShowTheCorrectProfilePictureOfChat = (chatIdx: number) =>
+    const itShouldShowTheCorrectProfilePictureOfChat = ({
+      chatIdx,
+    }: {
+      chatIdx: number;
+    }) =>
       it("should show the profile picture of the chat", () => {
         const element = getTestLayout(
           <MessageProfileCard chat={testChatsData[chatIdx]} />
@@ -181,11 +189,30 @@ describe("Message Container", () => {
         expect(chatTime?.textContent).toBe(expectedVal);
       });
 
-    itShouldShowTheCorrectNameOfChat(0);
-    itShouldShowTheCorrectNameOfChat(1);
+    const itShouldShowTheCorrectMessageAChatWasLastUpdated = ({
+      chatIdx,
+      expectedVal,
+    }: {
+      chatIdx: number;
+      expectedVal: string;
+    }) =>
+      it(`should show the message the chat with index ${chatIdx} was last updated`, () => {
+        const element = getTestLayout(
+          <MessageProfileCard chat={testChatsData[chatIdx]} />
+        );
+        render(element);
 
-    itShouldShowTheCorrectProfilePictureOfChat(0);
-    itShouldShowTheCorrectProfilePictureOfChat(1);
+        const chatMessage = elementById("chat-message");
+
+        expect(chatMessage).toBeInTheDocument();
+        expect(chatMessage?.textContent).toBe(expectedVal);
+      });
+
+    itShouldShowTheCorrectNameOfChat({ chatIdx: 0 });
+    itShouldShowTheCorrectNameOfChat({ chatIdx: 1 });
+
+    itShouldShowTheCorrectProfilePictureOfChat({ chatIdx: 0 });
+    itShouldShowTheCorrectProfilePictureOfChat({ chatIdx: 1 });
 
     itShouldShowTheCorrectTimeAChatWasLastUpdated({
       chatIdx: 0,
@@ -194,6 +221,15 @@ describe("Message Container", () => {
     itShouldShowTheCorrectTimeAChatWasLastUpdated({
       chatIdx: 1,
       expectedVal: "Sep 7",
+    });
+
+    itShouldShowTheCorrectMessageAChatWasLastUpdated({
+      chatIdx: 0,
+      expectedVal: "Hey there",
+    });
+    itShouldShowTheCorrectMessageAChatWasLastUpdated({
+      chatIdx: 1,
+      expectedVal: "Hi",
     });
   });
 });

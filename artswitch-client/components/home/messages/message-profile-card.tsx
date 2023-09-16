@@ -44,7 +44,7 @@ const MessageProfileCard = ({ chat }: Props) => {
             {generateMessageTime(chat?.updatedAt)}
           </p>
         </div>
-        <p className="text-xs truncate font-normal">
+        <p className="text-xs truncate font-normal" id="chat-message">
           {chat?.latestMessage?.content.length > 20
             ? chat?.latestMessage?.content.substring(0, 20) + "..."
             : chat?.latestMessage?.content}

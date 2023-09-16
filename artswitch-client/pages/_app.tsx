@@ -1,9 +1,11 @@
 import React from "react";
 import "../styles/global.css";
 import { store } from "app/store";
+import { AxiosError, isAxiosError } from "axios";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { AppPropsWithLayout } from "utils/typings/app";
+import { handleAuthError } from "utils/services/client";
 import ModalContainer from "@/components/global/modal";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -17,6 +19,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         refetchOnReconnect: true,
         refetchOnWindowFocus: false,
         keepPreviousData: true,
+        onError(err) {
+          if (isAxiosError(err)) {
+            if (err.response?.status === 401) {
+              handleAuthError(err);
+            }
+          }
+        },
       },
     },
   });

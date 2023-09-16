@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:5001/api/",
@@ -101,12 +101,18 @@ export const errorMessage = (message?: string) => {
   toast.error(message || "Something went wrong");
 };
 
+export const handleAuthError = (error: AxiosError) => {
+  if (error?.response?.status === 401) {
+    return window.location.replace("/login");
+  }
+};
+
 export const handleError = (error: unknown) => {
   let errorMsg: string = "";
 
   if (isAxiosError(error)) {
     if (error?.response?.status === 401) {
-      return (window.location.href = "/login");
+      return window.location.replace("/login");
     } else {
       errorMsg = error?.response?.data?.message;
     }
