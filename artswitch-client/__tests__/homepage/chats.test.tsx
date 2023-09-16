@@ -5,6 +5,7 @@ import {
   roleElement,
   textElement,
   queryImageElement,
+  click,
 } from "utils/lib/test-helpers";
 import { testChatsData } from "utils/data";
 import { getTestLayout } from "utils/lib/wrappers";
@@ -12,6 +13,7 @@ import { cleanup, render } from "@testing-library/react";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import MessagesContainer from "@/components/containers/home/messages-container";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
+import { TGetAllUserChats } from "utils/services/typings/chats";
 
 describe("Message Container", () => {
   const mockedUseGetChats = useGetChats as jest.Mock<any>;
@@ -140,8 +142,13 @@ describe("Message Container", () => {
       chatIdx: number;
     }) =>
       it("should show the name of the chat", () => {
+        const handleChatClick = jest.fn();
+
         const element = getTestLayout(
-          <MessageProfileCard chat={testChatsData[chatIdx]} />
+          <MessageProfileCard
+            chat={testChatsData[chatIdx]}
+            onClick={handleChatClick}
+          />
         );
         render(element);
 
@@ -157,8 +164,13 @@ describe("Message Container", () => {
       chatIdx: number;
     }) =>
       it("should show the profile picture of the chat", () => {
+        const handleChatClick = jest.fn();
+
         const element = getTestLayout(
-          <MessageProfileCard chat={testChatsData[chatIdx]} />
+          <MessageProfileCard
+            chat={testChatsData[chatIdx]}
+            onClick={handleChatClick}
+          />
         );
         render(element);
 
@@ -178,8 +190,13 @@ describe("Message Container", () => {
       expectedVal: string;
     }) =>
       it("should show the time the chat was last updated", () => {
+        const handleChatClick = jest.fn();
+
         const element = getTestLayout(
-          <MessageProfileCard chat={testChatsData[chatIdx]} />
+          <MessageProfileCard
+            chat={testChatsData[chatIdx]}
+            onClick={handleChatClick}
+          />
         );
         render(element);
 
@@ -197,8 +214,13 @@ describe("Message Container", () => {
       expectedVal: string;
     }) =>
       it(`should show the message the chat with index ${chatIdx} was last updated`, () => {
+        const handleChatClick = jest.fn();
+
         const element = getTestLayout(
-          <MessageProfileCard chat={testChatsData[chatIdx]} />
+          <MessageProfileCard
+            chat={testChatsData[chatIdx]}
+            onClick={handleChatClick}
+          />
         );
         render(element);
 
@@ -207,6 +229,20 @@ describe("Message Container", () => {
         expect(chatMessage).toBeInTheDocument();
         expect(chatMessage?.textContent).toBe(expectedVal);
       });
+
+    it("should call the onClick function passed to the message profile card when it is clicked", () => {
+      const handleChatClick = jest.fn();
+
+      const element = getTestLayout(
+        <MessageProfileCard chat={testChatsData[0]} onClick={handleChatClick} />
+      );
+      render(element);
+
+      const chatCard = elementById("chat-card") as HTMLDivElement;
+      click(chatCard);
+
+      expect(handleChatClick).toHaveBeenCalledTimes(1);
+    });
 
     itShouldShowTheCorrectNameOfChat({ chatIdx: 0 });
     itShouldShowTheCorrectNameOfChat({ chatIdx: 1 });

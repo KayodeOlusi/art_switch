@@ -10,6 +10,13 @@ export enum MODAL_VIEWS {
   NONE = "NONE",
 }
 
+export type TAppState = {
+  chat: {
+    open: boolean;
+    data?: any;
+  };
+};
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };

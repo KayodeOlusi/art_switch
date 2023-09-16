@@ -48,7 +48,7 @@ const getAllMessagesInChat = asyncHandler(async (req, res) => {
     await Message.find({
       chat: id,
     })
-      .populate("sender", "-password", "-__v")
+      .populate("sender", "-password")
       .sort({ createdAt: -1 })
       .then(messages =>
         res.status(200).json({
@@ -57,6 +57,8 @@ const getAllMessagesInChat = asyncHandler(async (req, res) => {
         })
       );
   } catch (error) {
+    console.log(error);
+
     return res
       .status(500)
       .json({ message: error?.message || "Error fetching all messages" });

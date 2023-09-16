@@ -7,6 +7,8 @@ import { PencilAltIcon } from "@heroicons/react/outline";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import { selectUserDetails } from "features/slices/user";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
+import useAppState from "utils/hooks/useAppState";
+import { TGetAllUserChats } from "utils/services/typings/chats";
 
 type Props = {};
 
@@ -16,6 +18,12 @@ const MessagesContainer = (props: Props) => {
     user: { _id },
   } = useAppSelector(selectUserDetails);
   const { data, error, isLoading } = useGetChats(_id);
+  const { setAppChatOpenState, setAppChatData } = useAppState();
+
+  const handleChatClick = React.useCallback((chat: TGetAllUserChats) => {
+    setAppChatData({ chat });
+    setAppChatOpenState(true);
+  }, []);
 
   return (
     <div className="bg-white rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
@@ -44,7 +52,11 @@ const MessagesContainer = (props: Props) => {
           (() =>
             data.length > 0 ? (
               data.map(chat => (
-                <MessageProfileCard key={chat._id} chat={chat} />
+                <MessageProfileCard
+                  key={chat._id}
+                  chat={chat}
+                  onClick={() => handleChatClick(chat)}
+                />
               ))
             ) : (
               <div className="text-center text-sm">No messages yet</div>

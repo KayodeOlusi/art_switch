@@ -3,9 +3,10 @@ import { TGetAllUserChats } from "utils/services/typings/chats";
 
 type Props = {
   chat: TGetAllUserChats;
+  onClick: () => void;
 };
 
-const MessageProfileCard = ({ chat }: Props) => {
+const MessageProfileCard = ({ chat, onClick }: Props) => {
   const generateMessageTime = (date: string) => {
     return new Date(date).getTime() > Date.now() - 86400000
       ? new Date(date).toLocaleTimeString("en-US", {
@@ -21,7 +22,9 @@ const MessageProfileCard = ({ chat }: Props) => {
 
   return (
     <div
-      className={`flex items-start space-x-4 mb-4 rounded-lg w-full
+      onClick={onClick}
+      id="chat-card"
+      className={`flex cursor-pointer items-start space-x-4 mb-4 rounded-lg w-full
     hover:bg-gray-200 hover:bg-opacity-50 p-2 transition-all duration-200`}
     >
       <div className="">
