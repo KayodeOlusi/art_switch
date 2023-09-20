@@ -45,10 +45,14 @@ const getAllMessagesInChat = asyncHandler(async (req, res) => {
   }
 
   try {
-    await Message.find({
-      chat: id,
-    })
-      .populate("sender", "-password")
+    await Message.find(
+      {
+        chat: id,
+      },
+      {
+        __v: 0,
+      }
+    )
       .sort({ createdAt: -1 })
       .then(messages =>
         res.status(200).json({

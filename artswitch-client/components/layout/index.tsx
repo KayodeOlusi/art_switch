@@ -28,10 +28,10 @@ const AppLayout = ({ children }: Props) => {
         <section
           className={`${
             open
-              ? "h-screen transition-all duration-200 ease-linear sm:h-[460px] absolute"
+              ? "h-screen transition-all duration-200 ease-linear sm:h-[520px] absolute"
               : "hidden"
           }
-          bottom-0 right-1 z-50 rounded-tl-lg rounded-tr-lg w-80
+          bottom-0 right-1 z-50 rounded-tl-lg rounded-tr-lg w-[380px]
           bg-white border-gray-200 border-[1px]`}
         >
           <ChatWidget />

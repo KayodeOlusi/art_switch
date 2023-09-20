@@ -3,11 +3,11 @@ import { useAppSelector } from "app/hooks";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
 import AppLoader from "@/components/global/loader";
+import useAppState from "utils/hooks/useAppState";
 import { PencilAltIcon } from "@heroicons/react/outline";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import { selectUserDetails } from "features/slices/user";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
-import useAppState from "utils/hooks/useAppState";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 
 type Props = {};
