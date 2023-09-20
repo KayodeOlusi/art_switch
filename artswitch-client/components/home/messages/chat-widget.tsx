@@ -1,4 +1,5 @@
 import React from "react";
+import { useAppSelector } from "app/hooks";
 import { XIcon } from "@heroicons/react/solid";
 import MessageScreen from "./message-screen";
 import useAppState from "utils/hooks/useAppState";
@@ -6,7 +7,6 @@ import { useMessage } from "utils/hooks/messages/useMessage";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 import { TChatMessage } from "utils/services/typings/messages";
 import { sendMessageToChat } from "utils/services/messages";
-import { useAppSelector } from "app/hooks";
 import { selectUserDetails } from "features/slices/user";
 
 type Props = {};
@@ -71,11 +71,10 @@ const ChatWidget = (props: Props) => {
             <p className="text-xs">Online</p>
           </div>
         </div>
+        {/**TODO: Refetch chats when user closes the chat widget */}
         <XIcon
           className="w-4 h-4 cursor-pointer"
-          onClick={async () => {
-            setAppChatOpenState(false);
-          }}
+          onClick={() => setAppChatOpenState(false)}
         />
       </div>
       <MessageScreen
