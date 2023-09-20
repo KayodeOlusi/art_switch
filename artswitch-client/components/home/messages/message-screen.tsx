@@ -4,15 +4,23 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { TChatMessage } from "utils/services/typings/messages";
 
 type Props = {
+  user: string;
   handleSendMessage: (
     content: string,
-    onStart?: () => void,
-    onFinish?: () => void
+    { onStart, onFinish }: { onStart?: () => void; onFinish?: () => void }
   ) => Promise<void>;
-  messages: TChatMessage[];
+  messageData: {
+    error: Error | null;
+    loading: boolean;
+    messages: TChatMessage[];
+  };
 };
 
-const MessageScreen = ({ handleSendMessage, messages }: Props) => {
+const MessageScreen = ({
+  user,
+  handleSendMessage,
+  messageData: { messages, error, loading: loadingMessages },
+}: Props) => {
   const [message, setMessage] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
@@ -20,21 +28,44 @@ const MessageScreen = ({ handleSendMessage, messages }: Props) => {
     e.preventDefault();
     setMessage("");
 
-    await handleSendMessage(
-      message,
-      () => setLoading(true),
-      () => setLoading(false)
-    );
+    await handleSendMessage(message, {
+      onStart: () => setLoading(true),
+      onFinish: () => setLoading(false),
+    });
+  };
+
+  const getSenderStyle = (sender: string) => {
+    switch (sender) {
+      case user:
+        return "items-end";
+      default:
+        return "items-start";
+    }
   };
 
   return (
-    <div className="flex flex-col justify-between gap-y-1 h-full">
-      <div className="bg-gray-100 h-full p-2 rounded-md">
-        {messages.length > 0 ? (
+    <div className="flex flex-col justify-between gap-y-1 h-full overflow-auto no-scrollbar">
+      <div
+        className="bg-gray-100 h-full overflow-y-scroll no-scrollbar p-2 rounded-md"
+        ref={ref => {
+          if (ref) {
+            ref.scrollTop = ref.scrollHeight;
+          }
+        }}
+      >
+        {loadingMessages ? (
+          <div className="w-full h-full flex items-center justify-center">
+            <SpinnerLoader size={25} color="#000000" />
+          </div>
+        ) : messages.length > 0 ? (
           messages.map(message => (
-            <div key={message._id} className="flex flex-col gap-y-1">
-              <p className="text-sm font-bold">{message.sender}</p>
-              <p className="text-sm">{message.content}</p>
+            <div
+              key={message._id}
+              className={`flex flex-col ${getSenderStyle(message?.sender)}`}
+            >
+              <div className="text-sm max-w-[50%] bg-white p-2 rounded-xl mb-2">
+                {message.content}
+              </div>
             </div>
           ))
         ) : (
@@ -49,6 +80,7 @@ const MessageScreen = ({ handleSendMessage, messages }: Props) => {
           name="message"
           role="textbox"
           value={message}
+          ref={ref => ref?.focus()}
           placeholder="Type a message..."
           onChange={e => setMessage(e.target.value)}
           className="w-full rounded-lg pr-8 pl-4 py-1 text-sm outline-none"

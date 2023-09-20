@@ -52,14 +52,12 @@ const getAllMessagesInChat = asyncHandler(async (req, res) => {
       {
         __v: 0,
       }
-    )
-      .sort({ createdAt: -1 })
-      .then(messages =>
-        res.status(200).json({
-          message: "Messages fetched successfully",
-          data: messages,
-        })
-      );
+    ).then(messages =>
+      res.status(200).json({
+        message: "Messages fetched successfully",
+        data: messages,
+      })
+    );
   } catch (error) {
     console.log(error);
 

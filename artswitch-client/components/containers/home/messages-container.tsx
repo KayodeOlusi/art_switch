@@ -13,12 +13,16 @@ import { TGetAllUserChats } from "utils/services/typings/chats";
 type Props = {};
 
 const MessagesContainer = (props: Props) => {
+  const {
+    setAppChatData,
+    chat: { open },
+    setAppChatOpenState,
+  } = useAppState();
   const { openModal } = useModal();
   const {
     user: { _id },
   } = useAppSelector(selectUserDetails);
-  const { data, error, isLoading } = useGetChats(_id);
-  const { setAppChatOpenState, setAppChatData } = useAppState();
+  const { data, error, isLoading } = useGetChats(_id, open);
 
   const handleChatClick = React.useCallback((chat: TGetAllUserChats) => {
     setAppChatData(chat);

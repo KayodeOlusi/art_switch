@@ -1,8 +1,7 @@
-import { useAppSelector } from "app/hooks";
 import React from "react";
+import useAppState from "../useAppState";
 import { getAllChatMessages } from "utils/services/messages";
 import { TGetAllUserChats } from "utils/services/typings/chats";
-import useAppState from "../useAppState";
 
 export const useMessage = <T,>(data: TGetAllUserChats) => {
   const {
