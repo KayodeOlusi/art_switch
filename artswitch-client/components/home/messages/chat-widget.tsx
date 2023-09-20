@@ -14,10 +14,9 @@ const ChatWidget = (props: Props) => {
     chat: { data },
     setAppChatOpenState,
   } = useAppState();
-  const chatData = React.useMemo(() => data?.chat as TGetAllUserChats, [data]);
-  const { messages, loading, setMessages, error } = useMessage<TChatMessage>(
-    data?.chat
-  );
+  const chatData = React.useMemo(() => data as TGetAllUserChats, [data]);
+  const { messages, loading, setMessages, error } =
+    useMessage<TChatMessage>(data);
 
   const allMessages = React.useMemo(() => messages, [messages]);
   const handleSendMessage = React.useCallback(
@@ -25,7 +24,7 @@ const ChatWidget = (props: Props) => {
       onStart?.();
 
       await sendMessageToChat<TChatMessage>(
-        { content, id: data?.chat?._id },
+        { content, id: data?._id },
         res => {
           onFinish?.();
           setMessages(prev => [...prev, res]);

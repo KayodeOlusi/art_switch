@@ -21,7 +21,7 @@ const MessagesContainer = (props: Props) => {
   const { setAppChatOpenState, setAppChatData } = useAppState();
 
   const handleChatClick = React.useCallback((chat: TGetAllUserChats) => {
-    setAppChatData({ chat });
+    setAppChatData(chat);
     setAppChatOpenState(true);
   }, []);
 

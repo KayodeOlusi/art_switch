@@ -1,8 +1,13 @@
+import { useAppSelector } from "app/hooks";
 import React from "react";
 import { getAllChatMessages } from "utils/services/messages";
 import { TGetAllUserChats } from "utils/services/typings/chats";
+import useAppState from "../useAppState";
 
 export const useMessage = <T,>(data: TGetAllUserChats) => {
+  const {
+    chat: { open },
+  } = useAppState();
   const [messages, setMessages] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error | null>(null);
@@ -24,7 +29,7 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
   }, [data]);
 
   React.useEffect(() => {
-    fetchMessages();
+    open && fetchMessages();
   }, [fetchMessages]);
 
   return { messages, loading, error, setMessages };
