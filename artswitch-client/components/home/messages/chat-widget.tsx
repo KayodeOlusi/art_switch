@@ -24,16 +24,7 @@ const ChatWidget = (props: Props) => {
   const { messages, loading, setMessages, error, selectedChatCompare } =
     useMessage<TChatMessage>(chatData);
 
-  const compareChatAndSendMessage = React.useCallback(
-    (message: TChatMessage) => {
-      if (!selectedChatCompare || selectedChatCompare?._id !== message?.chat) {
-        // send notification
-      } else {
-        setMessages(prev => [...prev, message]);
-      }
-    },
-    [messages, selectedChatCompare]
-  );
+  const compareChatAndSendMessage = (message: TChatMessage) => {};
 
   const handleSendMessage = React.useCallback(
     async (
@@ -47,8 +38,9 @@ const ChatWidget = (props: Props) => {
         res => {
           onFinish?.();
 
+          console.log(res);
           socket.emit("new message", res);
-          setMessages(prev => [...prev, res]);
+          setMessages([...messages, res]);
         },
         err => {
           onFinish?.();
@@ -71,12 +63,15 @@ const ChatWidget = (props: Props) => {
 
   React.useEffect(() => {
     socket.on("new message", message => {
-      compareChatAndSendMessage(message);
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare?.chat?._id !== message?.chat?.chat
+      ) {
+        // send notification
+      } else {
+        setMessages([...messages, message]);
+      }
     });
-
-    return () => {
-      socket.off("new message");
-    };
   });
 
   const currentUser = React.useMemo(() => user?._id, [chatData, user]);

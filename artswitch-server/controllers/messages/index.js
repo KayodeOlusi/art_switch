@@ -2,6 +2,7 @@ const Message = require("../../models/message");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId, isValidString } = require("../../utils/functions");
 const Chat = require("../../models/chat");
+const User = require("../../models/user");
 
 const sendMessageToChat = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -16,10 +17,16 @@ const sendMessageToChat = asyncHandler(async (req, res) => {
   }
 
   try {
-    const message = await Message.create({
+    let message = await Message.create({
       content,
       chat: id,
       sender: _id,
+    });
+
+    message = await message.populate("chat");
+    message = await User.populate(message, {
+      path: "chat.users",
+      select: "_id",
     });
 
     await Chat.findByIdAndUpdate(id, {

@@ -56,14 +56,13 @@ mongoose.connection.once("open", () => {
 
     socket.on("new message", message => {
       const chat = message.chat;
-      console.log(message);
 
       if (!chat.users) return console.log("Chat.users not defined");
 
       chat.users.forEach(user => {
-        if (user._id === message.sender._id) return;
+        if (user._id === message.sender) return;
 
-        socket.in(user._id).emit("message received", message);
+        socket.in(user._id).emit("new message", message);
       });
     });
   });
