@@ -1,7 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { LRUCache } from "lru-cache";
-import { faker } from "@faker-js/faker";
 import { RootState } from "app/store";
+import { faker } from "@faker-js/faker";
+import { createSlice } from "@reduxjs/toolkit";
+import useCache from "utils/hooks/useCache";
+
+const { getCache, setCache } = useCache();
 
 export type StoriesState = {
   stories: Array<{
@@ -12,12 +14,6 @@ export type StoriesState = {
   }>;
 };
 
-const cache = new LRUCache({
-  max: 25,
-  allowStale: true,
-  ttl: 1000 * 60 * 10,
-});
-
 const initialState: StoriesState = {
   stories: [],
 };
@@ -27,7 +23,7 @@ const storiesSlice = createSlice({
   initialState,
   reducers: {
     loadStories: state => {
-      const cachedStories = cache.get("stories") as StoriesState["stories"];
+      const cachedStories = getCache("stories") as StoriesState["stories"];
 
       if (cachedStories) {
         state.stories = [...cachedStories];
@@ -39,7 +35,7 @@ const storiesSlice = createSlice({
           email: faker.internet.email(),
         }));
 
-        cache.set("stories", newStories);
+        setCache("stories", newStories);
         state.stories = [...newStories];
       }
     },

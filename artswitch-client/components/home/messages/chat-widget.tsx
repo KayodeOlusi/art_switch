@@ -1,4 +1,5 @@
 import React from "react";
+import { socket } from "../../../socket";
 import { useAppSelector } from "app/hooks";
 import { XIcon } from "@heroicons/react/solid";
 import MessageScreen from "./message-screen";
@@ -18,19 +19,20 @@ const ChatWidget = (props: Props) => {
   } = useAppState();
 
   const { user } = useAppSelector(selectUserDetails);
+  const [socketConnected, setSocketConnected] = React.useState(false);
   const chatData = React.useMemo(() => data as TGetAllUserChats, [data]);
-  const { messages, loading, setMessages, error } =
+  const { messages, loading, setMessages, error, selectedChatCompare } =
     useMessage<TChatMessage>(chatData);
 
-  const currentUser = React.useMemo(() => user?._id, [chatData, user]);
-
-  const messageData = React.useMemo(
-    () => ({
-      error,
-      loading,
-      messages,
-    }),
-    [messages, loading, error, setMessages]
+  const compareChatAndSendMessage = React.useCallback(
+    (message: TChatMessage) => {
+      if (!selectedChatCompare || selectedChatCompare?._id !== message?.chat) {
+        // send notification
+      } else {
+        setMessages(prev => [...prev, message]);
+      }
+    },
+    [messages, selectedChatCompare]
   );
 
   const handleSendMessage = React.useCallback(
@@ -44,6 +46,8 @@ const ChatWidget = (props: Props) => {
         { content, id: chatData?._id },
         res => {
           onFinish?.();
+
+          socket.emit("new message", res);
           setMessages(prev => [...prev, res]);
         },
         err => {
@@ -53,6 +57,36 @@ const ChatWidget = (props: Props) => {
       );
     },
     [data]
+  );
+
+  React.useEffect(() => {
+    socket.connect();
+    socket.emit("chatroom", user);
+    socket.on("connection", () => setSocketConnected(true));
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [user]);
+
+  React.useEffect(() => {
+    socket.on("new message", message => {
+      compareChatAndSendMessage(message);
+    });
+
+    return () => {
+      socket.off("new message");
+    };
+  });
+
+  const currentUser = React.useMemo(() => user?._id, [chatData, user]);
+  const messageData = React.useMemo(
+    () => ({
+      error,
+      loading,
+      messages,
+    }),
+    [messages, loading, error, setMessages]
   );
 
   return (

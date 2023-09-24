@@ -148,7 +148,8 @@ describe("Message Container", () => {
           <MessageProfileCard
             chat={testChatsData[chatIdx]}
             onClick={handleChatClick}
-          />
+          />,
+          "redux"
         );
         render(element);
 
@@ -170,7 +171,8 @@ describe("Message Container", () => {
           <MessageProfileCard
             chat={testChatsData[chatIdx]}
             onClick={handleChatClick}
-          />
+          />,
+          "redux"
         );
         render(element);
 
@@ -196,7 +198,8 @@ describe("Message Container", () => {
           <MessageProfileCard
             chat={testChatsData[chatIdx]}
             onClick={handleChatClick}
-          />
+          />,
+          "redux"
         );
         render(element);
 
@@ -220,7 +223,8 @@ describe("Message Container", () => {
           <MessageProfileCard
             chat={testChatsData[chatIdx]}
             onClick={handleChatClick}
-          />
+          />,
+          "redux"
         );
         render(element);
 
@@ -234,7 +238,11 @@ describe("Message Container", () => {
       const handleChatClick = jest.fn();
 
       const element = getTestLayout(
-        <MessageProfileCard chat={testChatsData[0]} onClick={handleChatClick} />
+        <MessageProfileCard
+          chat={testChatsData[0]}
+          onClick={handleChatClick}
+        />,
+        "redux"
       );
       render(element);
 

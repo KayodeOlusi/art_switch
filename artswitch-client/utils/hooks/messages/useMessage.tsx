@@ -1,7 +1,10 @@
 import React from "react";
+import { socket } from "../../../socket";
 import useAppState from "../useAppState";
 import { getAllChatMessages } from "utils/services/messages";
 import { TGetAllUserChats } from "utils/services/typings/chats";
+
+let selectedChatCompare: TGetAllUserChats;
 
 export const useMessage = <T,>(data: TGetAllUserChats) => {
   const {
@@ -19,6 +22,9 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
       res => {
         setLoading(prev => !prev);
         setMessages(res);
+
+        selectedChatCompare = data;
+        socket.emit("join chat", data?._id);
       },
       err => {
         setLoading(prev => !prev);
@@ -31,5 +37,5 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
     open && fetchMessages();
   }, [fetchMessages]);
 
-  return { messages, loading, error, setMessages };
+  return { messages, loading, error, setMessages, selectedChatCompare };
 };

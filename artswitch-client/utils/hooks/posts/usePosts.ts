@@ -46,12 +46,13 @@ export const useGetUserPosts = (id: string) => {
   );
 };
 
-export const useGetCommentsForPost = (id: string) => {
+export const useGetCommentsForPost = (id: string, showComment: boolean) => {
   return useQuery<TResponseBody<TGetCommentsForPost[]>["data"]>(
     ["comments", id],
     () => getCommentForPost(id),
     {
-      enabled: !!id,
+      // fetch only when showComment is true
+      enabled: showComment,
     }
   );
 };

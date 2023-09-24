@@ -81,11 +81,6 @@ const PostInteractions = ({
 };
 
 const Post = (props: Props) => {
-  const {
-    error,
-    isLoading,
-    data: comments,
-  } = useGetCommentsForPost(props?._id);
   const router = useRouter();
   const commentRef = React.useRef<HTMLDivElement>(null);
   const { user } = useAppSelector(selectUserDetails);
@@ -94,6 +89,11 @@ const Post = (props: Props) => {
   const [hasLikedPost, setHasLikedPost] = React.useState(
     allLikes?.includes(user?._id)
   );
+  const {
+    error,
+    isLoading,
+    data: comments,
+  } = useGetCommentsForPost(props?._id, showCommentSection);
 
   const allComments = React.useMemo(() => {
     if (!comments) return [];

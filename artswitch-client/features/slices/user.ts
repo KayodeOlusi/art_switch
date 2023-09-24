@@ -1,12 +1,21 @@
-import { prepareUserDetails } from "utils/services/auth";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
+import useCache from "utils/hooks/useCache";
+import { prepareUserDetails } from "utils/services/auth";
+import { TUserProfile } from "utils/services/typings/user";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+const { getCache, setCache } = useCache();
 
 export const fetchUserDetails = createAsyncThunk(
   "user/fetchUserDetails",
   async () => {
-    const response = await prepareUserDetails();
-    return response;
+    if (getCache("user")) {
+      return getCache("user") as TUserProfile;
+    } else {
+      const response = await prepareUserDetails();
+      setCache("user", response);
+      return response;
+    }
   }
 );
 

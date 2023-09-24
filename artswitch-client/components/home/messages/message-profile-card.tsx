@@ -1,3 +1,5 @@
+import { useAppSelector } from "app/hooks";
+import { selectUserDetails } from "features/slices/user";
 import React from "react";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 
@@ -7,6 +9,8 @@ type Props = {
 };
 
 const MessageProfileCard = ({ chat, onClick }: Props) => {
+  const { user } = useAppSelector(selectUserDetails);
+
   const generateMessageTime = (date: string) => {
     return new Date(date).getTime() > Date.now() - 86400000
       ? new Date(date).toLocaleTimeString("en-US", {
@@ -39,8 +43,8 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
       <section className="flex flex-col space-y-0 w-full">
         <div className="flex items-center justify-between gap-x-4">
           <p className="text-sm font-semibold">
-            {chat?.chat?.name?.length > 12
-              ? chat?.chat?.name.substring(0, 12) + "..."
+            {chat?.chat?.name === user?.name
+              ? chat.users?.find(u => u?.name !== user?.name)?.name
               : chat?.chat?.name}
           </p>
           <p className="text-[10px]" id="chat-time">
