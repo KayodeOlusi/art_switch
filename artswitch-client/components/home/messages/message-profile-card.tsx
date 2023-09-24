@@ -1,6 +1,6 @@
+import React from "react";
 import { useAppSelector } from "app/hooks";
 import { selectUserDetails } from "features/slices/user";
-import React from "react";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 
 type Props = {

@@ -62,7 +62,7 @@ mongoose.connection.once("open", () => {
       chat.users.forEach(user => {
         if (user._id === message.sender) return;
 
-        socket.in(user._id).emit("new message", message);
+        socket.in(user._id).emit("message received", message);
       });
     });
   });

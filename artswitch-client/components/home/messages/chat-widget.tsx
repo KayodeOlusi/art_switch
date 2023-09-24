@@ -24,7 +24,16 @@ const ChatWidget = (props: Props) => {
   const { messages, loading, setMessages, error, selectedChatCompare } =
     useMessage<TChatMessage>(chatData);
 
-  const compareChatAndSendMessage = (message: TChatMessage) => {};
+  const messageData = React.useMemo(
+    () => ({
+      error,
+      loading,
+      messages,
+    }),
+    [messages, loading, error, setMessages]
+  );
+
+  // const compareChatAndSendMessage = (message: TChatMessage) => {};
 
   const handleSendMessage = React.useCallback(
     async (
@@ -38,9 +47,8 @@ const ChatWidget = (props: Props) => {
         res => {
           onFinish?.();
 
-          console.log(res);
           socket.emit("new message", res);
-          setMessages([...messages, res]);
+          setMessages(prev => [...prev, res]);
         },
         err => {
           onFinish?.();
@@ -62,27 +70,19 @@ const ChatWidget = (props: Props) => {
   }, [user]);
 
   React.useEffect(() => {
-    socket.on("new message", message => {
+    socket.on("message received", message => {
       if (
         !selectedChatCompare ||
         selectedChatCompare?.chat?._id !== message?.chat?.chat
       ) {
         // send notification
       } else {
-        setMessages([...messages, message]);
+        setMessages(prev => [...prev, message]);
       }
     });
-  });
+  }, [messages]);
 
   const currentUser = React.useMemo(() => user?._id, [chatData, user]);
-  const messageData = React.useMemo(
-    () => ({
-      error,
-      loading,
-      messages,
-    }),
-    [messages, loading, error, setMessages]
-  );
 
   return (
     <div className="p-3 h-full flex flex-col justify-between gap-y-3">
