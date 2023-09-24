@@ -8,8 +8,6 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
   const {
     chat: { open },
   } = useAppState();
-  const [selectedChatCompare, setSelectedChatCompare] =
-    React.useState<TGetAllUserChats | null>(null);
   const [messages, setMessages] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error | null>(null);
@@ -23,7 +21,6 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
         setLoading(prev => !prev);
         setMessages(res);
 
-        setSelectedChatCompare(data);
         socket.emit("join chat", data?._id);
       },
       err => {
@@ -37,5 +34,5 @@ export const useMessage = <T,>(data: TGetAllUserChats) => {
     open && fetchMessages();
   }, [fetchMessages]);
 
-  return { messages, loading, error, setMessages, selectedChatCompare };
+  return { messages, loading, error, setMessages };
 };

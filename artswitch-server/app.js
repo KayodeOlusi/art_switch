@@ -47,6 +47,7 @@ mongoose.connection.once("open", () => {
     socket.on("chatroom", user => {
       socket.join(user?._id);
       socket.emit("connected");
+      console.log("here----");
     });
 
     socket.on("join chat", room => {
@@ -62,6 +63,7 @@ mongoose.connection.once("open", () => {
       chat.users.forEach(user => {
         if (user._id === message.sender) return;
 
+        console.log("emitting to " + user);
         socket.in(user._id).emit("message received", message);
       });
     });
