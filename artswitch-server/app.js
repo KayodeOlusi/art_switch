@@ -47,7 +47,6 @@ mongoose.connection.once("open", () => {
     socket.on("chatroom", user => {
       socket.join(user?._id);
       socket.emit("connected");
-      console.log("here----");
     });
 
     socket.on("join chat", room => {
