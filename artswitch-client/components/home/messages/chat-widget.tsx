@@ -4,11 +4,10 @@ import { useAppSelector } from "app/hooks";
 import { XIcon } from "@heroicons/react/solid";
 import MessageScreen from "./message-screen";
 import useAppState from "utils/hooks/useAppState";
+import { selectUserDetails } from "features/slices/user";
 import { useMessage } from "utils/hooks/messages/useMessage";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 import { TChatMessage } from "utils/services/typings/messages";
-import { sendMessageToChat } from "utils/services/messages";
-import { selectUserDetails } from "features/slices/user";
 
 type Props = {};
 
@@ -51,21 +50,6 @@ const ChatWidget = (props: Props) => {
         id: chatData?._id,
         userId: user?._id,
       });
-
-      // setMessages(prev => [...prev, res]);
-      // onStart?.();
-
-      // await sendMessageToChat<TChatMessage>(
-      //   { content, id: chatData?._id },
-      //   res => {
-      //     onFinish?.();
-
-      //   },
-      //   err => {
-      //     onFinish?.();
-      //     console.log(err);
-      //   }
-      // );
     },
     [data]
   );
@@ -76,7 +60,6 @@ const ChatWidget = (props: Props) => {
 
   React.useEffect(() => {
     socket.on(`message received ${data?._id}`, message => {
-      console.log(message);
       compareChatAndSendMessage(message);
     });
 
@@ -86,6 +69,22 @@ const ChatWidget = (props: Props) => {
   });
 
   const currentUser = React.useMemo(() => user?._id, [chatData, user]);
+
+  const formatChatName = (name: string = "") => {
+    return name.length > 15 ? name.substring(0, 12) + "..." : name;
+  };
+
+  const getChatName = () => {
+    let name = "";
+
+    if (chatData?.chat?.name === user?.name) {
+      name = chatData.users?.find(u => u?.name !== user?.name)?.name || "";
+    } else {
+      name = chatData?.chat?.name;
+    }
+
+    return formatChatName(name);
+  };
 
   return (
     <div className="p-3 h-full flex flex-col justify-between gap-y-3">
@@ -99,7 +98,7 @@ const ChatWidget = (props: Props) => {
             />
           </div>
           <div className="space-y-1">
-            <p className="text-sm font-bold">{chatData?.chat?.name}</p>
+            <p className="text-sm font-bold">{getChatName()}</p>
             <p className="text-xs">Online</p>
           </div>
         </div>

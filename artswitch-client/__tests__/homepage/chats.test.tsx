@@ -13,7 +13,6 @@ import { cleanup, render } from "@testing-library/react";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import MessagesContainer from "@/components/containers/home/messages-container";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
-import { TGetAllUserChats } from "utils/services/typings/chats";
 
 describe("Message Container", () => {
   const mockedUseGetChats = useGetChats as jest.Mock<any>;

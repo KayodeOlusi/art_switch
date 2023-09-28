@@ -24,6 +24,22 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
         });
   };
 
+  const formatChatName = (name: string = "") => {
+    return name.length > 15 ? name.substring(0, 12) + "..." : name;
+  };
+
+  const getChatName = () => {
+    let name = "";
+
+    if (chat?.chat?.name === user?.name) {
+      name = chat.users?.find(u => u?.name !== user?.name)?.name || "";
+    } else {
+      name = chat?.chat?.name;
+    }
+
+    return formatChatName(name);
+  };
+
   return (
     <div
       onClick={onClick}
@@ -42,11 +58,7 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
       </div>
       <section className="flex flex-col space-y-0 w-full">
         <div className="flex items-center justify-between gap-x-4">
-          <p className="text-sm font-semibold">
-            {chat?.chat?.name === user?.name
-              ? chat.users?.find(u => u?.name !== user?.name)?.name
-              : chat?.chat?.name}
-          </p>
+          <p className="text-sm font-semibold">{getChatName()}</p>
           <p className="text-[10px]" id="chat-time">
             {generateMessageTime(chat?.updatedAt)}
           </p>
