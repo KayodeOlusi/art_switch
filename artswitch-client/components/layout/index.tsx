@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { fetchUserDetails } from "features/slices/user";
 import ChatWidget from "../home/messages/chat-widget";
 import useAppState from "utils/hooks/useAppState";
+import { socket } from "../../socket";
 
 type Props = {
   children: React.ReactNode;
@@ -15,10 +16,24 @@ const AppLayout = ({ children }: Props) => {
   const {
     chat: { open },
   } = useAppState();
+  const user = store.getState().user.user;
 
   React.useEffect(() => {
     store.dispatch(fetchUserDetails());
   }, []);
+
+  const connectSocket = React.useCallback(() => {
+    socket.connect();
+    socket.on("connection", () => {});
+  }, [user]);
+
+  React.useEffect(() => {
+    connectSocket();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [connectSocket]);
 
   return (
     <Provider store={store}>

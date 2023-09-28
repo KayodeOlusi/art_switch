@@ -11,6 +11,7 @@ const chatRoutes = require("./routes/chat");
 const postsRoutes = require("./routes/posts");
 const connectDB = require("./config/db/dbConn");
 const { verifyJWT } = require("./middlewares/auth");
+const { handleUserMessage } = require("./controllers/messages");
 
 connectDB();
 
@@ -54,17 +55,11 @@ mongoose.connection.once("open", () => {
       console.log("user joined room " + room);
     });
 
-    socket.on("new message", message => {
-      const chat = message.chat;
+    socket.on("new message", async messageData => {
+      const message = await handleUserMessage(messageData);
+      if (!message) return;
 
-      if (!chat.users) return console.log("Chat.users not defined");
-
-      chat.users.forEach(user => {
-        if (user._id === message.sender) return;
-
-        console.log("emitting to " + user);
-        socket.in(user._id).emit("message received", message);
-      });
+      io.emit(`message received ${messageData.id}`, message.message);
     });
   });
 });

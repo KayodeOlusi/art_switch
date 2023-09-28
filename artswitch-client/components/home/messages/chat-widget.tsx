@@ -46,42 +46,42 @@ const ChatWidget = (props: Props) => {
       content: string,
       { onStart, onFinish }: { onStart?: () => void; onFinish?: () => void }
     ) => {
-      onStart?.();
+      socket.emit("new message", {
+        content,
+        id: chatData?._id,
+        userId: user?._id,
+      });
 
-      await sendMessageToChat<TChatMessage>(
-        { content, id: chatData?._id },
-        res => {
-          onFinish?.();
+      // setMessages(prev => [...prev, res]);
+      // onStart?.();
 
-          socket.emit("new message", res);
-          setMessages(prev => [...prev, res]);
-        },
-        err => {
-          onFinish?.();
-          console.log(err);
-        }
-      );
+      // await sendMessageToChat<TChatMessage>(
+      //   { content, id: chatData?._id },
+      //   res => {
+      //     onFinish?.();
+
+      //   },
+      //   err => {
+      //     onFinish?.();
+      //     console.log(err);
+      //   }
+      // );
     },
     [data]
   );
 
   React.useEffect(() => {
-    socket.connect();
     socket.emit("chatroom", user);
-    socket.on("connection", () => setSocketConnected(true));
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+  }, []);
 
   React.useEffect(() => {
-    socket.on("message received", message => {
+    socket.on(`message received ${data?._id}`, message => {
+      console.log(message);
       compareChatAndSendMessage(message);
     });
 
     return () => {
-      socket.off("message received");
+      socket.off(`message received ${data?._id}`);
     };
   });
 

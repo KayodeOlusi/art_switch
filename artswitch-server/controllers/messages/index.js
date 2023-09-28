@@ -1,8 +1,34 @@
+const Chat = require("../../models/chat");
+const User = require("../../models/user");
 const Message = require("../../models/message");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId, isValidString } = require("../../utils/functions");
-const Chat = require("../../models/chat");
-const User = require("../../models/user");
+
+const handleUserMessage = async data => {
+  const { content, id, userId } = data;
+
+  if (!isValidString(content)) return null;
+
+  if (!isValidObjectId(id) || !isValidObjectId(id)) return null;
+
+  let message = await Message.create({
+    content,
+    chat: id,
+    sender: userId,
+  });
+
+  message = await message.populate("chat");
+  message = await User.populate(message, {
+    path: "chat.users",
+    select: "_id",
+  });
+
+  await Chat.findByIdAndUpdate(id, {
+    latestMessage: message._id,
+  });
+
+  return { message, id };
+};
 
 const sendMessageToChat = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -77,4 +103,5 @@ const getAllMessagesInChat = asyncHandler(async (req, res) => {
 module.exports = {
   sendMessageToChat,
   getAllMessagesInChat,
+  handleUserMessage,
 };
