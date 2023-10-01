@@ -18,19 +18,24 @@ const MessagesContainer = (props: Props) => {
     chat: { open },
     setAppChatOpenState,
   } = useAppState();
-  const { openModal } = useModal();
+  const { openModal, isOpen, closeModal } = useModal();
   const {
     user: { _id },
   } = useAppSelector(selectUserDetails);
   const { data, error, isLoading } = useGetChats(_id, open);
 
   const handleChatClick = React.useCallback((chat: TGetAllUserChats) => {
+    if (isOpen) closeModal();
+
     setAppChatData(chat);
     setAppChatOpenState(true);
   }, []);
 
   return (
-    <div className="bg-white rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
+    <div
+      className="bg-white rounded-lg px-4 py-4 h-[90vh] 
+      overflow-y-scroll sm:w-96 sm:h-80 md:w-auto md:h-72 lg:h-64 xl:h-96"
+    >
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Messages</h3>
         <PencilAltIcon

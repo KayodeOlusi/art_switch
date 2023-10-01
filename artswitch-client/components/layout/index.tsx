@@ -46,7 +46,7 @@ const AppLayout = ({ children }: Props) => {
               ? "h-screen transition-all duration-200 ease-linear sm:h-[520px] absolute"
               : "hidden"
           }
-          bottom-0 right-1 z-50 rounded-tl-lg rounded-tr-lg w-[380px]
+          bottom-0 right-0 md:right-1 z-50 md:rounded-tl-lg md:rounded-tr-lg w-screen md:w-[380px]
           bg-white border-gray-200 border-[1px]`}
         >
           <ChatWidget />

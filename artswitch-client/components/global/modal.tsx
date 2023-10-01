@@ -7,6 +7,8 @@ import UploadPost from "../home/posts/upload-post";
 import SearchResult from "../navbar/search-results";
 import { Dialog, Transition } from "@headlessui/react";
 import ViewSinglePost from "../home/explore/view-single-post";
+import MessagesContainer from "../containers/home/messages-container";
+import ExploreContainer from "../containers/home/explore-container";
 
 const ModalContainer = () => {
   const router = useRouter();
@@ -22,6 +24,10 @@ const ModalContainer = () => {
         return <SearchResult action="create-chat" />;
       case MODAL_VIEWS.VIEW_SINGLE_POST:
         return <ViewSinglePost />;
+      case MODAL_VIEWS.VIEW_CHATS:
+        return <MessagesContainer />;
+      case MODAL_VIEWS.EXPLORE_POSTS:
+        return <ExploreContainer />;
       default:
         return null;
     }

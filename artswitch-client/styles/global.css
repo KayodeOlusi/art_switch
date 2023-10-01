@@ -7,6 +7,10 @@
     @apply w-9 h-9 rounded-full bg-appPrimary p-2 cursor-pointer;
   }
 
+  .close-icon {
+    @apply w-6 h-6 sm:w-9 sm:h-9 rounded-full bg-appPrimary p-1 sm:p-2 cursor-pointer;
+  }
+
   .mobile-icons {
     @apply w-8 h-8;
   }

@@ -38,7 +38,10 @@ const ExploreContainer = (props: Props) => {
   }, [data]);
 
   return (
-    <div className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96">
+    <div
+      className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96 h-[90vh] 
+      overflow-y-scroll sm:w-96 sm:h-80 md:w-auto"
+    >
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Explore</h3>
         <p className="text-secondaryText cursor-pointer text-sm">See all</p>
@@ -76,7 +79,7 @@ const ExploreContainer = (props: Props) => {
       </section>
 
       {!isLoading && !error && (
-        <section className="mt-6 h-[244px] overflow-y-scroll scrollbar-hide">
+        <section className="mt-6 h-full md:h-[244px] overflow-y-scroll scrollbar-hide">
           <div
             data-testid="post-container"
             className="grid grid-cols-2 md:grid-cols-2 gap-2"

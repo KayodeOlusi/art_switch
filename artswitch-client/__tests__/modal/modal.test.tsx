@@ -4,9 +4,9 @@ import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
 import { getTestLayout } from "utils/lib/wrappers";
 import ModalContainer from "@/components/global/modal";
-import { act, cleanup, render, screen } from "@testing-library/react";
-import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 import { testIdElement } from "utils/lib/test-helpers";
+import { act, cleanup, render } from "@testing-library/react";
+import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 
 const modalElement = getTestLayout(<ModalContainer />, "redux-react-query");
 

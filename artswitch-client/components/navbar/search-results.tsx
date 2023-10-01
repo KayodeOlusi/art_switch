@@ -11,6 +11,7 @@ import { startChat } from "utils/services/chat";
 import { useQueryClient } from "react-query";
 import { useAppSelector } from "app/hooks";
 import { selectUserDetails } from "features/slices/user";
+import useViewPort from "utils/hooks/useViewport";
 
 type Props = {
   action: "create-chat" | "view-profile";
@@ -42,6 +43,8 @@ const SearchResultItem = ({
   const {
     user: { _id },
   } = useAppSelector(selectUserDetails);
+  const viewPort = useViewPort();
+  const { openModal } = useModal();
   const [loading, setLoading] = React.useState(false);
 
   const initializeChat = async () => {
@@ -52,6 +55,10 @@ const SearchResultItem = ({
         await queryClient.refetchQueries([`chats-${_id}`]);
         setLoading(false);
         closeModal();
+
+        if (viewPort < 768) {
+          openModal(MODAL_VIEWS.VIEW_CHATS);
+        }
       },
       () => setLoading(false)
     );
@@ -138,7 +145,8 @@ const SearchResult = ({ action }: Props) => {
           ? MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST
           : MODAL_VIEWS.VIEW_ARTIST_PROFILE
       }
-      className="w-[500px] h-[400px] rounded-lg bg-white p-3 overflow-y-scroll"
+      className="w-screen h-[90vh] md:w-[500px] md:h-[400px] rounded-lg
+       bg-white p-3 overflow-y-scroll"
     >
       <div className="relative w-full mb-3">
         <input
