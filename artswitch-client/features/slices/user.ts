@@ -27,6 +27,7 @@ type TInitialState = {
     email: string;
     profilePicture: string;
   };
+  socketConnected: boolean;
   loading: boolean;
   error: boolean;
 };
@@ -39,6 +40,7 @@ const initialState: TInitialState = {
     email: "",
     profilePicture: "",
   },
+  socketConnected: false,
   error: false,
   loading: false,
 };
@@ -46,7 +48,11 @@ const initialState: TInitialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setSocketState: (state, action) => {
+      state.socketConnected = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchUserDetails.fulfilled, (state, action) => {
       state.user = action.payload;
@@ -63,4 +69,5 @@ const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
+export const { setSocketState } = userSlice.actions;
 export const selectUserDetails = (state: RootState) => state.user;

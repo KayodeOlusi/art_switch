@@ -3,7 +3,7 @@ import Navbar from "../navbar";
 import { store } from "app/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import { fetchUserDetails } from "features/slices/user";
+import { fetchUserDetails, setSocketState } from "features/slices/user";
 import ChatWidget from "../home/messages/chat-widget";
 import useAppState from "utils/hooks/useAppState";
 import { socket } from "../../socket";
@@ -24,7 +24,9 @@ const AppLayout = ({ children }: Props) => {
 
   const connectSocket = React.useCallback(() => {
     socket.connect();
-    socket.on("connection", () => {});
+    socket.on("connection", () => {
+      store.dispatch(setSocketState(true));
+    });
   }, [user]);
 
   React.useEffect(() => {

@@ -4,6 +4,7 @@ import animation_five from "./animation_five.json";
 import animation_seven from "./animation_seven.json";
 import animation_nine from "./animation_nine.json";
 import animation_ten from "./animation_ten.json";
+import typing_animation from "./typing.json";
 
 export default {
   animation_one,
@@ -12,4 +13,5 @@ export default {
   animation_seven,
   animation_nine,
   animation_ten,
+  typing_animation,
 };

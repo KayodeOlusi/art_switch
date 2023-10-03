@@ -47,12 +47,20 @@ mongoose.connection.once("open", () => {
 
     socket.on("chatroom", user => {
       socket.join(user?._id);
-      socket.emit("connected");
+      socket.emit("connection");
     });
 
     socket.on("join chat", room => {
       socket.join(room);
       console.log("user joined room " + room);
+    });
+
+    socket.on("typing", room => {
+      socket.in(room).emit("typing");
+    });
+
+    socket.on("stop typing", room => {
+      socket.in(room).emit("stop typing");
     });
 
     socket.on("new message", async messageData => {
