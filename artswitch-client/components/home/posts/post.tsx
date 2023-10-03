@@ -165,7 +165,7 @@ const Post = (props: Props) => {
         <p className="text-xs opacity-30 mt-1">
           {new Date(props?.createdAt).toLocaleString()}
         </p>
-        <div className="flex gap-x-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-3">
           {props?.tags?.map(tag => (
             <p
               key={tag}
