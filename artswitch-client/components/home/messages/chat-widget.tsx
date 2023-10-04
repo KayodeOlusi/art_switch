@@ -1,13 +1,14 @@
 import React from "react";
 import { socket } from "../../../socket";
-import { useAppSelector } from "app/hooks";
 import { XIcon } from "@heroicons/react/solid";
 import MessageScreen from "./message-screen";
 import useAppState from "utils/hooks/useAppState";
-import { selectUserDetails } from "features/slices/user";
+import { selectUserDetails, setNotifications } from "features/slices/user";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useMessage } from "utils/hooks/messages/useMessage";
 import { TGetAllUserChats } from "utils/services/typings/chats";
-import { TChatMessage } from "utils/services/typings/messages";
+import { TChatMessage, TSingleMessage } from "utils/services/typings/messages";
+import { getChatData } from "utils/functions";
 
 type Props = {};
 
@@ -16,9 +17,8 @@ const ChatWidget = (props: Props) => {
     chat: { data },
     setAppChatOpenState,
   } = useAppState();
-
-  const { user } = useAppSelector(selectUserDetails);
-  const [socketConnected, setSocketConnected] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const { user, notifications } = useAppSelector(selectUserDetails);
   const chatData = React.useMemo(() => data as TGetAllUserChats, [data]);
   const { messages, loading, setMessages, error } =
     useMessage<TChatMessage>(chatData);
@@ -34,9 +34,14 @@ const ChatWidget = (props: Props) => {
 
   const compareChatAndSendMessage = (message: any) => {
     if (!data || data?.chat?._id !== message?.chat?.chat) {
-      // send notification
+      const notification = message as TSingleMessage;
+
+      if (!notifications.includes(notification)) {
+        dispatch(setNotifications(notification));
+      }
     } else {
-      setMessages(prev => [...prev, message]);
+      const newMessage = message as TChatMessage;
+      setMessages(prev => [...prev, newMessage]);
     }
   };
 
@@ -93,12 +98,16 @@ const ChatWidget = (props: Props) => {
           <div className="w-12 h-12">
             <img
               alt={chatData?.chat?.username}
-              src={chatData?.chat?.profilePicture}
+              src={
+                getChatData(user?._id, chatData?.users, "_id")?.profilePicture
+              }
               className="w-full h-full object-contain rounded-full"
             />
           </div>
           <div className="space-y-1">
-            <p className="text-sm font-bold">{getChatName()}</p>
+            <p className="text-sm font-bold">
+              {getChatData(user?._id, chatData?.users, "_id")?.name}
+            </p>
             <p className="text-xs">Online</p>
           </div>
         </div>

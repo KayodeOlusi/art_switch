@@ -5,7 +5,7 @@ type Props = {
   DisplayContent: React.ReactNode;
   containerClass?: string;
   items: Array<{
-    Icon?: React.FC;
+    Icon?: any;
     text: string;
     action: () => void;
   }>;
@@ -40,11 +40,12 @@ const MenuDropDown = ({ DisplayContent, containerClass, items }: Props) => {
                       onClick={item.action}
                       className={`${
                         active ? "bg-gray-200 text-black" : "text-gray-900"
-                      } group flex w-full items-center rounded-md px-2 font-semibold py-2 text-sm`}
+                      } group flex w-full items-center text-left rounded-md px-2
+                       font-medium py-2 text-[13px]`}
                     >
                       {item.Icon && (
                         <span className="mr-3">
-                          <item.Icon />
+                          <item.Icon className="w-5 h-5" />
                         </span>
                       )}
                       {item.text}

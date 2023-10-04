@@ -67,6 +67,11 @@ mongoose.connection.once("open", () => {
       const message = await handleUserMessage(messageData);
       if (!message) return;
 
+      const otherUser = message.message.chat.users.find(
+        user => user._id.toString() !== messageData.userId.toString()
+      );
+
+      io.emit(`message received ${otherUser._id}`, message.message);
       io.emit(`message received ${messageData.id}`, message.message);
     });
   });

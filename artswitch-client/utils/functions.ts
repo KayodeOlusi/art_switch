@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import { TSingleMessage } from "./services/typings/messages";
 
 type TErrorType = "authorization" | "not-found" | "server" | "custom";
 
@@ -52,6 +53,14 @@ const buildErrorResponse = (errorType: TErrorType, error?: AxiosError) => {
   }
 };
 
+const getUser = (user: string, record: TSingleMessage["chat"]["users"]) => {
+  return record?.filter(record => record._id !== user)[0]?.name;
+};
+
+const getChatData = (user: string, record: any[], check: string) => {
+  return record?.filter(record => record[check] !== user)[0];
+};
+
 const clearUserToken = () => Cookies.remove("_token");
 
-export { generateAPIError, clearUserToken, randomNum };
+export { generateAPIError, clearUserToken, randomNum, getUser, getChatData };

@@ -3,30 +3,54 @@ import {
   UserIcon,
   SearchIcon,
   PlusCircleIcon,
+  BellIcon,
+  ChatIcon,
 } from "@heroicons/react/outline";
 import React from "react";
+import { socket } from "../../../socket";
 import { useRouter } from "next/router";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
-import { clearUserToken } from "utils/functions";
+import { clearUserToken, getUser } from "utils/functions";
 import { setModalData } from "features/slices/modal";
-import { selectUserDetails } from "features/slices/user";
+import {
+  removeNotification,
+  selectUserDetails,
+  setNotifications,
+} from "features/slices/user";
 import MenuDropDown from "@/components/global/menu-dropdown";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import useAppState from "utils/hooks/useAppState";
+import { TSingleMessage } from "utils/services/typings/messages";
 
 type Props = {};
 
 const DesktopNav = (props: Props) => {
+  const {
+    chat: { data },
+    setAppChatData,
+    setAppChatOpenState,
+  } = useAppState();
   const router = useRouter();
   const { openModal } = useModal();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUserDetails);
+  const { user, notifications } = useAppSelector(selectUserDetails);
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const _signOutUser = async () => {
     clearUserToken();
     await router.push("/login");
     return router.reload();
+  };
+
+  const populateNotifications = (message: any) => {
+    if (!data || data?.chat?._id !== message?.chat?.chat) {
+      const notification = message as TSingleMessage;
+
+      if (!notifications.includes(notification)) {
+        dispatch(setNotifications(notification));
+      }
+    }
   };
 
   const settingsItems = React.useMemo(
@@ -39,6 +63,25 @@ const DesktopNav = (props: Props) => {
     []
   );
 
+  const notificationsItems = React.useMemo(
+    () =>
+      notifications.length > 0
+        ? notifications.map(notification => ({
+            Icon: ChatIcon,
+            text: `${getUser(
+              user?._id,
+              notification?.chat?.users
+            )} sent a message`,
+            action: () => {
+              setAppChatData(notification.chat);
+              setAppChatOpenState(true);
+              dispatch(removeNotification(notification._id));
+            },
+          }))
+        : [{ text: "No new notifications", action: () => {} }],
+    [notifications]
+  );
+
   const searchForArtist = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!searchValue.length) return;
     e.key === "Enter" &&
@@ -47,6 +90,16 @@ const DesktopNav = (props: Props) => {
         openModal(MODAL_VIEWS.VIEW_ARTIST_PROFILE);
       })();
   };
+
+  React.useEffect(() => {
+    socket.on(`message received ${user?._id}`, message =>
+      populateNotifications(message)
+    );
+
+    return () => {
+      socket.off(`message received ${user?._id}`);
+    };
+  });
 
   return (
     <div className="hidden md:block bg-white w-full rounded-bl-3xl rounded-br-3xl">
@@ -78,6 +131,27 @@ const DesktopNav = (props: Props) => {
           >
             <PlusCircleIcon className="w-auto h-auto" />
           </div>
+          <MenuDropDown
+            containerClass="pt-2"
+            items={notificationsItems}
+            DisplayContent={
+              <div className="nav-icons relative">
+                <BellIcon
+                  className={`w-auto h-auto ${
+                    notifications.length > 0 && "animate-bounce"
+                  }`}
+                />
+                {notifications.length > 0 && (
+                  <div
+                    className="absolute flex items-center justify-center bg-red-700 
+                  rounded-full w-4 h-4 -top-1 -right-2 p-1 text-[8px] text-white"
+                  >
+                    {notifications.length}
+                  </div>
+                )}
+              </div>
+            }
+          />
           <MenuDropDown
             items={settingsItems}
             containerClass="pt-2"

@@ -3,6 +3,7 @@ import useCache from "utils/hooks/useCache";
 import { prepareUserDetails } from "utils/services/auth";
 import { TUserProfile } from "utils/services/typings/user";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { TSingleMessage } from "utils/services/typings/messages";
 
 const { getCache, setCache } = useCache();
 
@@ -28,6 +29,7 @@ type TInitialState = {
     profilePicture: string;
   };
   socketConnected: boolean;
+  notifications: TSingleMessage[];
   loading: boolean;
   error: boolean;
 };
@@ -41,6 +43,7 @@ const initialState: TInitialState = {
     profilePicture: "",
   },
   socketConnected: false,
+  notifications: [],
   error: false,
   loading: false,
 };
@@ -51,6 +54,14 @@ const userSlice = createSlice({
   reducers: {
     setSocketState: (state, action) => {
       state.socketConnected = action.payload;
+    },
+    setNotifications: (state, action) => {
+      state.notifications = [...state.notifications, action.payload];
+    },
+    removeNotification: (state, action) => {
+      state.notifications = state.notifications.filter(
+        notification => notification._id !== action.payload
+      );
     },
   },
   extraReducers: builder => {
@@ -69,5 +80,6 @@ const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
-export const { setSocketState } = userSlice.actions;
 export const selectUserDetails = (state: RootState) => state.user;
+export const { setSocketState, setNotifications, removeNotification } =
+  userSlice.actions;

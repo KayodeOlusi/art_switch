@@ -20,7 +20,7 @@ const handleUserMessage = async data => {
   message = await message.populate("chat");
   message = await User.populate(message, {
     path: "chat.users",
-    select: "_id",
+    select: "_id name profilePicture name",
   });
 
   await Chat.findByIdAndUpdate(id, {
