@@ -102,18 +102,18 @@ const DesktopNav = (props: Props) => {
   });
 
   return (
-    <div className="hidden md:block bg-white w-full rounded-bl-3xl rounded-br-3xl">
+    <div className=" bg-white w-full md:rounded-bl-3xl md:rounded-br-3xl">
       <div
         className="md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 
-        mx-auto flex justify-between items-center py-4"
+        mx-auto flex justify-between items-center py-2 md:py-4 px-4 md:px-0"
       >
         <h3
           onClick={() => router.push("/")}
-          className="font-bold text-lg cursor-pointer"
+          className="font-extrabold md:font-bold text-sm md:text-lg cursor-pointer"
         >
           ArtSwitch
         </h3>
-        <div className="relative">
+        <div className="relative hidden md:block">
           <SearchIcon className="w-5 h-5 absolute left-4 top-[0.5rem]" />
           <input
             type="text"
@@ -126,7 +126,7 @@ const DesktopNav = (props: Props) => {
         </div>
         <div className="flex items-center space-x-4">
           <div
-            className="nav-icons"
+            className="nav-icons hidden md:block"
             onClick={() => openModal(MODAL_VIEWS.UPLOAD_POST)}
           >
             <PlusCircleIcon className="w-auto h-auto" />
@@ -158,7 +158,7 @@ const DesktopNav = (props: Props) => {
             DisplayContent={<CogIcon className="w-7 h-7 cursor-pointer" />}
           />
           <UserIcon
-            className="w-6 h-6 cursor-pointer"
+            className="w-6 h-6 cursor-pointer hidden md:block"
             onClick={() => router.push(`/user/${user?.username}`)}
           />
         </div>
