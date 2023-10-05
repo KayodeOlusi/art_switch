@@ -15,6 +15,7 @@ type Props = {};
 const ChatWidget = (props: Props) => {
   const {
     chat: { data },
+    setAppChatData,
     setAppChatOpenState,
   } = useAppState();
   const dispatch = useAppDispatch();
@@ -114,7 +115,10 @@ const ChatWidget = (props: Props) => {
         {/**TODO: Refetch chats when user closes the chat widget */}
         <XIcon
           className="w-4 h-4 cursor-pointer"
-          onClick={() => setAppChatOpenState(false)}
+          onClick={() => {
+            setAppChatData(null);
+            setAppChatOpenState(false);
+          }}
         />
       </div>
       <MessageScreen
