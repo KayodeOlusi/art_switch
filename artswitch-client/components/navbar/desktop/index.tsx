@@ -44,7 +44,9 @@ const DesktopNav = (props: Props) => {
   };
 
   const populateNotifications = (message: any) => {
-    if (!data || data?.chat?._id !== message?.chat?.chat) {
+    console.log(message, data, "notification");
+
+    if (!data || data?._id !== message?.chat?._id) {
       const notification = message as TSingleMessage;
 
       if (!notifications.includes(notification)) {

@@ -34,13 +34,21 @@ const ChatWidget = (props: Props) => {
   );
 
   const compareChatAndSendMessage = (message: any) => {
-    if (!data || data?.chat?._id !== message?.chat?.chat) {
+    console.log(message, "------------", data);
+    console.log(
+      data?._id !== message?.chat?._id,
+      data?._id,
+      message?.chat?._id
+    );
+
+    if (data?._id !== message?.chat?._id) {
       const notification = message as TSingleMessage;
 
       if (!notifications.includes(notification)) {
         dispatch(setNotifications(notification));
       }
     } else {
+      console.log("there");
       const newMessage = message as TChatMessage;
       setMessages(prev => [...prev, newMessage]);
     }
@@ -60,6 +68,12 @@ const ChatWidget = (props: Props) => {
     [data]
   );
 
+  const currentUser = React.useMemo(() => user?._id, [chatData, user]);
+
+  const formatChatName = (name: string = "") => {
+    return name.length > 15 ? name.substring(0, 12) + "..." : name;
+  };
+
   React.useEffect(() => {
     socket.emit("chatroom", user);
   }, []);
@@ -73,24 +87,6 @@ const ChatWidget = (props: Props) => {
       socket.off(`message received ${data?._id}`);
     };
   });
-
-  const currentUser = React.useMemo(() => user?._id, [chatData, user]);
-
-  const formatChatName = (name: string = "") => {
-    return name.length > 15 ? name.substring(0, 12) + "..." : name;
-  };
-
-  const getChatName = () => {
-    let name = "";
-
-    if (chatData?.chat?.name === user?.name) {
-      name = chatData.users?.find(u => u?.name !== user?.name)?.name || "";
-    } else {
-      name = chatData?.chat?.name;
-    }
-
-    return formatChatName(name);
-  };
 
   return (
     <div className="p-3 h-full flex flex-col justify-between gap-y-3">
@@ -107,7 +103,9 @@ const ChatWidget = (props: Props) => {
           </div>
           <div className="space-y-1">
             <p className="text-sm font-bold">
-              {getChatData(user?._id, chatData?.users, "_id")?.name}
+              {formatChatName(
+                getChatData(user?._id, chatData?.users, "_id")?.name
+              )}
             </p>
             <p className="text-xs">Online</p>
           </div>
