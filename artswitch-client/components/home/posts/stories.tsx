@@ -1,10 +1,6 @@
 import React from "react";
-import { useAppSelector } from "../../../app/hooks";
-import {
-  StoriesState,
-  selectStories,
-} from "../../../redux/features/slices/stories";
 import Story from "./story";
+import { StoriesState } from "features/slices/stories";
 
 type Props = StoriesState;
 

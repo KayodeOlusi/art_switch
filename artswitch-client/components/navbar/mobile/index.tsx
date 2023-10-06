@@ -17,10 +17,6 @@ type Props = {};
 
 const MobileNav: React.FC = (props: Props) => {
   const {
-    chat: { open },
-    setAppChatOpenState,
-  } = useAppState();
-  const {
     user: { username },
   } = useAppSelector(selectUserDetails);
   const router = useRouter();

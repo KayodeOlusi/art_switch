@@ -34,13 +34,6 @@ const ChatWidget = (props: Props) => {
   );
 
   const compareChatAndSendMessage = (message: any) => {
-    console.log(message, "------------", data);
-    console.log(
-      data?._id !== message?.chat?._id,
-      data?._id,
-      message?.chat?._id
-    );
-
     if (data?._id !== message?.chat?._id) {
       const notification = message as TSingleMessage;
 
@@ -48,7 +41,6 @@ const ChatWidget = (props: Props) => {
         dispatch(setNotifications(notification));
       }
     } else {
-      console.log("there");
       const newMessage = message as TChatMessage;
       setMessages(prev => [...prev, newMessage]);
     }

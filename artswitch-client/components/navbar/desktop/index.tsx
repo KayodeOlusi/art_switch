@@ -7,17 +7,17 @@ import {
   ChatIcon,
 } from "@heroicons/react/outline";
 import React from "react";
+import {
+  removeNotification,
+  selectUserDetails,
+  setNotifications,
+} from "features/slices/user";
 import { socket } from "../../../socket";
 import { useRouter } from "next/router";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
 import { clearUserToken, getUser } from "utils/functions";
 import { setModalData } from "features/slices/modal";
-import {
-  removeNotification,
-  selectUserDetails,
-  setNotifications,
-} from "features/slices/user";
 import MenuDropDown from "@/components/global/menu-dropdown";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import useAppState from "utils/hooks/useAppState";
@@ -44,8 +44,6 @@ const DesktopNav = (props: Props) => {
   };
 
   const populateNotifications = (message: any) => {
-    console.log(message, data, "notification");
-
     if (!data || data?._id !== message?.chat?._id) {
       const notification = message as TSingleMessage;
 
@@ -127,6 +125,12 @@ const DesktopNav = (props: Props) => {
           />
         </div>
         <div className="flex items-center space-x-4">
+          <div className="nav-icons md:hidden">
+            <SearchIcon
+              className="w-auto h-auto cursor-pointer"
+              onClick={() => openModal(MODAL_VIEWS.VIEW_ARTIST_PROFILE)}
+            />
+          </div>
           <div
             className="nav-icons hidden md:block"
             onClick={() => openModal(MODAL_VIEWS.UPLOAD_POST)}
@@ -146,7 +150,7 @@ const DesktopNav = (props: Props) => {
                 {notifications.length > 0 && (
                   <div
                     className="absolute flex items-center justify-center bg-red-700 
-                  rounded-full w-4 h-4 -top-1 -right-2 p-1 text-[8px] text-white"
+                    rounded-full w-4 h-4 -top-1 -right-2 p-1 text-[8px] text-white"
                   >
                     {notifications.length}
                   </div>
