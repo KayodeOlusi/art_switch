@@ -85,41 +85,46 @@ const UserStats = (props: Props) => {
               </span>
             ) : null}
           </div>
-          <div className="flex gap-x-20 items-start mt-4">
+          <div className="flex flex-col md:flex-row gap-y-4 gap-x-20 items-start mt-4">
             <div id="user-name" className="flex flex-col gap-y-1">
               <p className="text-lg font-semibold">{props?.name}</p>
               <p className="font-medium">@{props?.username}</p>
             </div>
-            <div id="follow-details" className="flex gap-x-8">
-              <div id="followers">
-                <p className="font-semibold">Followers</p>
-                <p className="font-bold">
-                  {props?.["follow-details"]?.followers?.length}
-                </p>
+            <div
+              className="flex items-end md:items-start justify-between
+              md:justify-start md:gap-x-20 w-full"
+            >
+              <div id="follow-details" className="flex gap-x-8">
+                <div id="followers">
+                  <p className="font-semibold">Followers</p>
+                  <p className="font-bold">
+                    {props?.["follow-details"]?.followers?.length}
+                  </p>
+                </div>
+                <div id="following">
+                  <p className="font-semibold">Following</p>
+                  <p className="font-bold">
+                    {props?.["follow-details"]?.following?.length}
+                  </p>
+                </div>
               </div>
-              <div id="following">
-                <p className="font-semibold">Following</p>
-                <p className="font-bold">
-                  {props?.["follow-details"]?.following?.length}
-                </p>
-              </div>
-            </div>
-            <div id="follow-button">
-              {props?._id !== _id && (
-                <button
-                  onClick={followAction}
-                  className="bg-gray-200 text-sm font-medium 
+              <div id="follow-button">
+                {props?._id !== _id && (
+                  <button
+                    onClick={followAction}
+                    className="bg-gray-200 text-sm font-medium 
                   cursor-pointer px-3 py-1 rounded-lg"
-                >
-                  {loading ? (
-                    <ClipLoader size={15} color="#000000" />
-                  ) : followingUser ? (
-                    "Unfollow"
-                  ) : (
-                    "Follow"
-                  )}
-                </button>
-              )}
+                  >
+                    {loading ? (
+                      <ClipLoader size={15} color="#000000" />
+                    ) : followingUser ? (
+                      "Unfollow"
+                    ) : (
+                      "Follow"
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

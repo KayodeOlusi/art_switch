@@ -81,7 +81,7 @@ const UserPosts = ({ error, loading, posts }: Props) => {
           </p>
         )}
         <div
-          className="grid gap-4 lg:grid-cols-3"
+          className="grid gap-4 grid-cols-2 md:grid-cols-3"
           data-testid="user-posts-container"
         >
           {!loading && !error && posts.length > 0 ? (

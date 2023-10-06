@@ -58,7 +58,11 @@ const UploadPost = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formValues.caption || !formValues.selectedTags.length) {
+    if (
+      !formValues.caption ||
+      !formValues.selectedTags.length ||
+      !formValues.image
+    ) {
       return errorMessage("Please fill in all required fields");
     }
 
@@ -162,7 +166,7 @@ const UploadPost = () => {
           >
             <CameraIcon className="w-10 h-10" />
             <p className="text-xs font-medium text-secondaryText">
-              Click to upload image (optional)
+              Click to upload image
             </p>
           </div>
         )}
