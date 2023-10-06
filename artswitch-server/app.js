@@ -23,6 +23,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", verifyJWT, postsRoutes);
 app.use("/api/user", verifyJWT, userRoutes);
