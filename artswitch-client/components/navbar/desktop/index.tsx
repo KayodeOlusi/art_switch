@@ -16,11 +16,11 @@ import { socket } from "../../../socket";
 import { useRouter } from "next/router";
 import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
-import { clearUserToken, getUser } from "utils/functions";
+import useAppState from "utils/hooks/useAppState";
 import { setModalData } from "features/slices/modal";
+import { clearUserToken, getUser } from "utils/functions";
 import MenuDropDown from "@/components/global/menu-dropdown";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import useAppState from "utils/hooks/useAppState";
 import { TSingleMessage } from "utils/services/typings/messages";
 
 type Props = {};
