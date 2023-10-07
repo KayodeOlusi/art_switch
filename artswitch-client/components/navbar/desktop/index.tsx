@@ -121,7 +121,8 @@ const DesktopNav = (props: Props) => {
             onKeyDown={searchForArtist}
             placeholder="Search for an artist"
             onChange={e => setSearchValue(e.target.value)}
-            className="bg-appPrimary rounded-3xl md:w-72 lg:w-96 px-12 py-2 text-sm focus:outline-black"
+            className="bg-appPrimary rounded-3xl md:w-72
+            lg:w-96 px-12 py-2 text-sm focus:outline-black"
           />
         </div>
         <div className="flex items-center space-x-4">
