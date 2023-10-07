@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -31,5 +31,5 @@ jobs:
         working-directory: ./artswitch-client
 
       - name: Run tests
-        run: yarn test
+        run: yarn test:ci
         working-directory: ./artswitch-client
