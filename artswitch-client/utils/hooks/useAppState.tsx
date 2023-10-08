@@ -3,6 +3,7 @@ import { store } from "app/store";
 import {
   setAppChatViewState,
   setAppChatData as setChatData,
+  setToggleFetchMessage,
 } from "features/slices/app";
 
 const useAppState = () => {
@@ -18,15 +19,19 @@ const useAppState = () => {
     return () => unsubscribe();
   }, [appState]);
 
-  const setAppChatOpenState = (state: boolean) =>
-    store.dispatch(setAppChatViewState(state));
+  const setAppChatOpenState = (value: boolean) =>
+    store.dispatch(setAppChatViewState(value));
 
   const setAppChatData = (data: any) => store.dispatch(setChatData(data));
+
+  const toggleRefetchMessages = (value: boolean) =>
+    store.dispatch(setToggleFetchMessage(value));
 
   return {
     ...state,
     setAppChatData,
     setAppChatOpenState,
+    toggleRefetchMessages,
   };
 };
 

@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { TSingleMessage } from "./services/typings/messages";
+import { GetServerSidePropsResult } from "next";
 
 type TErrorType = "authorization" | "not-found" | "server" | "custom";
 
@@ -19,7 +20,10 @@ const generateAPIError = (status: number | string, err: AxiosError) => {
   }
 };
 
-const buildErrorResponse = (errorType: TErrorType, error?: AxiosError) => {
+const buildErrorResponse = (
+  errorType: TErrorType,
+  error?: AxiosError
+): GetServerSidePropsResult<any> => {
   switch (errorType) {
     case "authorization":
       return {
@@ -30,10 +34,7 @@ const buildErrorResponse = (errorType: TErrorType, error?: AxiosError) => {
       };
     case "not-found":
       return {
-        redirect: {
-          destination: "/404",
-          permanent: false,
-        },
+        notFound: true,
       };
     case "server":
       return {

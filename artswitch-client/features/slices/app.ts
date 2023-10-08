@@ -7,6 +7,7 @@ const initialState: TAppState = {
     open: false,
     data: null,
   },
+  toggleFetchMessage: false,
 };
 
 const appSlice = createSlice({
@@ -19,9 +20,13 @@ const appSlice = createSlice({
     setAppChatData: (state, action: PayloadAction<any>) => {
       state.chat = { ...state.chat, data: action.payload };
     },
+    setToggleFetchMessage: (state, action: PayloadAction<boolean>) => {
+      state.toggleFetchMessage = action.payload;
+    },
   },
 });
 
 export const appReducer = appSlice.reducer;
 export const selectAppState = (state: RootState) => state.app;
-export const { setAppChatViewState, setAppChatData } = appSlice.actions;
+export const { setAppChatViewState, setAppChatData, setToggleFetchMessage } =
+  appSlice.actions;

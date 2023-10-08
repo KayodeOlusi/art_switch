@@ -46,7 +46,7 @@ const ModalContainer = () => {
         <Dialog
           as="div"
           onClose={closeModal}
-          className="fixed inset-0 z-50 h-screen w-screen overflow-hidden
+          className="fixed inset-0 z-50 h-[100dvh] w-screen overflow-hidden
          p-0 text-center sm:p-6 lg:p-8 xl:p-10 3xl:p-12"
         >
           <Transition.Child

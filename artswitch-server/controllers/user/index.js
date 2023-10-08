@@ -1,3 +1,4 @@
+const Follow = require("../../models/follow");
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
 
@@ -96,4 +97,18 @@ const searchForUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { searchForUser, getUserDetails, getUserProfile };
+const getUsersForSuggestion = asyncHandler(async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching suggested users" });
+  }
+});
+
+module.exports = {
+  searchForUser,
+  getUserDetails,
+  getUserProfile,
+  getUsersForSuggestion,
+};

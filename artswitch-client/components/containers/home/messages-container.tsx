@@ -15,20 +15,26 @@ type Props = {};
 const MessagesContainer = (props: Props) => {
   const {
     setAppChatData,
-    chat: { open },
+    toggleFetchMessage,
     setAppChatOpenState,
+    toggleRefetchMessages,
   } = useAppState();
-  const { openModal, isOpen, closeModal } = useModal();
   const {
     user: { _id },
   } = useAppSelector(selectUserDetails);
-  const { data, error, isLoading } = useGetChats(_id, open);
+  const { openModal, isOpen, closeModal } = useModal();
+  const { data, error, isLoading } = useGetChats(_id, toggleFetchMessage);
 
   const handleChatClick = React.useCallback((chat: TGetAllUserChats) => {
     if (isOpen) closeModal();
 
+    toggleRefetchMessages(true);
     setAppChatData(chat);
     setAppChatOpenState(true);
+
+    setTimeout(() => {
+      toggleRefetchMessages(false);
+    }, 2000);
   }, []);
 
   return (

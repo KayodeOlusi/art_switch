@@ -17,6 +17,7 @@ const ChatWidget = (props: Props) => {
     chat: { data },
     setAppChatData,
     setAppChatOpenState,
+    toggleRefetchMessages,
   } = useAppState();
   const dispatch = useAppDispatch();
   const { user, notifications } = useAppSelector(selectUserDetails);
@@ -44,6 +45,12 @@ const ChatWidget = (props: Props) => {
       const newMessage = message as TChatMessage;
       setMessages(prev => [...prev, newMessage]);
     }
+
+    toggleRefetchMessages(true);
+
+    return setTimeout(() => {
+      toggleRefetchMessages(false);
+    }, 2000);
   };
 
   const handleSendMessage = React.useCallback(

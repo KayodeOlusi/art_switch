@@ -108,7 +108,7 @@ const UploadPost = () => {
     <div
       id={MODAL_VIEWS.UPLOAD_POST}
       data-testid={MODAL_VIEWS.UPLOAD_POST}
-      className="w-full h-screen sm:h-auto sm:w-[500px] sm:rounded-lg
+      className="w-full h-[100svh] sm:h-auto sm:w-[500px] sm:rounded-lg
        bg-white p-3 overflow-y-scroll"
     >
       <section className="flex items-center justify-between">

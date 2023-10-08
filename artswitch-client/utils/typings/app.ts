@@ -17,6 +17,7 @@ export type TAppState = {
     open: boolean;
     data?: any;
   };
+  toggleFetchMessage: boolean;
 };
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
