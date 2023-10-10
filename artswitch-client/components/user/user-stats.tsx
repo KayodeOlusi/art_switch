@@ -6,6 +6,7 @@ import { followOperation } from "utils/services/user";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import { selectUserDetails } from "features/slices/user";
 import { TUserAccountDetails } from "utils/services/typings/user";
+import { useQueryClient } from "react-query";
 
 type Props = TUserAccountDetails;
 
@@ -19,6 +20,7 @@ const UserStats = (props: Props) => {
     user: { _id },
   } = useAppSelector(selectUserDetails);
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [followingUser, setFollowingUser] = React.useState(
     props?.["follow-details"]?.followers?.includes(_id)
@@ -38,16 +40,16 @@ const UserStats = (props: Props) => {
     switch (followingUser) {
       case true:
         data.action = "unfollow";
-        await followOperation(data, () => {
+        await followOperation(data, async () => {
+          await queryClient.refetchQueries(`user-${props?.username}`);
           setLoading(false);
-          return router.replace(router.asPath);
         });
         break;
       case false:
         data.action = "follow";
-        await followOperation(data, () => {
+        await followOperation(data, async () => {
+          await queryClient.refetchQueries(`user-${props?.username}`);
           setLoading(false);
-          return router.replace(router.asPath);
         });
         break;
       default:

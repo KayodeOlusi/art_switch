@@ -17,10 +17,10 @@ export const followOperation = async (
   } catch (error) {}
 };
 
-export const getUserDetails = async (token: string, username: string) => {
+export const getUserDetails = async (username: string) => {
   const res = await HttpClient.getWithToken<TResponseBody<TUserAccountDetails>>(
     "/user/details",
-    token,
+    user_token,
     { username }
   );
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { LRUCache } from "lru-cache";
 
 const useCache = () => {

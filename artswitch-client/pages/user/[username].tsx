@@ -1,43 +1,17 @@
 import React from "react";
-import { AxiosError } from "axios";
 import AppLayout from "@/components/layout";
-import { getUserDetails } from "utils/services/user";
+import { useRouter } from "next/router";
 import { NextPageWithLayout } from "utils/typings/app";
-import { generateAPIError } from "utils/functions";
-import { TUserAccountDetails } from "utils/services/typings/user";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import UserContainer from "@/components/containers/user/user-container";
+import { useGetUserDetails } from "utils/hooks/user/useGetUserDetails";
 
-type Props = {
-  data: TUserAccountDetails | null;
-  err: AxiosError | null;
-};
+const UserProfile: NextPageWithLayout = () => {
+  const { username } = useRouter().query;
+  const { data, isLoading } = useGetUserDetails(username as string);
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
-  try {
-    const userToken = context.req.cookies["_token"] as string;
-    const username = context.params?.username as string;
+  if (isLoading) return <div>Loading...</div>;
 
-    const data = await getUserDetails(userToken, username);
-
-    return {
-      props: {
-        data,
-        err: null,
-      },
-    };
-  } catch (error) {
-    const err = error as AxiosError;
-    return generateAPIError(err?.response?.status as number, err);
-  }
-};
-
-const UserProfile: NextPageWithLayout<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data, err }) => {
-  const [user, setUser] = React.useState(data);
-
-  return <UserContainer data={user!} />;
+  return <UserContainer data={data!} />;
 };
 
 UserProfile.getLayout = page => <AppLayout>{page}</AppLayout>;
