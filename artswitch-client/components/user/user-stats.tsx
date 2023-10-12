@@ -30,8 +30,13 @@ const UserStats = (props: Props) => {
     setFollowingUser(props?.["follow-details"]?.followers?.includes(_id));
   }, [props]);
 
+  const refetchUserDetails = async () => {
+    await queryClient.refetchQueries(`user-${props?.username}`);
+  };
+
   const followAction = async () => {
     setLoading(true);
+
     let data: FollowOperationData = {
       follow_id: props?._id,
       action: followingUser ? "unfollow" : "follow",
@@ -41,14 +46,14 @@ const UserStats = (props: Props) => {
       case true:
         data.action = "unfollow";
         await followOperation(data, async () => {
-          await queryClient.refetchQueries(`user-${props?.username}`);
+          await refetchUserDetails();
           setLoading(false);
         });
         break;
       case false:
         data.action = "follow";
         await followOperation(data, async () => {
-          await queryClient.refetchQueries(`user-${props?.username}`);
+          await refetchUserDetails();
           setLoading(false);
         });
         break;

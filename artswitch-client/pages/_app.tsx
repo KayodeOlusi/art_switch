@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { AppPropsWithLayout } from "utils/typings/app";
 import { handleAuthError } from "utils/services/client";
 import ModalContainer from "@/components/global/modal";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -38,6 +39,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Toaster />
         <ModalContainer />
       </Provider>
+      <ReactQueryDevtools
+        initialIsOpen={process.env.NODE_ENV === "development"}
+      />
     </QueryClientProvider>
   );
 }

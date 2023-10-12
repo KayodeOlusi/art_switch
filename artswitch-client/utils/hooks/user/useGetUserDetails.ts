@@ -4,7 +4,10 @@ import { getUserDetails } from "utils/services/user";
 
 export const useGetUserDetails = (username: string) => {
   return useQuery<TUserAccountDetails, any>(
-    [`user-${username}`, username],
-    () => getUserDetails(username)
+    `user-${username}`,
+    () => getUserDetails(username),
+    {
+      keepPreviousData: false,
+    }
   );
 };

@@ -44,7 +44,6 @@ const ExploreContainer = (props: Props) => {
     >
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Explore</h3>
-        <p className="text-secondaryText cursor-pointer text-sm">See all</p>
       </section>
 
       <section

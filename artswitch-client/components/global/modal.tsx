@@ -9,10 +9,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import ViewSinglePost from "../home/explore/view-single-post";
 import MessagesContainer from "../containers/home/messages-container";
 import ExploreContainer from "../containers/home/explore-container";
+import ViewSingleStory from "../home/posts/view-single-story";
+import { StoriesState } from "features/slices/stories";
 
 const ModalContainer = () => {
   const router = useRouter();
-  const { view, isOpen, closeModal } = useModal();
+  const { view, isOpen, closeModal, data } = useModal();
 
   function renderModalContent(view: MODAL_VIEWS | string) {
     switch (view) {
@@ -28,6 +30,8 @@ const ModalContainer = () => {
         return <MessagesContainer />;
       case MODAL_VIEWS.EXPLORE_POSTS:
         return <ExploreContainer />;
+      case MODAL_VIEWS.VIEW_STORY:
+        return <ViewSingleStory data={data as StoriesState["stories"][0]} />;
       default:
         return null;
     }

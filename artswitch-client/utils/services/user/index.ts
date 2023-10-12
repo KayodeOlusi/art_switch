@@ -9,11 +9,11 @@ const user_token = Cookies.get("_token") as string;
 
 export const followOperation = async (
   data: FollowOperationData,
-  onSuccess: () => void
+  onSuccess: () => Promise<void>
 ) => {
   try {
     await HttpClient.postWithToken("/user/action", data, user_token);
-    onSuccess();
+    await onSuccess();
   } catch (error) {}
 };
 

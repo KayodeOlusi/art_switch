@@ -1,3 +1,4 @@
+import { StoriesState } from "features/slices/stories";
 import React from "react";
 
 type Props = {
@@ -5,11 +6,12 @@ type Props = {
   name: string;
   avatar: string;
   email: string;
+  onClick: () => void;
 };
 
-const Story: React.FC<Props> = ({ avatar, name }) => {
+const Story: React.FC<Props> = ({ avatar, name, onClick }) => {
   return (
-    <div className="h-14 w-14 flex flex-col items-center">
+    <div className="h-14 w-14 flex flex-col items-center" onClick={onClick}>
       <img
         alt=""
         src={avatar}

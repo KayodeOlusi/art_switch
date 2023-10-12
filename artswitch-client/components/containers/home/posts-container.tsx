@@ -31,13 +31,14 @@ const PostsContainer = () => {
           </div>
         )}
 
-        {!error && !isLoading && allPosts.length > 0 ? (
-          allPosts?.map(post => <Post {...post} key={post._id} />)
-        ) : (
-          <p className="text-center">
-            No posts to show. Follow some artists to see their posts here.
-          </p>
-        )}
+        {allPosts.length > 0
+          ? allPosts?.map(post => <Post {...post} key={post._id} />)
+          : !error &&
+            !isLoading && (
+              <p className="text-center">
+                No posts to show. Follow some artists to see their posts here.
+              </p>
+            )}
       </div>
     </div>
   );
