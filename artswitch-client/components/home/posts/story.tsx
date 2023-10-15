@@ -11,7 +11,11 @@ type Props = {
 
 const Story: React.FC<Props> = ({ avatar, name, onClick }) => {
   return (
-    <div className="h-14 w-14 flex flex-col items-center" onClick={onClick}>
+    <div
+      id="single-story"
+      onClick={onClick}
+      className="h-14 w-14 flex flex-col items-center"
+    >
       <img
         alt=""
         src={avatar}
