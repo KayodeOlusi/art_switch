@@ -39,9 +39,9 @@ mongoose.connection.once("open", () => {
   });
 
   const io = socket(server, {
-    cors: {
-      origin: "http://localhost:3000",
-    },
+    // cors: {
+    //   origin: "http://localhost:3000",
+    // },
     pingTime: 30000,
   });
 
