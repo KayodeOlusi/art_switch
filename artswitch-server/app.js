@@ -39,9 +39,9 @@ mongoose.connection.once("open", () => {
   });
 
   const io = socket(server, {
-    // cors: {
-    //   origin: "http://localhost:3000",
-    // },
+    cors: {
+      origin: "http://localhost:3000",
+    },
     pingTime: 30000,
   });
 
@@ -67,15 +67,15 @@ mongoose.connection.once("open", () => {
     });
 
     socket.on("new message", async messageData => {
-      const message = await handleUserMessage(messageData);
-      if (!message) return;
+      const data = await handleUserMessage(messageData);
+      if (!data) return;
 
-      const otherUser = message.message.chat.users.find(
+      const otherUser = data.message.chat.users.find(
         user => user._id.toString() !== messageData.userId.toString()
       );
 
-      io.emit(`message received ${otherUser._id}`, message.message);
-      io.emit(`message received ${messageData.id}`, message.message);
+      io.emit(`message received ${otherUser._id}`, data.message);
+      io.emit(`message received ${messageData.id}`, data.message);
     });
   });
 });
