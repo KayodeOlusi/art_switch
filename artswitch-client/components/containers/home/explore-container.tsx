@@ -6,11 +6,12 @@ import { MODAL_VIEWS } from "utils/typings/app";
 import { TPost } from "utils/services/typings/posts";
 import AppLoader from "@/components/global/loader";
 import { useGetPostsByTag } from "utils/hooks/posts/usePosts";
+import { XIcon } from "@heroicons/react/solid";
 
 type Props = {};
 
 const ExploreContainer = (props: Props) => {
-  const { openModal, setModalViewData } = useModal();
+  const { openModal, setModalViewData, closeModal } = useModal();
   const [activeTag, setActiveTag] = React.useState(postTags[0]);
   const { data, error, isLoading } = useGetPostsByTag(activeTag);
 
@@ -39,11 +40,15 @@ const ExploreContainer = (props: Props) => {
 
   return (
     <div
-      className="bg-white mt-3 rounded-lg px-4 py-4 md:h-72 lg:h-64 xl:h-96 h-[90vh] 
-      overflow-y-scroll sm:w-96 sm:h-80 md:w-auto"
+      className="bg-white mt-3 rounded-none lg:rounded-lg px-4
+       py-4 md:h-72 lg:h-64 xl:h-96 h-[100svh] overflow-y-scroll sm:w-96 sm:h-80 md:w-auto"
     >
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Explore</h3>
+        <XIcon
+          className="md:hidden w-4 h-4 cursor-pointer"
+          onClick={closeModal}
+        />
       </section>
 
       <section

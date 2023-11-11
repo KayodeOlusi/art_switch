@@ -45,12 +45,12 @@ const ModalContainer = () => {
   }, []);
 
   return (
-    <div data-testid="modal-container">
+    <div data-testid="modal-container" className="overflow-hidden">
       <Transition appear show={isOpen} as={React.Fragment}>
         <Dialog
           as="div"
           onClose={closeModal}
-          className="fixed inset-0 z-50 h-[100dvh] w-screen overflow-hidden
+          className="fixed inset-0 z-50 h-[100svh] w-screen overflow-y-hidden
          p-0 text-center sm:p-6 lg:p-8 xl:p-10 3xl:p-12"
         >
           <Transition.Child

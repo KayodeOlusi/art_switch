@@ -145,7 +145,7 @@ const SearchResult = ({ action }: Props) => {
           ? MODAL_VIEWS.CREATE_CHAT_WITH_ARTIST
           : MODAL_VIEWS.VIEW_ARTIST_PROFILE
       }
-      className="w-screen h-[90vh] md:w-[500px] md:h-[400px] rounded-lg
+      className="w-screen h-[90svh] md:w-[500px] md:h-[400px] rounded-lg
        bg-white p-3 overflow-y-scroll"
     >
       <div className="relative w-full mb-3">

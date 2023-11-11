@@ -9,6 +9,7 @@ import { useGetChats } from "utils/hooks/chats/useChats";
 import { selectUserDetails } from "features/slices/user";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
+import { XIcon } from "@heroicons/react/solid";
 
 type Props = {};
 
@@ -39,11 +40,16 @@ const MessagesContainer = (props: Props) => {
 
   return (
     <div
-      className="bg-white rounded-lg px-4 py-4 h-[90vh] 
+      className="bg-white rounded-none lg:rounded-lg px-4 py-4 h-[100svh] 
       overflow-y-scroll sm:w-96 sm:h-80 md:w-auto md:h-72 lg:h-64 xl:h-96"
     >
+      <div className="flex md:hidden justify-end mb-6 md:mb-0">
+        <XIcon className="w-4 h-4 cursor-pointer" onClick={closeModal} />
+      </div>
+
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Messages</h3>
+
         <PencilAltIcon
           id="create-chat"
           className="w-6 h-6 cursor-pointer"
