@@ -145,7 +145,6 @@ const Post = (props: Props) => {
             <p className="font-medium text-sm">@{props?.user?.username}</p>
           </section>
         </section>
-        <DotsHorizontalIcon className="w-6 h-6" />
       </div>
       {props?.image && (
         <div className="w-full h-80 rounded-lg">
