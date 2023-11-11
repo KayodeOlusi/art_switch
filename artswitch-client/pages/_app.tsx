@@ -9,6 +9,7 @@ import { handleAuthError } from "utils/services/client";
 import ModalContainer from "@/components/global/modal";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const queryClient = new QueryClient({
@@ -32,12 +33,22 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   });
   const getLayout = Component.getLayout ?? (page => page);
 
-  return getLayout(
+  return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <Component {...pageProps} />
-        <Toaster />
-        <ModalContainer />
+        {getLayout(
+          <>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+              />
+            </Head>
+            <Component {...pageProps} />
+            <Toaster />
+            <ModalContainer />
+          </>
+        )}
       </Provider>
       <ReactQueryDevtools
         initialIsOpen={process.env.NODE_ENV === "development"}
