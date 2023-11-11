@@ -54,3 +54,12 @@ export const signupUser = async (
     handleError(error);
   }
 };
+
+export const verifyUserToken = async () => {
+  try {
+    const res = await HttpClient.getWithToken("/auth/verify-token", _token);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

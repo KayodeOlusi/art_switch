@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
@@ -63,7 +64,28 @@ const Login = asyncHandler(async (req, res) => {
   });
 });
 
+const VerifyToken = asyncHandler(async (req, res) => {
+  let token;
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+
+  if (!authHeader?.startsWith("Bearer ") || !authHeader)
+    return res.status(401).json({ message: "Unauthorized" });
+
+  try {
+    token = authHeader.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN_ID);
+
+    if (decodedToken && decodedToken.exp * 1000 < new Date().getTime())
+      return res.status(401).json({ message: "Unauthorized" });
+
+    return res.status(200).json({ message: "Authorized" });
+  } catch (error) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+});
+
 module.exports = {
   Login,
   Signup,
+  VerifyToken,
 };

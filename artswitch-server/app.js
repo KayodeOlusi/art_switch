@@ -40,7 +40,7 @@ mongoose.connection.once("open", () => {
 
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://artswitch.onrender.com",
     },
     pingTime: 30000,
   });

@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import type { AxiosError, AxiosResponse } from "axios";
 
 export const Axios = axios.create({
-  baseURL: "http://localhost:5001/api/",
+  baseURL: "https://artswitch.onrender.com/api",
   timeout: 8000,
   headers: {
     "Content-Type": "application/json",

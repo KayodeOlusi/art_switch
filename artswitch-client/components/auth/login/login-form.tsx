@@ -69,16 +69,6 @@ const LoginForm = () => {
         className="border-2 border-gray-800 w-80 text-sm 
         px-4 py-3 text-black rounded-md mb-6"
       />
-      <section className="flex items-center mb-4">
-        <input
-          type="checkbox"
-          id="remember-me"
-          className="mr-2 cursor-pointer"
-        />
-        <label htmlFor="remember-me" className="text-sm font-semibold">
-          Remember Me
-        </label>
-      </section>
       <Button type="login" loading={loading} />
     </form>
   );

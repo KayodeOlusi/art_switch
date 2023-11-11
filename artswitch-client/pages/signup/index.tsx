@@ -4,6 +4,7 @@ import Lottie from "react-lottie";
 import { signUpAnimations } from "utils/data";
 import { NextPageWithLayout } from "utils/typings/app";
 import SignupForm from "../../components/auth/signup/signup-form";
+import Head from "next/head";
 
 const SignUp: NextPageWithLayout = () => {
   const [selectedAnimations, setSelectedAnimations] = React.useState<any>(
@@ -33,6 +34,11 @@ const SignUp: NextPageWithLayout = () => {
       data-testid="signup-page"
       className="grid grid-cols-2 h-screen font-Inter"
     >
+      <Head>
+        <title>ArtSwitch | Signup</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <section className="form-section block p-4 col-span-2 lg:col-span-1 lg:border-r-2 lg:border-black">
         <div className="logo font-semibold mb-4 px-4 lg:px-0 lg:p-4">
           ArtSwitch
