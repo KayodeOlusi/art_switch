@@ -5,6 +5,7 @@ import HttpClient, { handleError } from "../client";
 import { TResponseBody } from "utils/services/typings/posts";
 import { FollowOperationData } from "@/components/user/user-stats";
 import { TSearchUser, TUserAccountDetails } from "utils/services/typings/user";
+import { TSuggestion } from "../typings/suggestions";
 
 const user_token = Cookies.get("_token") as string;
 
