@@ -47,8 +47,9 @@ const DesktopNav = (props: Props) => {
   const populateNotifications = (message: any) => {
     if (!data || data?._id !== message?.chat?._id) {
       const notification = message as TSingleMessage;
+      const allNotifications = notifications.map(n => n.sender);
 
-      if (!notifications.includes(notification)) {
+      if (!allNotifications.includes(notification.sender)) {
         dispatch(setNotifications(notification));
       }
     }

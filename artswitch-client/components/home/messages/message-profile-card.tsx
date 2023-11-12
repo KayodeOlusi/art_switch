@@ -25,7 +25,7 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
   };
 
   const formatChatName = (name: string = "") => {
-    return name.length > 15 ? name.substring(0, 12) + "..." : name;
+    return name.length > 10 ? name.substring(0, 12) + "..." : name;
   };
 
   const getChatNameAndImage = () => {
