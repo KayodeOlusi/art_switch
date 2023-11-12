@@ -97,7 +97,7 @@ const ChatWidget = (props: Props) => {
               src={
                 getChatData(user?._id, chatData?.users, "_id")?.profilePicture
               }
-              className="w-full h-full object-contain rounded-full"
+              className="w-full h-full object-cover rounded-full"
             />
           </div>
           <div className="space-y-1">
@@ -106,10 +106,11 @@ const ChatWidget = (props: Props) => {
                 getChatData(user?._id, chatData?.users, "_id")?.name
               )}
             </p>
-            <p className="text-xs">Online</p>
+            <p className="text-xs">
+              @{getChatData(user?._id, chatData?.users, "_id")?.username}
+            </p>
           </div>
         </div>
-        {/**TODO: Refetch chats when user closes the chat widget */}
         <XIcon
           className="w-4 h-4 cursor-pointer"
           onClick={() => {

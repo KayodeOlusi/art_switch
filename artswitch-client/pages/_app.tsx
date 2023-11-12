@@ -51,8 +51,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         )}
       </Provider>
       <ReactQueryDevtools
-        position="top-left"
-        initialIsOpen={process.env.NODE_ENV === "development"}
+      // position="top-left"
+      // initialIsOpen={process.env.NODE_ENV === "development"}
       />
     </QueryClientProvider>
   );

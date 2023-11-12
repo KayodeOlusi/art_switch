@@ -1,12 +1,15 @@
 import React from "react";
 import { useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
-import { followOperation } from "utils/services/user";
+import { editProfilePicture, followOperation } from "utils/services/user";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import { selectUserDetails } from "features/slices/user";
 import { TUserAccountDetails } from "utils/services/typings/user";
 import { useQueryClient } from "react-query";
+import { PencilIcon } from "@heroicons/react/solid";
+import { errorMessage } from "utils/services/client";
 
 type Props = TUserAccountDetails;
 
@@ -21,6 +24,7 @@ const UserStats = (props: Props) => {
   } = useAppSelector(selectUserDetails);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const fileRef = React.useRef<HTMLInputElement>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [followingUser, setFollowingUser] = React.useState(
     props?.["follow-details"]?.followers?.includes(_id)
@@ -62,6 +66,35 @@ const UserStats = (props: Props) => {
     }
   };
 
+  const changeProfilePicture = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const uploadNotification = toast.loading("Uploading...");
+
+    const reader = new FileReader();
+    const maxSize = 1024 * 1024 * 2;
+
+    if (e.target.files && e.target.files[0].size > maxSize) {
+      return errorMessage("Image size is too large");
+    }
+
+    if (e.target.files) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = async (readerEvent: ProgressEvent<FileReader>) => {
+      await editProfilePicture(
+        readerEvent.target?.result as string,
+        async () => {
+          await refetchUserDetails();
+          toast.success("Updated Successfully", {
+            id: uploadNotification,
+          });
+        }
+      );
+    };
+  };
+
   return (
     <div
       className="mt-4"
@@ -72,13 +105,21 @@ const UserStats = (props: Props) => {
         <div className="bg-gray-200 h-36 rounded-lg" />
         <div className="mx-6">
           <div className="flex items-center gap-x-4">
-            <div className="w-32 h-32 -mt-14" id="profile-picture">
+            <div className="w-32 h-32 -mt-14 relative" id="profile-picture">
               <img
                 alt="avatar"
                 role="img"
                 src={props?.profilePicture}
-                className="w-full h-full z-50 object-contain rounded-full"
+                className="w-full h-full z-50 object-cover rounded-full"
               />
+              {props?._id === _id && (
+                <div
+                  className="absolute right-0 bottom-5 bg-gray-200 rounded-full p-1 cursor-pointer"
+                  onClick={() => fileRef.current?.click()}
+                >
+                  <PencilIcon className="w-4 h-4 text-gray-500" />
+                </div>
+              )}
             </div>
             {props?._id !== _id && followingUser ? (
               <span
@@ -136,6 +177,14 @@ const UserStats = (props: Props) => {
           </div>
         </div>
       </div>
+      <input
+        hidden
+        type="file"
+        accept="image/*"
+        ref={fileRef}
+        id="profile-picture-input"
+        onChange={changeProfilePicture}
+      />
     </div>
   );
 };

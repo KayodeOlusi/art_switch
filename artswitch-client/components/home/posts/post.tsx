@@ -136,7 +136,7 @@ const Post = (props: Props) => {
             <img
               alt="Profile Picture"
               src={props?.user?.profilePicture}
-              className="w-10 h-10 rounded-full cursor-pointer"
+              className="w-10 h-10 rounded-full object-cover cursor-pointer"
               onClick={() => router.push(`/user/${props?.user?.username}`)}
             />
           </div>

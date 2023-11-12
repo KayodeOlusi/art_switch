@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import AppLogo from "public/assets/images/bg-mobile.jpg";
 import Lottie from "react-lottie";
 import { signInAnimations } from "utils/data";
 import { NextPageWithLayout } from "utils/typings/app";
@@ -47,11 +48,11 @@ const Login: NextPageWithLayout = () => {
           <h1 className="font-semibold">ArtSwitch</h1>
         </div>
         <section className="block relative px-4 lg:hidden">
-          <div className="w-16 h-16">
+          <div className="w-28 h-28">
             <img
               alt="mobile"
-              src={"/assets/svgs/bg-mobile.svg"}
-              className="object-contain w-full h-full"
+              src={AppLogo.src}
+              className="object-cover w-full h-full"
             />
           </div>
         </section>

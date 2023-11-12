@@ -28,16 +28,21 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
     return name.length > 15 ? name.substring(0, 12) + "..." : name;
   };
 
-  const getChatName = () => {
+  const getChatNameAndImage = () => {
     let name = "";
+    let image = "";
 
     if (chat?.chat?.name === user?.name) {
-      name = chat.users?.find(u => u?.name !== user?.name)?.name || "";
+      const otherUser = chat.users?.find(u => u?.name !== user?.name);
+
+      image = otherUser?.profilePicture || "";
+      name = otherUser?.name || "";
     } else {
       name = chat?.chat?.name;
+      image = chat?.chat?.profilePicture;
     }
 
-    return formatChatName(name);
+    return { name: formatChatName(name), image };
   };
 
   return (
@@ -51,14 +56,14 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
         <div className="w-10 h-10">
           <img
             alt={`chat-image-${chat?.chat?.name}`}
-            className="w-full h-full object-contain rounded-full"
-            src={chat?.chat?.profilePicture || chat?.chat?.name[0]}
+            className="w-full h-full object-cover rounded-full"
+            src={getChatNameAndImage().image}
           />
         </div>
       </div>
       <section className="flex flex-col space-y-0 w-full">
         <div className="flex items-center justify-between gap-x-4">
-          <p className="text-sm font-semibold">{getChatName()}</p>
+          <p className="text-sm font-semibold">{getChatNameAndImage().name}</p>
           <p className="text-[10px]" id="chat-time">
             {generateMessageTime(chat?.updatedAt)}
           </p>

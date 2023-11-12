@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Lottie from "react-lottie";
 import { signUpAnimations } from "utils/data";
+import AppLogo from "public/assets/images/bg-mobile.jpg";
 import { NextPageWithLayout } from "utils/typings/app";
 import SignupForm from "../../components/auth/signup/signup-form";
 import Head from "next/head";
@@ -43,12 +44,8 @@ const SignUp: NextPageWithLayout = () => {
         <div className="logo font-semibold mb-4 px-4 lg:px-0 lg:p-4">
           ArtSwitch
         </div>
-        <section className="block relative px-4 lg:hidden">
-          <img
-            alt=""
-            src={"/assets/svgs/bg-mobile.svg"}
-            className="object-contain w-24 h-24"
-          />
+        <section className="block relative px-4 lg:hidden mb-9">
+          <img alt="" src={AppLogo.src} className="object-contain w-28 h-28" />
         </section>
         <div className="login-form h-2/3 flex flex-col items-center justify-center lg:h-5/6">
           <p className="font-semibold text-4xl mb-4">Join the party</p>

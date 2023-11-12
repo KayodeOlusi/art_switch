@@ -101,8 +101,63 @@ const getUsersForSuggestion = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
 
   try {
+    const suggestions = await Follow.aggregate([
+      {
+        $match: {
+          $and: [{ user: { $ne: user_id } }, { followers: { $ne: user_id } }],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user_details",
+        },
+      },
+      {
+        $unwind: {
+          path: "$user_details",
+        },
+      },
+      {
+        $project: {
+          _id: "$user_details._id",
+          name: "$user_details.name",
+          username: "$user_details.username",
+          profilePicture: "$user_details.profilePicture",
+        },
+      },
+    ]);
+
+    return res.status(200).json({
+      message: "Suggested users fetched successfully",
+      data: suggestions,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error fetching suggested users" });
+  }
+});
+
+const editUserProfile = asyncHandler(async (req, res) => {
+  const user_id = req.user._id;
+  const { image } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(user_id, {
+      profilePicture: image,
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User profile updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user profile" });
   }
 });
 
@@ -110,5 +165,6 @@ module.exports = {
   searchForUser,
   getUserDetails,
   getUserProfile,
+  editUserProfile,
   getUsersForSuggestion,
 };

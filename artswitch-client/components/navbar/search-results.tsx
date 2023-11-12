@@ -86,7 +86,7 @@ const SearchResultItem = ({
       <div className="w-10 h-10">
         <img
           alt="image"
-          className="w-full h-full object-contain rounded-full"
+          className="w-full h-full object-cover rounded-full"
           src={artist?.profilePicture || artist?.name[0]}
         />
       </div>

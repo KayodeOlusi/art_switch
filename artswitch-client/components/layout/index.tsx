@@ -39,17 +39,13 @@ const AppLayout = ({ children }: Props) => {
 
   return (
     <Provider store={store}>
-      <main className="bg-[#f2f5f7] h-screen overflow-y-auto">
+      <main className="bg-[#f2f5f7] h-[100svh] overflow-y-auto">
         <Navbar />
         <div className="layout">{children}</div>
         <section
-          className={`${
-            open
-              ? "h-screen transition-all duration-200 ease-linear sm:h-[520px] absolute"
-              : "hidden"
-          }
+          className={`${open ? "h-[100svh] sm:h-[520px] absolute" : "hidden"}
           bottom-0 right-0 md:right-1 z-50 md:rounded-tl-lg md:rounded-tr-lg w-screen md:w-[380px]
-          bg-white border-gray-200 border-[1px]`}
+          bg-white border-gray-200 md:border-[1px]`}
         >
           <ChatWidget />
         </section>
