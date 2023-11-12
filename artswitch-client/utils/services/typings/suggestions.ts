@@ -1,4 +1,4 @@
-type TSuggestion = {
+export type TSuggestion = {
   _id: string;
   name: string;
   username: string;
