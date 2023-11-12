@@ -11,26 +11,26 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Head from "next/head";
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: 1,
-        staleTime: 1000 * 60 * 2,
-        cacheTime: 1000 * 60 * 2,
-        refetchOnReconnect: true,
-        refetchOnWindowFocus: false,
-        keepPreviousData: true,
-        onError(err) {
-          if (isAxiosError(err)) {
-            if (err.response?.status === 401) {
-              handleAuthError(err);
-            }
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 1000 * 60 * 2,
+      cacheTime: 1000 * 60 * 2,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
+      onError(err) {
+        if (isAxiosError(err)) {
+          if (err.response?.status === 401) {
+            handleAuthError(err);
           }
-        },
+        }
       },
     },
-  });
+  },
+});
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page);
 
   return (
