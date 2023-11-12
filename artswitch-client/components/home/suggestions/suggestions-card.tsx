@@ -1,4 +1,5 @@
 import React from "react";
+import { TSuggestion } from "utils/services/typings/suggestions";
 
 type Props = {
   user: TSuggestion;

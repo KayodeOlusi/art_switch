@@ -1,6 +1,7 @@
 import { animations } from "./animations";
 import { StoriesState } from "features/slices/stories";
 import { TGetAllUserChats } from "./services/typings/chats";
+import { TSuggestion } from "./services/typings/suggestions";
 
 export const testPosts = [
   {
