@@ -11,6 +11,7 @@ import MessagesContainer from "../containers/home/messages-container";
 import ExploreContainer from "../containers/home/explore-container";
 import ViewSingleStory from "../home/posts/view-single-story";
 import { StoriesState } from "features/slices/stories";
+import SuggestionsContainer from "../containers/home/suggestions-container";
 
 const ModalContainer = () => {
   const router = useRouter();
@@ -30,6 +31,8 @@ const ModalContainer = () => {
         return <MessagesContainer />;
       case MODAL_VIEWS.EXPLORE_POSTS:
         return <ExploreContainer />;
+      case MODAL_VIEWS.VIEW_SUGGESTIONS:
+        return <SuggestionsContainer />;
       case MODAL_VIEWS.VIEW_STORY:
         return <ViewSingleStory data={data as StoriesState["stories"][0]} />;
       default:

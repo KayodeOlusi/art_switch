@@ -1,6 +1,7 @@
 const Follow = require("../../models/follow");
 const User = require("../../models/user");
 const asyncHandler = require("express-async-handler");
+const { shuffleArray } = require("../../utils/functions");
 
 const getUserProfile = asyncHandler(async (req, res) => {
   const user_id = req.user._id;
@@ -132,7 +133,7 @@ const getUsersForSuggestion = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
       message: "Suggested users fetched successfully",
-      data: suggestions,
+      data: shuffleArray(suggestions),
     });
   } catch (error) {
     res.status(500).json({ message: "Error fetching suggested users" });

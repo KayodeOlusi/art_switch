@@ -18,6 +18,15 @@ export const followOperation = async (
   } catch (error) {}
 };
 
+export const getSuggestionsForUser = async () => {
+  const res = await HttpClient.getWithToken<TResponseBody<TSuggestion[]>>(
+    "/user/suggestions",
+    user_token
+  );
+
+  return res.data;
+};
+
 export const getUserDetails = async (username: string) => {
   const res = await HttpClient.getWithToken<TResponseBody<TUserAccountDetails>>(
     "/user/details",

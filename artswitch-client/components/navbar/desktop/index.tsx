@@ -22,6 +22,7 @@ import MenuDropDown from "@/components/global/menu-dropdown";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import useAppState from "utils/hooks/useAppState";
 import { TSingleMessage } from "utils/services/typings/messages";
+import { AtSymbolIcon } from "@heroicons/react/solid";
 
 type Props = {};
 
@@ -125,7 +126,13 @@ const DesktopNav = (props: Props) => {
             lg:w-96 px-12 py-2 text-sm focus:outline-black"
           />
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
+          <div className="nav-icons md:hidden">
+            <AtSymbolIcon
+              className="w-auto h-auto cursor-pointer"
+              onClick={() => openModal(MODAL_VIEWS.VIEW_SUGGESTIONS)}
+            />
+          </div>
           <div className="nav-icons md:hidden">
             <SearchIcon
               className="w-auto h-auto cursor-pointer"

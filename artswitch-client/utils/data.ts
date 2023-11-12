@@ -277,3 +277,30 @@ export const testChatsData: TGetAllUserChats[] = [
     ],
   },
 ];
+
+export const testSuggestionsData: TSuggestion[] = [
+  {
+    name: "John Doe",
+    username: "johndoe",
+    profilePicture: "https://i.pravatar.cc/150?img=1",
+    _id: "1",
+  },
+  {
+    name: "Jane Doe",
+    username: "janedoe",
+    profilePicture: "https://i.pravatar.cc/150?img=2",
+    _id: "2",
+  },
+  {
+    name: "Super Mario",
+    username: "supermario",
+    profilePicture: "https://i.pravatar.cc/150?img=3",
+    _id: "3",
+  },
+  {
+    name: "Luigi Mario",
+    username: "luigimario",
+    profilePicture: "https://i.pravatar.cc/150?img=4",
+    _id: "4",
+  },
+];

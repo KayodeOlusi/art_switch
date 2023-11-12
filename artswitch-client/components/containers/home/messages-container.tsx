@@ -5,11 +5,11 @@ import { MODAL_VIEWS } from "utils/typings/app";
 import AppLoader from "@/components/global/loader";
 import useAppState from "utils/hooks/useAppState";
 import { PencilAltIcon } from "@heroicons/react/outline";
+import { XIcon } from "@heroicons/react/solid";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import { selectUserDetails } from "features/slices/user";
 import { TGetAllUserChats } from "utils/services/typings/chats";
 import MessageProfileCard from "@/components/home/messages/message-profile-card";
-import { XIcon } from "@heroicons/react/solid";
 
 type Props = {};
 
