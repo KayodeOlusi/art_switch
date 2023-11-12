@@ -122,6 +122,9 @@ const getUsersForSuggestion = asyncHandler(async (req, res) => {
         },
       },
       {
+        $limit: 10,
+      },
+      {
         $project: {
           _id: "$user_details._id",
           name: "$user_details.name",
