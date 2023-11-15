@@ -201,7 +201,7 @@ export const testChatsData: TGetAllUserChats[] = [
     _id: "1",
     chat: {
       _id: "2",
-      name: "Test Chat",
+      name: "Test 1",
       username: "test",
       profilePicture: "https://i.pravatar.cc/150?img=1",
     },
@@ -241,7 +241,7 @@ export const testChatsData: TGetAllUserChats[] = [
     _id: "2",
     chat: {
       _id: "4",
-      name: "Test Chat 2",
+      name: "Test 2",
       username: "test 2",
       profilePicture: "https://i.pravatar.cc/150?img=2",
     },

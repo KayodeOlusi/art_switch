@@ -12,7 +12,9 @@ import { getTestLayout } from "utils/lib/wrappers";
 import { cleanup, render } from "@testing-library/react";
 import { useGetChats } from "utils/hooks/chats/useChats";
 import MessagesContainer from "@/components/containers/home/messages-container";
-import MessageProfileCard from "@/components/home/messages/message-profile-card";
+import MessageProfileCard, {
+  formatChatName,
+} from "@/components/home/messages/message-profile-card";
 
 describe("Message Container", () => {
   const mockedUseGetChats = useGetChats as jest.Mock<any>;
@@ -155,7 +157,9 @@ describe("Message Container", () => {
         const chatName = textElement(testChatsData[chatIdx].chat.name);
 
         expect(chatName).toBeInTheDocument();
-        expect(chatName.textContent).toBe(testChatsData[chatIdx].chat.name);
+        expect(chatName.textContent).toBe(
+          formatChatName(testChatsData[chatIdx].chat.name)
+        );
       });
 
     const itShouldShowTheCorrectProfilePictureOfChat = ({

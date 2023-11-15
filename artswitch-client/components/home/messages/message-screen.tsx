@@ -52,6 +52,19 @@ const MessageScreen = ({
     });
   };
 
+  const generateMessageTime = (date: string) => {
+    return new Date(date).getTime() > Date.now() - 86400000
+      ? new Date(date).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })
+      : new Date(date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+  };
+
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!message) {
       socket.emit("stop typing", messages[0]?.chat);
@@ -121,8 +134,11 @@ const MessageScreen = ({
               key={message._id}
               className={`flex flex-col ${getSenderStyle(message?.sender)}`}
             >
-              <div className="text-sm max-w-[50%] bg-white p-2 rounded-xl mb-2">
+              <div className="text-xs max-w-[50%] bg-white py-2 px-3 rounded-xl mb-2">
                 {message.content}
+                <p className="text-[6px] text-secondaryText">
+                  {generateMessageTime(message.createdAt)}
+                </p>
               </div>
             </div>
           ))

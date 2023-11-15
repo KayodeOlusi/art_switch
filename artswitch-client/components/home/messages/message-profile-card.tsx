@@ -8,6 +8,10 @@ type Props = {
   onClick: () => void;
 };
 
+export const formatChatName = (name: string = "") => {
+  return name.length > 10 ? name.substring(0, 12) + "..." : name;
+};
+
 const MessageProfileCard = ({ chat, onClick }: Props) => {
   const { user } = useAppSelector(selectUserDetails);
 
@@ -22,10 +26,6 @@ const MessageProfileCard = ({ chat, onClick }: Props) => {
           month: "short",
           day: "numeric",
         });
-  };
-
-  const formatChatName = (name: string = "") => {
-    return name.length > 10 ? name.substring(0, 12) + "..." : name;
   };
 
   const getChatNameAndImage = () => {
