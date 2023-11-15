@@ -7,6 +7,7 @@ import { errorMessage, successMessage } from "utils/services/client";
 import { CameraIcon, TrashIcon } from "@heroicons/react/outline";
 import { createPost } from "utils/services/posts";
 import { ClipLoader } from "react-spinners";
+import { useQueryClient } from "react-query";
 
 type TPostTagProps = {
   tag: string;
@@ -48,6 +49,7 @@ export const PostTag = ({ tag, formValues, setFormValues }: TPostTagProps) => (
 
 const UploadPost = () => {
   const { closeModal } = useModal();
+  const queryClient = useQueryClient();
   const imageInputRef = React.useRef<HTMLInputElement>(null);
   const [loadingUpload, setLoadingUpload] = React.useState(false);
   const [formValues, setFormValues] = React.useState<TFormValues>({
@@ -75,9 +77,10 @@ const UploadPost = () => {
 
     await createPost(
       data,
-      () => {
-        setLoadingUpload(false);
+      async () => {
+        await queryClient.refetchQueries("feed-posts");
         successMessage("Post created Successfully");
+        setLoadingUpload(false);
         return closeModal();
       },
       () => setLoadingUpload(false)

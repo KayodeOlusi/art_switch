@@ -20,6 +20,7 @@ import ModalContainer from "@/components/global/modal";
 import { PostTag } from "@/components/home/posts/upload-post";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
+import { getTestLayout } from "utils/lib/wrappers";
 
 const MockedModalWithStore = () => (
   <Provider store={store}>
@@ -42,7 +43,7 @@ describe("Upload Post Modal View Test", () => {
   const renderElementWithIntersectionObserver = (
     element: React.ReactElement
   ) => {
-    render(element);
+    render(getTestLayout(element, "react-query"));
     mockAllIsIntersecting(true);
   };
 

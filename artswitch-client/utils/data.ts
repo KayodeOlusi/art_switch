@@ -187,6 +187,7 @@ export const postTags = [
   "music",
   "photography",
   "travel",
+  "culture",
   "food",
   "fitness",
   "health",

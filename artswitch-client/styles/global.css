@@ -12,7 +12,7 @@
   }
 
   .mobile-icons {
-    @apply w-8 h-8;
+    @apply w-7 h-7;
   }
 
   .layout {
