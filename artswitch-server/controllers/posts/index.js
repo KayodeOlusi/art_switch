@@ -126,7 +126,7 @@ const getFeedPosts = asyncHandler(async (req, res) => {
     let postsFromFollowings = await Posts.aggregate([
       {
         $match: {
-          userId: { $in: followingUserIDs },
+          $or: [{ userId: { $in: followingUserIDs } }, { userId: user_id }],
         },
       },
       {
