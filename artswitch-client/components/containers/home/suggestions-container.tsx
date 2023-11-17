@@ -37,8 +37,8 @@ const SuggestionsContainer = (props: Props) => {
           </div>
         )}
         {error && (
-          <div className="text-center" role="alert">
-            {error?.message}
+          <div className="text-center text-sm" role="alert">
+            Could not load data. Try again later.
           </div>
         )}
         {data &&

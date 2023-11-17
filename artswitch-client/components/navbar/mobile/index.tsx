@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import useAppState from "utils/hooks/useAppState";
 import useModal from "utils/hooks/useModal";
+import useViewPort from "utils/hooks/useViewport";
 import { MODAL_VIEWS } from "utils/typings/app";
 
 type Props = {};
@@ -20,7 +21,8 @@ const MobileNav: React.FC = (props: Props) => {
     user: { username },
   } = useAppSelector(selectUserDetails);
   const router = useRouter();
-  const { openModal } = useModal();
+  const viewPort = useViewPort();
+  const { openModal, setIsExploreOpen } = useModal();
 
   const routeTo = (path: string) => router.push(path);
 
@@ -32,7 +34,10 @@ const MobileNav: React.FC = (props: Props) => {
       <HomeIcon className="mobile-icons" onClick={() => routeTo("/")} />
       <GlobeIcon
         className="mobile-icons"
-        onClick={() => openModal(MODAL_VIEWS.EXPLORE_POSTS)}
+        onClick={() => {
+          if (viewPort < 768) setIsExploreOpen({ open: true });
+          openModal(MODAL_VIEWS.EXPLORE_POSTS);
+        }}
       />
       <PlusCircleIcon
         className="mobile-icons"

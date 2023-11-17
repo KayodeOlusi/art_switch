@@ -1,6 +1,7 @@
 import {
   closeAppModal,
   openAppModal,
+  setIsExplore,
   setModalData,
 } from "features/slices/modal";
 import React from "react";
@@ -24,14 +25,16 @@ const useModal = () => {
     store.dispatch(openAppModal({ view }));
 
   const closeModal = () => store.dispatch(closeAppModal());
-
   const setModalViewData = (data: any) => store.dispatch(setModalData(data));
+  const setIsExploreOpen = (data: { open?: boolean; tag?: string }) =>
+    store.dispatch(setIsExplore({ ...data }));
 
   return {
     ...state,
     openModal,
     closeModal,
     setModalViewData,
+    setIsExploreOpen,
   };
 };
 

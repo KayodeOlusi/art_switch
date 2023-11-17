@@ -9,12 +9,14 @@ type TOpenModalPayload = {
 type TInitialState = {
   isOpen: boolean;
   view: MODAL_VIEWS;
+  isExplore: { open?: boolean; tag?: string };
   data: any;
 };
 
 const initialState: TInitialState = {
   isOpen: false,
   view: MODAL_VIEWS.NONE,
+  isExplore: { open: false, tag: "" },
   data: null,
 };
 
@@ -33,9 +35,16 @@ const modalSlice = createSlice({
     setModalData: (state, action: PayloadAction<any>) => {
       state.data = action.payload;
     },
+    setIsExplore: (
+      state,
+      action: PayloadAction<TInitialState["isExplore"]>
+    ) => {
+      state.isExplore = { ...state.isExplore, ...action.payload };
+    },
   },
 });
 
 export const modalReducer = modalSlice.reducer;
 export const modalState = (state: RootState) => state.modal;
-export const { openAppModal, closeAppModal, setModalData } = modalSlice.actions;
+export const { openAppModal, closeAppModal, setModalData, setIsExplore } =
+  modalSlice.actions;

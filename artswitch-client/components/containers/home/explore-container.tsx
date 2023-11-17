@@ -11,8 +11,16 @@ import { XIcon } from "@heroicons/react/solid";
 type Props = {};
 
 const ExploreContainer = (props: Props) => {
-  const { openModal, setModalViewData, closeModal } = useModal();
-  const [activeTag, setActiveTag] = React.useState(postTags[0]);
+  const {
+    openModal,
+    isExplore,
+    closeModal,
+    setModalViewData,
+    setIsExploreOpen,
+  } = useModal();
+  const [activeTag, setActiveTag] = React.useState(
+    isExplore.tag || postTags[0]
+  );
   const { data, error, isLoading } = useGetPostsByTag(activeTag);
 
   const openModalToViewPost = (data: TPost) => {
@@ -46,8 +54,11 @@ const ExploreContainer = (props: Props) => {
       <section className="flex justify-between items-center">
         <h3 className="font-bold">Explore</h3>
         <XIcon
+          onClick={() => {
+            setIsExploreOpen({ open: false, tag: "" });
+            closeModal();
+          }}
           className="md:hidden w-4 h-4 cursor-pointer"
-          onClick={closeModal}
         />
       </section>
 
@@ -62,6 +73,7 @@ const ExploreContainer = (props: Props) => {
             tag={tag}
             activeTag={activeTag}
             setActiveTag={setActiveTag}
+            onTagClick={(tag: string) => setIsExploreOpen({ tag })}
           />
         ))}
       </section>

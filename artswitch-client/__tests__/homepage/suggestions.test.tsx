@@ -69,7 +69,9 @@ describe("Message Container", () => {
       const errorMessage = roleElement("alert");
 
       expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage.textContent).toBe("Error fetching data");
+      expect(errorMessage.textContent).toBe(
+        "Could not load data. Try again later."
+      );
     });
 
     it("should show the loader when fetching all suggestions", () => {
