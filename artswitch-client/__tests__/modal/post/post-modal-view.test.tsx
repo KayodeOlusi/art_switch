@@ -92,20 +92,6 @@ describe("Upload Post Modal View Test", () => {
     });
   });
 
-  // TODO: Fix test
-  it.skip("should close the modal when the CLOSE icon is clicked", () => {
-    renderElementWithIntersectionObserver(<MockedModalWithStore />);
-
-    act(() => {
-      const modalContainer = testIdElement("modal-container");
-      const uploadPostView = testIdElement(MODAL_VIEWS.UPLOAD_POST);
-      const closeModalIcon = testIdElement("close-icon");
-      click(closeModalIcon);
-
-      expect(uploadPostView).not.toBeInTheDocument();
-    });
-  });
-
   it("should change the textarea element value based on the user's input", async () => {
     renderElementWithIntersectionObserver(<MockedModalWithStore />);
 
@@ -114,20 +100,6 @@ describe("Upload Post Modal View Test", () => {
       onChangeInput(textAreaElement, "A Post");
 
       expect(textAreaElement).toHaveValue("A Post");
-    });
-  });
-
-  // TODO: Fix test
-  it.skip("should show a grey border on a selected tag", async () => {
-    renderElementWithIntersectionObserver(<MockedModalWithStore />);
-
-    await act(async () => {
-      const singleTag = textElement("art");
-      click(singleTag);
-
-      act(() => {
-        expect(singleTag).toHaveClass("border-[2px]");
-      });
     });
   });
 

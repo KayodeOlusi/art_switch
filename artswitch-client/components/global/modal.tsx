@@ -4,6 +4,7 @@ import useModal from "utils/hooks/useModal";
 import { MODAL_VIEWS } from "utils/typings/app";
 import { XIcon } from "@heroicons/react/solid";
 import UploadPost from "../home/posts/upload-post";
+import useViewPort from "utils/hooks/useViewport";
 import SearchResult from "../navbar/search-results";
 import { Dialog, Transition } from "@headlessui/react";
 import { StoriesState } from "features/slices/stories";
@@ -12,7 +13,6 @@ import ViewSingleStory from "../home/posts/view-single-story";
 import ExploreContainer from "../containers/home/explore-container";
 import MessagesContainer from "../containers/home/messages-container";
 import SuggestionsContainer from "../containers/home/suggestions-container";
-import useViewPort from "utils/hooks/useViewport";
 
 const ModalContainer = () => {
   const router = useRouter();
@@ -52,12 +52,12 @@ const ModalContainer = () => {
 
   React.useEffect(() => {
     router.events.on("routeChangeStart", () => {
-      setIsExploreOpen({ open: false, tag: "" });
+      setIsExploreOpen?.({ open: false, tag: "" });
       closeModal();
     });
     return () => {
       router.events.off("routeChangeStart", () => {
-        setIsExploreOpen({ open: false, tag: "" });
+        setIsExploreOpen?.({ open: false, tag: "" });
         closeModal();
       });
     };
@@ -69,10 +69,10 @@ const ModalContainer = () => {
         <Dialog
           as="div"
           onClose={() => {
-            if (isExplore.open && viewPort < 768) {
+            if (isExplore?.open && viewPort < 768) {
               openModal(MODAL_VIEWS.EXPLORE_POSTS);
             } else {
-              setIsExploreOpen({ open: false, tag: "" });
+              setIsExploreOpen?.({ open: false, tag: "" });
               closeModal();
             }
           }}
@@ -98,7 +98,8 @@ const ModalContainer = () => {
             <XIcon
               className="w-12 h-12"
               onClick={() => {
-                if (isExplore.open) setIsExploreOpen({ open: false, tag: "" });
+                if (isExplore?.open)
+                  setIsExploreOpen?.({ open: false, tag: "" });
                 closeModal();
               }}
             />
