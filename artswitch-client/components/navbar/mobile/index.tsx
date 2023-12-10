@@ -9,7 +9,6 @@ import { useAppSelector } from "app/hooks";
 import { selectUserDetails } from "features/slices/user";
 import { useRouter } from "next/router";
 import React from "react";
-import useAppState from "utils/hooks/useAppState";
 import useModal from "utils/hooks/useModal";
 import useViewPort from "utils/hooks/useViewport";
 import { MODAL_VIEWS } from "utils/typings/app";
@@ -49,7 +48,7 @@ const MobileNav: React.FC = (props: Props) => {
       />
       <UserIcon
         className="mobile-icons"
-        onClick={() => routeTo(`/user/${username}`)}
+        onClick={() => (username ? routeTo(`/user/${username}`) : undefined)}
       />
     </div>
   );

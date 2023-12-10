@@ -174,7 +174,9 @@ const DesktopNav = (props: Props) => {
           />
           <UserIcon
             className="w-6 h-6 cursor-pointer hidden md:block"
-            onClick={() => router.push(`/user/${user?.username}`)}
+            onClick={() =>
+              user.username ? router.push(`/user/${user?.username}`) : undefined
+            }
           />
         </div>
       </div>
