@@ -4,6 +4,7 @@ import { store } from "app/store";
 import { AxiosError, isAxiosError } from "axios";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import NextNProgress from "nextjs-progressbar";
 import { AppPropsWithLayout } from "utils/typings/app";
 import { handleAuthError } from "utils/services/client";
 import ModalContainer from "@/components/global/modal";
@@ -44,6 +45,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
               />
             </Head>
+            <NextNProgress color="#894eff" height={2} />
             <Component {...pageProps} />
             <Toaster />
             <ModalContainer />
