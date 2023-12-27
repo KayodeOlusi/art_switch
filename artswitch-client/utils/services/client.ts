@@ -7,7 +7,7 @@ export const Axios = axios.create({
     process.env.NODE_ENV === "development"
       ? "http://localhost:5001/api"
       : "https://artswitch.onrender.com/api",
-  timeout: 8000,
+  timeout: 90000,
   headers: {
     "Content-Type": "application/json",
   },
